@@ -43,7 +43,6 @@ CREATE  TABLE IF NOT EXISTS empresa (
   cep CHAR(8) NOT NULL , 
   PRIMARY KEY (id) ,
   UNIQUE INDEX nome_UNIQUE (nome ASC) ,
-  UNIQUE INDEX cnpj_UNIQUE (cnpj ASC) ,
   UNIQUE INDEX email_UNIQUE (email ASC) )
 ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci 
 AUTO_INCREMENT = 1;
@@ -60,7 +59,6 @@ CREATE  TABLE IF NOT EXISTS individual (
   sexo CHAR(1) NOT NULL DEFAULT 'M',
   situacao CHAR(1) NOT NULL DEFAULT 'A',
   id_inscricao INT NOT NULL ,
-  UNIQUE INDEX cpf_UNIQUE (cpf ASC) ,
   UNIQUE INDEX email_UNIQUE (email ASC) ,
   PRIMARY KEY (id) ,
   INDEX fk_individual_inscricao1 (id_inscricao ASC) ,
