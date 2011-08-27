@@ -100,7 +100,6 @@ $mail->Body = "
     Assim que conclu&iacute;do, voc&ecirc; receber&aacute; uma mensagem.<br><br>
     Caso tenha ocorrido algum problema, utilize o link abaixo para efetuar o pagamento e confirmar as inscri&ccedil;&otilde;es.<br><br>
     <a href='" . HOME_PAGE . "inscricao/view/pagamentoEmpresa.php?id=" . $o_empresa->id . "'>" . HOME_PAGE . "inscricao/view/pagamentoEmpresa.php?id=" . $o_empresa->id . "</a><br><br>
-    Para a confirma&ccedil;&atilde;o de inscri&ccedil;&otilde;es de estudantes, precisamos que envie para <a href='mailto:" . SENDMAIL_FROM . "'>" . SENDMAIL_FROM . "</a> uma c&oacute;pia das carteiras dos estudantes.<br><br>
     <br>At&eacute; o evento!<br><br>
     <b>Organiza&ccedil;&atilde;o do " . NOME_EVENTO . "</b>!<br><br>
     </body>
