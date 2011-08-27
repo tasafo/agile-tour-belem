@@ -3,9 +3,10 @@
 // define('BANCO_USUARIO', 'tasafoor_db');
 // define('BANCO_SENHA', 'urubusafo');
 // define('BANCO_BASE_DADOS', 'tasafoor_atb2011');
-define('BANCO_USUARIO', 'usuario');
-define('BANCO_SENHA', '123');
-define('BANCO_BASE_DADOS', 'agiletour2011');
+
+define('BANCO_USUARIO', 'root');
+define('BANCO_SENHA', 'ic');
+define('BANCO_BASE_DADOS', 'agile-tour-belem');
 define('BANCO_SERVIDOR', 'localhost');
 
 // Informacoes utilizadas para o envio do email
@@ -25,7 +26,8 @@ define('EMAIL_COBRANCA', 'luizgrsanches@gmail.com');
 // Serve para o estado ja vim setado no estado especificado baixo
 define('UF_PADRAO', 'PA');
 
-// Senha de acesso da area administrativa do sistema 
+// Usuario e senha de acesso da area administrativa do sistema
+define('USUARIO_ADMIN', 'admin');
 define('SENHA_ADMIN', 's4f4d0');
 
 // Desativa o link de inscricoes quando o numero de inscritos chegar a esse tamanho
