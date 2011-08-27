@@ -65,6 +65,7 @@ if (!empty($_SESSION['Funcionarios'])) {
         $o_individual->nome = $func_nome;
         $o_individual->email = $func_email;
         $o_individual->cep = $o_empresa->cep;
+        $o_individual->instituicao = $o_empresa->nome;
         $o_individual->sexo = $func_sexo;
         $o_individual->situacao = 'A';
 

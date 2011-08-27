@@ -22,7 +22,8 @@ define('EMAIL_COBRANCA', 'nome@mail.com.br');
 // Serve para o estado ja vim setado no estado especificado baixo
 define('UF_PADRAO', 'PA');
 
-// Senha de acesso da area administrativa do sistema 
+// Usuario e senha de acesso da area administrativa do sistema
+define('USUARIO_ADMIN', 'admin'); 
 define('SENHA_ADMIN', 'admin');
 
 // Desativa o link de inscricoes quando o numero de inscritos chegar a esse tamanho

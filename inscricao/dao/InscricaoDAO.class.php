@@ -28,7 +28,7 @@ class InscricaoDAO extends AbstractDAO {
 
 	function selecionar_inscritos_individual() {
 		$sql = "SELECT ins.id AS id_inscricao, ins.data_registro, ins.data_pagamento, ind.nome, ind.email,
-            ind.empresa, tip.descricao AS descricao_tipo_inscricao, tip.valor, ind.id AS id_individual
+            ind.instituicao, tip.descricao AS descricao_tipo_inscricao, tip.valor, ind.id AS id_individual
             FROM inscricao ins
             JOIN tipo_inscricao tip ON (ins.id_tipo_inscricao = tip.id)
             JOIN individual ind ON (ins.id = ind.id_inscricao)
@@ -41,7 +41,7 @@ class InscricaoDAO extends AbstractDAO {
 
 	function selecionar_inscritos_empresas() {
 		$sql = "SELECT ins.id AS id_inscricao, ins.data_registro, ins.data_pagamento, ind.nome, ind.email,
-            tip.descricao AS descricao_tipo_inscricao, tip.valor, emp.id AS id_empresa, emp.nome,
+            tip.descricao AS descricao_tipo_inscricao, tip.valor, emp.id AS id_empresa, emp.nome AS nome_empresa,
             emp.email AS email_empresa, emp.responsavel
             FROM inscricao ins
             JOIN tipo_inscricao tip ON (ins.id_tipo_inscricao = tip.id)
