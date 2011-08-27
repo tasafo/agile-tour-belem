@@ -23,9 +23,6 @@ define('HOME_PAGE', 'http://tasafo.org/atb2011/');
 // E-MAIL DA CONTA DO PAGSEGURO PARA OS PAGAMENTOS SEREM EFETUADOS NELA
 define('EMAIL_COBRANCA', 'luizgrsanches@gmail.com');
 
-// Serve para o estado ja vim setado no estado especificado baixo
-define('UF_PADRAO', 'PA');
-
 // Usuario e senha de acesso da area administrativa do sistema
 define('USUARIO_ADMIN', 'admin');
 define('SENHA_ADMIN', 's4f4d0');

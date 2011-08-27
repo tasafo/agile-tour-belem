@@ -19,9 +19,6 @@ define('HOME_PAGE', 'http://www.site.com.br/');
 // E-MAIL DA CONTA DO PAGSEGURO PARA OS PAGAMENTOS SEREM EFETUADOS NELA
 define('EMAIL_COBRANCA', 'nome@mail.com.br');
 
-// Serve para o estado ja vim setado no estado especificado baixo
-define('UF_PADRAO', 'PA');
-
 // Usuario e senha de acesso da area administrativa do sistema
 define('USUARIO_ADMIN', 'admin'); 
 define('SENHA_ADMIN', 'admin');
