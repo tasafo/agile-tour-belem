@@ -8,7 +8,7 @@ require_once $niveis . 'topo.php';
 $o_tipo_inscricao = new TipoInscricaoDAO();
 $a_tipo_inscricao = $o_tipo_inscricao->busca("status = 'A'");
 
-if ($a_tipo_inscricoes) {
+if ($a_tipo_inscricao) {
 	$id_tipo_inscricao = $a_tipo_inscricao[0]->id;
 	$valor_inscricao = $a_tipo_inscricao[0]->valor;
 }

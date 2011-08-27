@@ -49,22 +49,24 @@ $pgs->adicionar(array(
 	),
 ));
 ?>
-<html>
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
+<meta charset="utf-8">
 </head>
 <body>
-	<b>Inscri&ccedil;&atilde;o Individual</b>
+	<b>Inscrição Individual</b>
 	<br>
 	<br>
-	<b>Ol&aacute; <?php echo utf8_encode($o_individual->nome) ?></b>,
+	<b>Olá <?php echo utf8_encode($o_individual->nome) ?></b>,
 	<br>
-	<br> Para finalizar o processo de inscri&ccedil;&atilde;o, efetue o
-	pagamento da mesma clicando no bot&atilde;o abaixo.
+	<br>Para finalizar o processo de inscrição, efetue o
+	pagamento da mesma clicando no botão abaixo.
 	<br>
-	<br> Assim que recebermos a notifica&ccedil;&atilde;o de seu pagamento
-	voc&ecirc; ser&aacute; comunicado(a) por email.
+	<br>Assim que recebermos a notificação de seu pagamento
+	você será comunicado(a) por email.
 	<br>
-	<br> O pagamento dever&aacute; ser realizado via PagSeguro.
+	<br>O pagamento deverá ser realizado via PagSeguro.
 	<br>
 	<br>
 	<center>

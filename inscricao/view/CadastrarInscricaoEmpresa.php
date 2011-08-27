@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 session_start();
 
@@ -16,6 +15,7 @@ if ($a_tipo_inscricao) {
 	$valor_inscricao = $a_tipo_inscricao[0]->valor;
 }
 ?>
+<!DOCTYPE html>
 <html lang="pt-br">
 	<head>
 		<meta charset="utf-8">

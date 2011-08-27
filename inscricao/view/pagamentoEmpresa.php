@@ -71,18 +71,20 @@ if (count($a_funcionarios_inscritos) > 25) {
 
 $pgs->adicionar($a_carrinho);
 ?>
-<html>
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
+<meta charset="utf-8">
 </head>
 <body>
-<b>Inscri&ccedil;&atilde;o por Empresa</b>
+<b>Inscrição por Empresa</b>
 <br><br>
 <b><?php echo utf8_encode($o_empresa->nome) ?></b>,<br><br>
-Para finalizar o processo de inscri&ccedil;&atilde;o, efetue o pagamento
-da mesma clicando no bot&atilde;o abaixo.<br><br>
-Assim que recebermos a notifica&ccedil;&atilde;o de seu pagamento voc&ecirc;
-ser&aacute; comunicado(a) por email. <br><br>
-O pagamento dever&aacute; ser realizado via PagSeguro.<br><br>
+Para finalizar o processo de inscrição, efetue o pagamento
+da mesma clicando no botão abaixo.<br><br>
+Assim que recebermos a notificação de seu pagamento você
+será comunicado(a) por email.<br><br>
+O pagamento deverá ser realizado via PagSeguro.<br><br>
 <center><br>
 <?php
 // Mostrando o botao de pagamento
