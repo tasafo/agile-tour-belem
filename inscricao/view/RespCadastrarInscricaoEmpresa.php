@@ -14,11 +14,11 @@ if (empty($_SESSION['Funcionarios'])) {
 	die($xml .= "</gravacao>");
 }
 
-$a_campos = array("cnpj", "email");
-foreach($a_campos as $campo) {
+$a_campos = array("email" => $_REQUEST['email']);
+foreach($a_campos as $campo => $valor) {
 	$o_empresa = new EmpresaDAO();
 
-	if ($o_empresa->busca("$campo = '" . $$campo . "'")) {
+	if ($o_empresa->busca("$campo = '$valor'")) {
 		$xml .= "<erro>O $campo informado ja encontra-se cadastrado em nosso sistema.</erro>";
         die($xml .= "</gravacao>");
 	}
@@ -27,30 +27,11 @@ foreach($a_campos as $campo) {
 $o_transacao = new Banco();
 $o_transacao->begin();
 
-$o_endereco = new EnderecoDAO();
-$o_endereco->endereco = $_REQUEST['endereco'];
-$o_endereco->numero = $_REQUEST['numero'];
-$o_endereco->complemento = $_REQUEST['complemento'];
-$o_endereco->bairro = $_REQUEST['bairro'];
-$o_endereco->cep = $_REQUEST['cep'];
-$o_endereco->cidade = $_REQUEST['cidade'];
-$o_endereco->uf = $_REQUEST['uf'];
-
-if (!$o_endereco->salva()) {
-	$o_transacao->rollback();
-	$xml .= "<erro>Falha ao tentar gravar dados do endereco</erro>";
-	die($xml .= "</gravacao>");
-}
-
 $o_empresa = new EmpresaDAO();
-$o_empresa->id_endereco = $o_endereco->id;
-$o_empresa->razao_social = $_REQUEST['razao_social'];
-$o_empresa->nome_fantasia = $_REQUEST['nome_fantasia'];
-$o_empresa->nome_responsavel = $_REQUEST['nome_responsavel'];
-$o_empresa->cnpj = $_REQUEST['cnpj'];
+$o_empresa->nome = $_REQUEST['nome'];
+$o_empresa->responsavel = $_REQUEST['responsavel'];
 $o_empresa->email = $_REQUEST['email'];
-$o_empresa->ddd = $_REQUEST['ddd'];
-$o_empresa->telefone = $_REQUEST['telefone'];
+$o_empresa->cep = $_REQUEST['cep'];
 
 if (!$o_empresa->salva()) {
 	$o_transacao->rollback();
@@ -60,20 +41,17 @@ if (!$o_empresa->salva()) {
 
 if (!empty($_SESSION['Funcionarios'])) {
 	foreach ($_SESSION['Funcionarios'] as $funcionario) {
-		$func_categoria_inscricao = $funcionario['func_categoria_inscricao'];
+		$func_id_tipo_inscricao = $funcionario['func_id_tipo_inscricao'];
 		$func_nome = $funcionario['func_nome'];
-		$func_cpf = $funcionario['func_cpf'];
 		$func_email = $funcionario['func_email'];
-		$func_nome_cracha = $funcionario['func_nome_cracha'];
-		$func_ddd = $funcionario['func_ddd'];
-		$func_telefone = $funcionario['func_telefone'];
+		$func_cep = $funcionario['func_cep'];
 		$func_sexo = $funcionario['func_sexo'];
 
 		$func_nome_sem_acento = Funcoes::remove_acentos($func_nome);
 
 		$o_inscricao = new InscricaoDAO();
 		$o_inscricao->id_empresa = $o_empresa->id;
-		$o_inscricao->id_tipo_inscricao = $func_categoria_inscricao;
+		$o_inscricao->id_tipo_inscricao = $func_id_tipo_inscricao;
 		$o_inscricao->data_registro = date("Y-m-d H:i:s");
 
 		if (!$o_inscricao->salva()) {
@@ -84,13 +62,9 @@ if (!empty($_SESSION['Funcionarios'])) {
 
 		$o_individual = new IndividualDAO();
         $o_individual->id_inscricao = $o_inscricao->id;
-        $o_individual->id_endereco = $o_endereco->id;
         $o_individual->nome = $func_nome;
-        $o_individual->cpf = $func_cpf;
         $o_individual->email = $func_email;
-        $o_individual->nome_cracha = $func_nome_cracha;
-        $o_individual->ddd = $func_ddd;
-        $o_individual->telefone = $func_telefone;
+        $o_individual->cep = $o_empresa->cep;
         $o_individual->sexo = $func_sexo;
         $o_individual->situacao = 'A';
 
@@ -104,7 +78,7 @@ if (!empty($_SESSION['Funcionarios'])) {
 
 $o_transacao->commit();
 
-$nome_enviar = Funcoes::remove_acentos($o_empresa->nome_fantasia);
+$nome_enviar = Funcoes::remove_acentos($o_empresa->nome);
 
 // Enviar email
 $mail = new PHPMailer();

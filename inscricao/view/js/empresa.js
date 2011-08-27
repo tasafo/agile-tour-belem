@@ -7,7 +7,7 @@ $(document).ready(function($) {
 		validar_funcionario();
 	});
 
-	$("#razao_social").focus();
+	$("#nome").focus();
 });
 
 function validar_empresa() {
@@ -20,66 +20,28 @@ function validar_empresa() {
 		meta: "validate",
 		
 		rules: {
-			razao_social: {
+			nome: {
 				required: true
 			},
-			nome_fantasia: {
+            responsavel: {
 				required: true
-			},
-            nome_responsavel: {
-				required: true
-			},
-			cnpj:{
-				required: true,
-				verificaCNPJ: true
 			},
 			email:{
 				required: true,
 				email: true
 			},
-            ddd: {
-				required: true,
-				digits: true,
-                minlength:2
-			},
-            telefone: {
-				required: true,
-				digits: true,
-                minlength: 8
-			},
-            endereco: {
-				required: true
-			},
-            numero: {
-				required: true,
-				digits: true
-			},
-            bairro: {
-				required: true
-			},
             cep: {
 				required: true,
 				digits: true,
                 minlength: 8
-			},
-            cidade: {
-				required: true
 			}
 		},
 		
 		messages: {
-            razao_social: 'Informe a Raz&atilde;o Social',
-            nome_fantasia: 'Informe o Nome Fantasia',
-            nome_responsavel: 'Informe o Nome do Respons&aacute;vel',
-            cnpj: 'Informe um CNPJ v&aacute;lido',
+            nome: 'Informe o Nome da Empresa',
+            responsavel: 'Informe o Nome do Respons&aacute;vel',
             email: 'Informe um E-mail v&aacute;lido',
-            ddd: 'Informe o DDD',
-            telefone: 'Informe o Telefone',
-            endereco: 'Informe o Endere&ccedil;o',
-            numero: 'Informe o n&uacute;mero',
-            bairro: 'Informe o Bairro',
-            cep: 'Informe o CEP',
-            cidade: 'Informe a Cidade'
+            cep: 'Informe o CEP'
 		},
 		submitHandler: function(form) {
 			salvar();
@@ -93,7 +55,7 @@ function salvar() {
 	//$("#div_botao_salvar").hide("fast");
 
 	$("#div_salvando").show("fast",function() {
-		$(this).html("<font color='red'><b>Salvando. Aguarde um momento...</b></font>");
+		$(this).html("<b>Salvando. Aguarde um momento...</b>");
 	});
 
 	parametros = $('#form').serialize();
@@ -147,36 +109,15 @@ function validar_funcionario(){
 			func_nome: {
 				required: true
 			},
-			func_cpf:{
-				required: true,
-				verificaCPF: true
-			},
 			func_email:{
 				required: true,
 				email: true
-			},
-            func_nome_cracha: {
-				required: true
-			},
-            func_ddd: {
-				required: true,
-				digits: true,
-                minlength:2
-			},
-            func_telefone: {
-				required: true,
-				digits: true,
-                minlength: 8
 			}
 		},
 		// define messages para cada campo
 		messages: {
             func_nome: 'Informe o nome do funcion&aacute;rio',
-            func_cpf: 'Informe um CPF v&aacute;lido do funcion&aacute;rio',
             func_email: 'Informe um E-mail v&aacute;lido do funcion&aacute;rio',
-            func_nome_cracha: 'Informe a Identifica&ccedil;&atilde;o para o Crach&aacute; do funcion&aacute;rio',
-            func_ddd: 'Informe o DDD do telefone funcion&aacute;rio',
-            func_telefone: 'Informe o Telefone do funcion&aacute;rio'
 		},
 		submitHandler: function(form) {
 			atualizaFuncionarioAjax(0, 'incluir');
@@ -188,23 +129,15 @@ function validar_funcionario(){
 
 function atualizaFuncionarioAjax(codigo, acao) {
     if (acao == 'incluir') {
-        func_categoria_inscricao = $('#func_categoria_inscricao').val();
+    	func_id_tipo_inscricao = $('#func_id_tipo_inscricao').val();
         func_nome = $('#func_nome').val();
-        func_cpf = $('#func_cpf').val();
         func_email = $('#func_email').val();
-        func_nome_cracha = $('#func_nome_cracha').val();
-        func_ddd = $('#func_ddd').val();
-        func_telefone = $('#func_telefone').val();
         func_sexo = $('#func_sexo').val();
 
         parametros = 'acao=' + acao +
-            '&func_categoria_inscricao=' + func_categoria_inscricao +
+            '&func_id_tipo_inscricao=' + func_id_tipo_inscricao +
             '&func_nome=' + func_nome +
-            '&func_cpf=' + func_cpf +
             '&func_email=' + func_email +
-            '&func_nome_cracha=' + func_nome_cracha +
-            '&func_ddd=' + func_ddd +
-            '&func_telefone=' + func_telefone +
             '&func_sexo=' + func_sexo;
     } else if (acao == 'excluir') {
        	parametros = 'acao=' + acao + '&codigo=' + codigo;

@@ -6,18 +6,15 @@ require_once '../general/autoload.php';
 $acao = $_REQUEST['acao'];
 
 if ($acao == 'incluir') {
-	$categoria_inscricao = $_REQUEST['func_categoria_inscricao'];
+	$id_tipo_inscricao = $_REQUEST['func_id_tipo_inscricao'];
 	$nome = $_REQUEST['func_nome'];
-	$cpf = $_REQUEST['func_cpf'];
 	$email = $_REQUEST['func_email'];
-	$nome_cracha = $_REQUEST['func_nome_cracha'];
-	$ddd = $_REQUEST['func_ddd'];
-	$telefone = $_REQUEST['func_telefone'];
+	$cep = $_REQUEST['func_cep'];
 	$sexo = $_REQUEST['func_sexo'];
 
 	$o_tipo_inscricao = new TipoInscricaoDAO();
 	
-    if (!$o_tipo_inscricao->busca($categoria_inscricao))
+    if (!$o_tipo_inscricao->busca($id_tipo_inscricao))
         die("Atencao! Nao foi encontrado o tipo de inscricao no sistema.");
             
 	if (!empty($_SESSION['Funcionarios'])) {
@@ -25,15 +22,12 @@ if ($acao == 'incluir') {
 			if ($nome == $funcionario['func_nome'])
 				die("Atencao! O Nome ja esta lancado na lista");
 
-			if ($cpf == $funcionario['func_cpf'])
-				die("Atencao! O CPF ja esta lancado na lista");
-
 			if ($email == $funcionario['func_email'])
 				die("Atencao! O E-mail ja esta lancado na lista");
 		}
 	}
 
-	$a_campos = array("cpf", "email");
+	$a_campos = array("email");
 	foreach($a_campos as $campo) {
 		$o_individual = new IndividualDAO();
 
@@ -42,13 +36,10 @@ if ($acao == 'incluir') {
 	}
 
 	$a_funcionario = array(
-        'func_categoria_inscricao' => $categoria_inscricao,
+        'func_id_tipo_inscricao' => $id_tipo_inscricao,
         'func_nome' => $nome,
-        'func_cpf' => $cpf,
         'func_email' => $email,
-        'func_nome_cracha' => $nome_cracha,
-        'func_ddd' => $ddd,
-        'func_telefone' => $telefone,
+        'func_cep' => $cep,
         'func_sexo' => $sexo,
         'func_valor_inscricao' => $o_tipo_inscricao->valor
 	);
