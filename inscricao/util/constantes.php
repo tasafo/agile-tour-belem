@@ -6,7 +6,7 @@
 
 define('BANCO_USUARIO', 'root');
 define('BANCO_SENHA', 'ic');
-define('BANCO_BASE_DADOS', 'agile-tour-belem');
+define('BANCO_BASE_DADOS', 'atb');
 define('BANCO_SERVIDOR', 'localhost');
 
 // Informacoes utilizadas para o envio do email
@@ -15,7 +15,7 @@ define('SENDMAIL_FROM_NAME', 'Agile Tour Belem 2011');
 define('SENDMAIL_HOST', 'mail.tasafo.org');
 
 // Informacoes utilizadas no e-mail de envio para o usuario 
-define('NOME_EVENTO', 'Agile Tour Bel&eacute;m 2011');
+define('NOME_EVENTO', 'Agile Tour Belem 2011');
 define('TWITTER_NOME', '@tasafo');
 define('TWITTER_ENDERECO', 'http://twitter.com/tasafo');
 define('HOME_PAGE', 'http://tasafo.org/atb2011/');
