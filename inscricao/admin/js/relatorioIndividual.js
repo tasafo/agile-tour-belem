@@ -61,8 +61,9 @@ function analisarRespostaPagamentoIndividual(xml) {
         $('#div_data_pagamento_' + idInscricao).html(dataPagamento);
         $('#div_botao_' + idInscricao).html("&nbsp;");
         $('#div_cortesia_' + idInscricao).html("&nbsp;");
+        $('#div_cancelar_' + idInscricao).html("&nbsp;");
 
-        alert(mensagem)
+        alert(mensagem);
     }
 
     return true;
@@ -106,9 +107,10 @@ function analisarRespostaCancelamentoIndividual(xml) {
     } else {
         mensagem = $('mensagem', xml).text();
 
+        $('#div_botao_' + idInscricao).html("&nbsp;");
         $('#div_cancelar_' + idIndividual).html("&nbsp;");
 
-        alert(mensagem)
+        alert(mensagem);
     }
 
     return true;

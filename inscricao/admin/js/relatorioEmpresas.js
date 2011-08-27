@@ -59,7 +59,7 @@ function analisarRespostaPagamentoEmpresa(xml) {
         $('#div_botao_' + idEmpresa).html("&nbsp;");
         $('#div_cortesia_' + idEmpresa).html("&nbsp;");
 
-        alert(mensagem)
+        alert(mensagem);
     }
 
     return true;

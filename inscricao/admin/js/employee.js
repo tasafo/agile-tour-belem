@@ -3,7 +3,7 @@ $(document).ready(function($) {
 		validar_funcionario();
 	});
 
-	$("#razao_social").focus();
+	$("#func_nome").focus();
 });
 
 function validar_funcionario() {
@@ -19,36 +19,15 @@ function validar_funcionario() {
 			func_nome: {
 				required: true
 			},
-			func_cpf:{
-				required: true,
-				verificaCPF: true
-			},
 			func_email:{
 				required: true,
 				email: true
-			},
-            func_nome_cracha: {
-				required: true
-			},
-            func_ddd: {
-				required: true,
-				digits: true,
-                minlength:2
-			},
-            func_telefone: {
-				required: true,
-				digits: true,
-                minlength: 8
 			}
 		},
 		// define messages para cada campo
 		messages: {
             func_nome: 'Informe o nome do funcion&aacute;rio',
-            func_cpf: 'Informe um CPF v&aacute;lido do funcion&aacute;rio',
-            func_email: 'Informe um E-mail v&aacute;lido do funcion&aacute;rio',
-            func_nome_cracha: 'Informe a Identifica&ccedil;&atilde;o para o Crach&aacute; do funcion&aacute;rio',
-            func_ddd: 'Informe o DDD do telefone funcion&aacute;rio',
-            func_telefone: 'Informe o Telefone do funcion&aacute;rio'
+            func_email: 'Informe um E-mail v&aacute;lido do funcion&aacute;rio'
 		},
 		submitHandler: function(form) {
 			salvar();

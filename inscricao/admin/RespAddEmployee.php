@@ -2,28 +2,29 @@
 require_once '../general/autoload.php';
 
 $idEmpresa = $_REQUEST['hdnIdEmpresa'];
-$idEndereco = $_REQUEST['hdnIdEndereco'];
 $categoria_inscricao = $_REQUEST['func_categoria_inscricao'];
 $nome = $_REQUEST['func_nome'];
-$cpf = $_REQUEST['func_cpf'];
 $email = $_REQUEST['func_email'];
-$nome_cracha = $_REQUEST['func_nome_cracha'];
-$ddd = $_REQUEST['func_ddd'];
-$telefone = $_REQUEST['func_telefone'];
 $sexo = $_REQUEST['func_sexo'];
 
 $nome_sem_acento = Funcoes::remove_acentos($nome);
 
-$a_campos = array("cpf", "email");
-foreach($a_campos as $campo) {
+$a_campos = array("email" => $_REQUEST['func_email']);
+foreach($a_campos as $campo => $valor) {
 	$o_individual = new IndividualDAO();
 
-	if ($o_individual->busca("$campo = '" . $$campo . "'"))
+	if ($o_individual->busca("$campo = '$valor'"))
 	    die("Atencao! Este $campo ja foi utilizando em uma inscricao no sistema.");
 }
 
 $o_transacao = new Banco();
 $o_transacao->begin();
+
+$o_empresa = new EmpresaDAO();
+
+if (!$o_empresa->busca($idEmpresa)) {
+	die("Atencao! Empresa nao encontrada no sistema.");
+}
 
 $o_inscricao = new InscricaoDAO();
 $o_inscricao->id_empresa = $idEmpresa;
@@ -36,14 +37,11 @@ if (!$o_inscricao->salva()) {
 } else {
 	$o_individual = new IndividualDAO();
 	$o_individual->id_inscricao = $o_inscricao->id;
-	$o_individual->id_endereco = $idEndereco;
 	$o_individual->nome = $nome;
-	$o_individual->cpf = $cpf;
 	$o_individual->email = $email;
-	$o_individual->nome_cracha = $nome_cracha;
-	$o_individual->ddd = $ddd;
-	$o_individual->telefone = $telefone;
 	$o_individual->sexo = $sexo;
+	$o_individual->cep = $o_empresa->cep;
+	$o_individual->instituicao = $o_empresa->nome;
 	$o_individual->situacao = 'A';
 	
 	if (!$o_individual->salva()) {
@@ -67,7 +65,7 @@ $a_funcionarios_inscritos = $o_inscricao->selecionar_funcionarios_inscritos($idE
 	<?php foreach ($a_funcionarios_inscritos as $inscrito) { ?>
 	<tr>
 		<td align="center"><?php echo $inscrito->id ?></td>
-		<td><?php echo trim(Funcoes::remove_acentos($inscrito->nome)) ?></td>
+		<td><?php echo trim(utf8_encode($inscrito->nome)) ?></td>
 		<td><?php echo $inscrito->email ?></td>
 		<td><?php echo $inscrito->descricao ?></td>
 	</tr>

@@ -32,7 +32,7 @@ class Relatorio {
               <tr bgcolor="<?php echo $cor ?>" onMouseOver="this.style.background='#00559F'" onMouseOut="this.style.background='<?php echo $cor ?>'">
                   <td align="center"><?php echo $idInscricao ?></td>
                   <td align="center"><?php echo Funcoes::formata_data_para_exibir($dtRegistro) ?></td>
-                  <td align="left"><?php echo Funcoes::remove_acentos($nome) ?></td>
+                  <td align="left"><?php echo utf8_encode($nome) ?></td>
                   <td align="left"><?php echo $dscTipoInscricao ?></td>
                   <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($individual->valor) ?></td>
                   <td align="center">

@@ -25,7 +25,7 @@
                     <td>&nbsp;</td>
                 </tr>
                 <tr>
-                    <td><a href="relatorioInscritos.php">Listagem dos Inscritos</a></td>
+                    <td><a href="relatorioInscritos.php">Listagem dos Inscritos Pagos</a></td>
                 </tr>
                 <tr>
                     <td>&nbsp;</td>

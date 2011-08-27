@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 require 'validaSessao.php';
 require_once '../general/autoload.php';
@@ -12,8 +13,9 @@ if (!$a_inscritos_empresas) {
 	die("<h2>Nenhuma inscri&ccedil;&atilde;o encontrada</h2></center>");
 }
 ?>
-<html>
-    <head>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
         <title>Inscritos por Empresa</title>
         <script type="text/javascript" src="../view/js/jquery/jquery.js" ></script>
         <script type="text/javascript" src="../view/js/jquery/jquery.alerts/jquery.alerts.js" ></script>
@@ -82,11 +84,10 @@ if (!$a_inscritos_empresas) {
             <tr style="font-weight: bold; color: navy">
                 <td align="center"><?php echo $idEmpresa ?></td>
                 <td>&nbsp;</td>
-                <td><span id="nome_<?php echo $idEmpresa ?>"><?php echo Funcoes::remove_acentos($inscricao->nome_fantasia) ?></span></td>
+                <td><span id="nome_<?php echo $idEmpresa ?>"><?php echo utf8_encode($inscricao->nome_empresa) ?></span></td>
                 <td>
                     E-mail: <span id="email_<?php echo $idEmpresa ?>"><?php echo $inscricao->email_empresa ?></span><br>
-                    Resp.: <?php echo Funcoes::remove_acentos($inscricao->nome_responsavel) ?><br>
-                    Fone: <?php echo $inscricao->telefone ?><br>
+                    Resp.: <?php echo utf8_encode($inscricao->responsavel) ?>
                 </td>
                 <td><span style="color: red" id="salvando_<?php echo $idEmpresa ?>"></span></td>
                 <td>&nbsp;</td>
@@ -101,7 +102,7 @@ if (!$a_inscritos_empresas) {
             <tr>
                 <td align="center"><?php echo $idInscricao ?></td>
                 <td align="center"><?php echo Funcoes::formata_data_para_exibir($inscricao->data_registro) ?></td>
-                <td><?php echo Funcoes::remove_acentos($inscricao->nome) ?></td>
+                <td><?php echo utf8_encode($inscricao->nome) ?></td>
                 <td><?php echo $inscricao->email ?></td>
                 <td><?php echo $inscricao->descricao_tipo_inscricao ?></td>
                 <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($inscricao->valor) ?></td>

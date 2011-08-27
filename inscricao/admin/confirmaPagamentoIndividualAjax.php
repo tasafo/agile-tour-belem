@@ -23,16 +23,17 @@ $msg_recarregar = "";
 
 if ($cortesia == "S") {
 	$o_tipo_inscricao = new TipoInscricaoDAO();
+	$a_tipo_inscricao = $o_tipo_inscricao->busca("descricao = 'Cortesia'");
 	
-    if (!$o_tipo_inscricao->busca("descricao = 'Cortesia'")) {
+    if (!$a_tipo_inscricao) {
         $xml .= "<erro>Tipo de Inscricao Cortesia nao foi encontrada</erro>";
         $xml .= "<idInscricao>$idInscricao</idInscricao>";
         die($xml .= "</agilidade>");
     }
-
+    
     $o_inscricao = new InscricaoDAO();
     $o_inscricao->id = $idInscricao;
-    $o_inscricao->id_tipo_inscricao = $o_tipo_inscricao->id;
+    $o_inscricao->id_tipo_inscricao = $a_tipo_inscricao[0]->id;
 
     if (!$o_inscricao->salva()) {
         $xml .= "<erro>Falha ao tentar atualizar o tipo de inscricao do usuario</erro>";
@@ -66,7 +67,7 @@ $mail->Subject = "Confirmação de Pagamento e Inscrição - " . NOME_EVENTO;
 $mail->Body = "
     <html>
     <body>
-    Caro(a) <b>$nome</b>,<br><br>
+    Ol&aacute; <b>$nome</b>,<br><br>
     Escrevemos para informar que recebemos o pagamento de sua inscri&ccedil;&atilde;o.<br><br>
     Acesse nosso <a href='" . HOME_PAGE . "'>web site</a> ou siga o <a href='" . TWITTER_ENDERECO . "'>" . TWITTER_NOME . "</a> no Twitter para acompanhar as novidades do " . NOME_EVENTO . ".<br><br>
     At&eacute; o evento!<br><br>

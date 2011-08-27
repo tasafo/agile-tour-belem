@@ -16,8 +16,6 @@ foreach ($a_tipo_inscricao as $tipo_inscricao) {
 
 $o_empresa->busca($idEmpresa);
 
-$idEndereco = $o_empresa->id_endereco;
-
 $a_funcionarios_inscritos = $o_inscricao->selecionar_funcionarios_inscritos($idEmpresa);
 ?>
 <html>
@@ -33,7 +31,6 @@ $a_funcionarios_inscritos = $o_inscricao->selecionar_funcionarios_inscritos($idE
 	<body>
         <form class="cmxform" id="frmFunc" name="formFuncionarios" action="" method="post">
             <input type="hidden" name="hdnIdEmpresa" id="hdnIdEmpresa" value="<?php echo $idEmpresa ?>" />
-            <input type="hidden" name="hdnIdEndereco" id="hdnIdEndereco" value="<?php echo $idEndereco ?>" />
             <table class="bordasimples" style="width: 450px">
                 <tr>
                     <td colspan="2" align="center"><a href="relatorioEmpresas.php">Voltar para o relat&oacute;rio de empresas</a></td>
@@ -50,7 +47,7 @@ $a_funcionarios_inscritos = $o_inscricao->selecionar_funcionarios_inscritos($idE
                     </td>
                 </tr>
 				<tr>
-					<td align="left" width="40%">Categoria*</td>
+					<td align="left" width="40%">Categoria</td>
 					<td align="left" width="60%">
 						<select name="func_categoria_inscricao" id="func_categoria_inscricao" style="width: 340px">
 							<?php echo $select ?>
@@ -62,26 +59,11 @@ $a_funcionarios_inscritos = $o_inscricao->selecionar_funcionarios_inscritos($idE
                     <td align="left"><input type="text" name="func_nome" id="func_nome" maxlength="60" size="35"/></td>
 				</tr>
 				<tr>
-					<td align="left">CPF*</td>
-					<td align="left"><input type="text" name="func_cpf" id="func_cpf" maxlength="11" size="11" onkeypress="mascara(this,apenasNumeros);"/></td>
-				</tr>
-				<tr>
-					<td align="left">Email*</td>
+					<td align="left">Email</td>
 					<td align="left"><input type="text" name="func_email" id="func_email" maxlength="45" size="35"/></td>
 				</tr>
 				<tr>
-					<td align="left">Nome para Crach&aacute;*</td>
-					<td align="left"><input type="text" name="func_nome_cracha" id="func_nome_cracha" maxlength="60" size="35"/></td>
-				</tr>
-				<tr>
-					<td align="left">DDD/Telefone*</td>
-					<td align="left">
-					  <input type="text" name="func_ddd" id="func_ddd" maxlength="2" size="3" onkeypress="mascara(this,apenasNumeros);"/>
-					  <input type="text" name="func_telefone" id="func_telefone" maxlength="8" size="10" onkeypress="mascara(this,apenasNumeros);"/>
-					</td>
-				</tr>
-				<tr>
-					<td align="left">Sexo*</td>
+					<td align="left">Sexo</td>
 					<td align="left">
 						<select name="func_sexo" id="func_sexo">
 							<option value="M">Masculino</option>
@@ -111,7 +93,7 @@ $a_funcionarios_inscritos = $o_inscricao->selecionar_funcionarios_inscritos($idE
                                 <?php foreach ($a_funcionarios_inscritos as $inscrito) { ?>
                                 <tr>
                                     <td align="center"><?php echo $inscrito->id ?></td>
-                                    <td><?php echo trim(Funcoes::remove_acentos($inscrito->nome)) ?></td>
+                                    <td><?php echo trim(utf8_encode($inscrito->nome)) ?></td>
                                     <td><?php echo $inscrito->email ?></td>
                                     <td><?php echo $inscrito->descricao ?></td>
                                 </tr>

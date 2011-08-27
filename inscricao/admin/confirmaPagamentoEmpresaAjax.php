@@ -23,16 +23,15 @@ $msg_recarregar = "";
 
 if ($cortesia == "S") {
 	$o_tipo_inscricao = new TipoInscricaoDAO();
-    
-    if (!$o_tipo_inscricao->busca("descricao LIKE 'Cortesia%'")) {
+	$a_tipo_inscricao = $o_tipo_inscricao->busca("descricao = 'Cortesia'");
+	
+    if (!$a_tipo_inscricao) {
         $xml .= "<erro>Tipo de Inscricao Cortesia nao foi encontrada</erro>";
         $xml .= "<idInscricao>$idInscricao</idInscricao>";
         die($xml .= "</agilidade>");
     }
     
-    print_r($o_tipo_inscricao); exit;
-    
-    $id_tipo_inscricao = $o_tipo_inscricao[0]->id;
+    $id_tipo_inscricao = $a_tipo_inscricao[0]->id;
    	
     $o_inscricao = new InscricaoDAO();
     $a_inscricoes_da_empresa = $o_inscricao->busca("id_empresa = $idEmpresa");
@@ -66,13 +65,28 @@ foreach ($a_funcionarios_empresa as $funcionario) {
     $listaFuncionarios .= Funcoes::remove_acentos($funcionario->nome) . " - " . $funcionario->email . "<br><br>" ;
 }
 
-$o_inscricao = new InscricaoDAO();
-$o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
+// $o_inscricao = new InscricaoDAO();
+// $o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
 
-if (!$o_inscricao->altera("id_empresa = $idEmpresa")) {
-    $xml .= "<erro>Falha ao tentar atualizar o pagamento da empresa</erro>";
-    $xml .= "<idEmpresa>$idEmpresa</idEmpresa>";
-	die($xml .= "</agilidade>");
+// if (!$o_inscricao->altera("id_empresa = $idEmpresa")) {
+//     $xml .= "<erro>Falha ao tentar atualizar o pagamento da empresa</erro>";
+//     $xml .= "<idEmpresa>$idEmpresa</idEmpresa>";
+// 	die($xml .= "</agilidade>");
+// }
+
+$o_inscricao = new InscricaoDAO();
+$a_inscricoes_da_empresa = $o_inscricao->busca("id_empresa = $idEmpresa");
+
+foreach ($a_inscricoes_da_empresa as $inscrito) {
+	$o_inscricao = new InscricaoDAO();
+	$o_inscricao->id = $inscrito->id;
+	$o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
+
+	if (!$o_inscricao->salva()) {
+		$xml .= "<erro>Falha ao tentar atualizar o pagamento da empresa</erro>";
+	    $xml .= "<idEmpresa>$idEmpresa</idEmpresa>";
+		die($xml .= "</agilidade>");
+	}
 }
 
 // Enviar email para a Empresa
@@ -122,7 +136,7 @@ foreach ($a_funcionarios_empresa as $funcionario) {
     $mail->Body = "
         <html>
         <body>
-        Caro(a) <b>$nome_func</b>,<br><br>
+        Ol&aacute; <b>$nome_func</b>,<br><br>
         Escrevemos para informar que recebemos o pagamento de sua inscri&ccedil;&atilde;o.<br><br>
         Acesse nosso <a href='" . HOME_PAGE . "'>web site</a> ou siga o <a href='" . TWITTER_ENDERECO . "'>" . TWITTER_NOME . "</a> no Twitter para acompanhar as novidades do " . NOME_EVENTO . ".<br><br>
         At&eacute; o evento!<br><br>

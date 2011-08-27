@@ -50,7 +50,7 @@ if (!$a_inscritos_individual) {
                 $contador++;
                 $idIndividual = $individual->id_individual;
                 $idInscricao = $individual->id_inscricao;
-                $nome = $individual->nome;
+                $nome = utf8_encode($individual->nome);
                 $valorInscricaoTotal += $individual->valor;
 
                 if (empty($individual->data_pagamento)) {
@@ -74,9 +74,9 @@ if (!$a_inscritos_individual) {
             <tr>
                 <td align="center"><?php echo $idInscricao ?></td>
                 <td align="center"><?php echo Funcoes::formata_data_para_exibir($individual->data_registro) ?></td>
-                <td><span id="nome_<?php echo $idInscricao ?>"><?php echo Funcoes::remove_acentos($nome) ?></span></td>
+                <td><span id="nome_<?php echo $idInscricao ?>"><?php echo $nome ?></span></td>
                 <td><span id="email_<?php echo $idInscricao ?>"><?php echo $individual->email ?></span></td>
-                <td><?php echo Funcoes::remove_acentos($individual->empresa) ?></td>
+                <td><?php echo utf8_encode($individual->instituicao) ?></td>
                 <td><?php echo $individual->descricao_tipo_inscricao ?></td>
                 <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($individual->valor) ?></td>
                 <td align="center"><div id="div_data_pagamento_<?php echo $idInscricao ?>"><?php echo $dataPagamento ?></div></td>
