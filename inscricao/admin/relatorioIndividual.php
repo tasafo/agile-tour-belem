@@ -12,8 +12,10 @@ if (!$a_inscritos_individual) {
 	die("<h2>Nenhuma inscri&ccedil;&atilde;o encontrada</h2></center>");
 }
 ?>
-<html>
-    <head>
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
         <title>Inscritos Individualmente</title>
         <script type="text/javascript" src="../view/js/jquery/jquery.js" ></script>
         <script type="text/javascript" src="../view/js/jquery/jquery.alerts/jquery.alerts.js" ></script>
@@ -26,8 +28,8 @@ if (!$a_inscritos_individual) {
         <h2><center>Inscritos Individualmente</center></h2>
         <table width="100%" border="1">
             <tr style="font-weight: bold">
-                <td align="center">Inscri&ccedil;&atilde;o</td>
-                <td align="center">Data Inscri&ccedil;&atilde;o</td>
+                <td align="center">Inscrição</td>
+                <td align="center">Data Inscrição</td>
                 <td>Nome</td>
                 <td>E-mail</td>
                 <td>Empresa</td>

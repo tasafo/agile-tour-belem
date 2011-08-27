@@ -11,8 +11,10 @@ if (!$a_relacao_inscritos) {
 	die("<h2>Nenhuma inscri&ccedil;&atilde;o encontrada</h2></center>");
 }
 ?>
-<html>
-    <head>
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
         <title>Rela&ccedil;&atilde;o Geral de Inscritos</title>
         <style type="text/css" title="mystyles" media="all">
             table.bordasimples {border-collapse: collapse;}
@@ -25,7 +27,7 @@ if (!$a_relacao_inscritos) {
         <br>
         <table width="100%" border="1" class="bordasimples">
             <tr style="font-weight: bold; text-align: center">
-                <td colspan="4">Rela&ccedil;&atilde;o Geral de Inscritos</td>
+                <td colspan="4">Relação Geral de Inscritos</td>
             </tr>
             <tr style="font-weight: bold; text-align: center">
                 <td width="5%" align="center">N.</td>
@@ -42,7 +44,7 @@ if (!$a_relacao_inscritos) {
             ?>
             <tr>
                 <td align="center"><?php echo $contador++ ?></td>
-                <td><?php echo Funcoes::remove_acentos($nome) ?></td>
+                <td><?php echo utf8_encode($nome) ?></td>
                 <td><?php echo $categoria ?></td>
                 <td>&nbsp;</td>
             </tr>

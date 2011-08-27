@@ -18,9 +18,11 @@ $o_empresa->busca($idEmpresa);
 
 $a_funcionarios_inscritos = $o_inscricao->selecionar_funcionarios_inscritos($idEmpresa);
 ?>
-<html>
-  	 <head>
-        <title>Adicionar Funcion&aacute;rios</title>
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
+        <title>Adicionar Funcionários</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <script type="text/javascript" src="../view/js/validacao.js" ></script>
         <script type="text/javascript" src="../view/js/jquery/jquery.js" ></script>
@@ -33,10 +35,10 @@ $a_funcionarios_inscritos = $o_inscricao->selecionar_funcionarios_inscritos($idE
             <input type="hidden" name="hdnIdEmpresa" id="hdnIdEmpresa" value="<?php echo $idEmpresa ?>" />
             <table class="bordasimples" style="width: 450px">
                 <tr>
-                    <td colspan="2" align="center"><a href="relatorioEmpresas.php">Voltar para o relat&oacute;rio de empresas</a></td>
+                    <td colspan="2" align="center"><a href="relatorioEmpresas.php">Voltar para o relatório de empresas</a></td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="center"><b>Adicionar funcion&aacute;rios da Empresa: <?php echo $o_empresa->nome_fantasia ?></b></td>
+                    <td colspan="2" align="center"><b>Adicionar funcionários da Empresa: <?php echo utf8_encode($o_empresa->nome) ?></b></td>
                 </tr>
                 <tr>
                     <td colspan="2">
@@ -59,7 +61,7 @@ $a_funcionarios_inscritos = $o_inscricao->selecionar_funcionarios_inscritos($idE
                     <td align="left"><input type="text" name="func_nome" id="func_nome" maxlength="60" size="35"/></td>
 				</tr>
 				<tr>
-					<td align="left">Email</td>
+					<td align="left">E-mail</td>
 					<td align="left"><input type="text" name="func_email" id="func_email" maxlength="45" size="35"/></td>
 				</tr>
 				<tr>
@@ -75,7 +77,7 @@ $a_funcionarios_inscritos = $o_inscricao->selecionar_funcionarios_inscritos($idE
                     <td colspan="2">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="center"><input type="button" id="insere_funcionario" value="Cadastrar Funcion&aacute;rio" /></td>
+                    <td colspan="2" align="center"><input type="button" id="insere_funcionario" value="Cadastrar Funcionário" /></td>
                 </tr>
                 <tr>
                     <td colspan="2">&nbsp;</td>
@@ -85,7 +87,7 @@ $a_funcionarios_inscritos = $o_inscricao->selecionar_funcionarios_inscritos($idE
                         <div id="div_grade_funcionarios">
                             <table width="100%" border="1">
                                 <tr style="font-weight: bold; text-align: center">
-                                    <td>Inscri&ccedil;&atilde;o</td>
+                                    <td>Inscrição</td>
                                     <td>Nome</td>
                                     <td>E-mail</td>
                                     <td>Inscrito como</td>

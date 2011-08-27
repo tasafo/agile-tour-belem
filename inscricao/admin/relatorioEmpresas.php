@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 require 'validaSessao.php';
 require_once '../general/autoload.php';
@@ -13,6 +12,7 @@ if (!$a_inscritos_empresas) {
 	die("<h2>Nenhuma inscri&ccedil;&atilde;o encontrada</h2></center>");
 }
 ?>
+<!DOCTYPE html>
 <html lang="pt-br">
 	<head>
 		<meta charset="utf-8">
@@ -28,8 +28,8 @@ if (!$a_inscritos_empresas) {
         <h2><center>Inscritos por Empresa</center></h2>
         <table width="100%" border="1">
             <tr style="font-weight: bold">
-                <td align="center">Inscri&ccedil;&atilde;o</td>
-                <td align="center">Data Inscri&ccedil;&atilde;o</td>
+                <td align="center">Inscrição</td>
+                <td align="center">Data Inscrição</td>
                 <td>Nome</td>
                 <td>E-mail</td>
                 <td>Inscrito como</td>
@@ -37,7 +37,7 @@ if (!$a_inscritos_empresas) {
                 <td align="center">Data Pagamento</td>
                 <td>Cortesia?</td>
                 <td align="center">Pagamento</td>
-                <td align="center">Funcion&aacute;rios</td>
+                <td align="center">Funcionários</td>
             </tr>
             <?php
             $contador = 0;
