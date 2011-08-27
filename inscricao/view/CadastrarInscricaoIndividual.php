@@ -6,18 +6,11 @@ require_once '../general/autoload.php';
 require_once $niveis . 'topo.php';
 
 $o_tipo_inscricao = new TipoInscricaoDAO();
-$a_tipo_inscricoes = $o_tipo_inscricao->busca("status = 'A'");
-$a_estados = Funcoes::lista_estados();
+$a_tipo_inscricao = $o_tipo_inscricao->busca("status = 'A'");
 
 if ($a_tipo_inscricoes) {
-	$id_tipo_inscricao = $a_tipo_inscricoes[0]->id;
-	$valor_inscricao = $a_tipo_inscricoes[0]->valor;
-}
-
-$select_estados = "";
-foreach ($a_estados as $sigla => $nome) {
-	$selecionado = ($sigla == UF_PADRAO) ? " selected='selected'" : "";
-	$select_estados .= "<option value='" . $sigla . "'" . $selecionado . ">" . $nome . "</option>";
+	$id_tipo_inscricao = $a_tipo_inscricao[0]->id;
+	$valor_inscricao = $a_tipo_inscricao[0]->valor;
 }
 ?>
 <html lang="pt-br">
@@ -54,7 +47,7 @@ foreach ($a_estados as $sigla => $nome) {
 					</td>
 				</tr>
 				<tr>
-					<td align="left">Email</td>
+					<td align="left">E-mail</td>
 					<td align="left">
 					    <input type="text" name="email" id="email" maxlength="45" size="35" />
 					</td>

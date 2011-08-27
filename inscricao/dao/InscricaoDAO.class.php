@@ -16,7 +16,7 @@ class InscricaoDAO extends AbstractDAO {
 	}
 
 	function selecionar_funcionarios_inscritos($id_empresa) {
-		$sql = "SELECT ind.nome, ind.cpf, tip.valor, ind.email, tip.descricao, ins.id
+		$sql = "SELECT ind.nome, tip.valor, ind.email, tip.descricao, ins.id
             FROM individual ind
             JOIN inscricao ins ON (ind.id_inscricao = ins.id)
             JOIN tipo_inscricao tip ON (ins.id_tipo_inscricao = tip.id)
@@ -41,8 +41,8 @@ class InscricaoDAO extends AbstractDAO {
 
 	function selecionar_inscritos_empresas() {
 		$sql = "SELECT ins.id AS id_inscricao, ins.data_registro, ins.data_pagamento, ind.nome, ind.email,
-            tip.descricao AS descricao_tipo_inscricao, tip.valor, emp.id AS id_empresa, emp.nome_fantasia,
-            emp.email AS email_empresa, emp.nome_responsavel, emp.telefone
+            tip.descricao AS descricao_tipo_inscricao, tip.valor, emp.id AS id_empresa, emp.nome,
+            emp.email AS email_empresa, emp.responsavel
             FROM inscricao ins
             JOIN tipo_inscricao tip ON (ins.id_tipo_inscricao = tip.id)
             JOIN individual ind ON (ins.id = ind.id_inscricao)
@@ -90,7 +90,8 @@ class InscricaoDAO extends AbstractDAO {
 	}
 
 	function selecionar_inscricoes_com_pagamentos_confirmados() {
-		$sql = "SELECT ind.nome, insc.id AS id_inscricao, insc.data_registro, insc.data_pagamento, tip.descricao AS descricao_tipo_inscricao, tip.valor
+		$sql = "SELECT ind.nome, insc.id AS id_inscricao, insc.data_registro, insc.data_pagamento,
+		    tip.descricao AS descricao_tipo_inscricao, tip.valor
             FROM individual ind, inscricao insc, tipo_inscricao tip
             WHERE insc.id = ind.id_inscricao
             AND insc.id_tipo_inscricao = tip.id
@@ -102,7 +103,8 @@ class InscricaoDAO extends AbstractDAO {
 	}
 
 	function selecionar_inscricoes_com_pagamentos_confirmados_por_periodo_pagamento($dataInicial, $dataFinal) {
-		$sql = "SELECT insc.id AS id_inscricao, insc.data_registro, ind.nome, insc.data_pagamento, tip.descricao AS descricao_tipo_inscricao, tip.valor
+		$sql = "SELECT insc.id AS id_inscricao, insc.data_registro, ind.nome, insc.data_pagamento,
+		    tip.descricao AS descricao_tipo_inscricao, tip.valor
             FROM inscricao insc, individual ind, tipo_inscricao tip
             WHERE insc.id = ind.id_inscricao
             AND insc.id_tipo_inscricao = tip.id
@@ -115,7 +117,8 @@ class InscricaoDAO extends AbstractDAO {
 	}
 
 	function selecionar_inscricoes_por_tipo_inscricao($idTipoInscricao) {
-		$sql = "SELECT insc.id AS id_inscricao, insc.data_registro, ind.nome, insc.data_pagamento, tip.descricao AS descricao_tipo_inscricao, tip.valor 
+		$sql = "SELECT insc.id AS id_inscricao, insc.data_registro, ind.nome, insc.data_pagamento,
+		    tip.descricao AS descricao_tipo_inscricao, tip.valor 
             FROM inscricao insc, individual ind, tipo_inscricao tip
             WHERE insc.id = ind.id_inscricao
             AND insc.id_tipo_inscricao = tip.id
@@ -127,7 +130,8 @@ class InscricaoDAO extends AbstractDAO {
 	}
 
 	function selecionar_inscricoes_canceladas() {
-		$sql = "SELECT ind.nome, insc.id AS id_inscricao, insc.data_registro, insc.data_pagamento, tip.descricao AS descricao_tipo_inscricao, tip.valor
+		$sql = "SELECT ind.nome, insc.id AS id_inscricao, insc.data_registro, insc.data_pagamento,
+		    tip.descricao AS descricao_tipo_inscricao, tip.valor
             FROM inscricao insc, individual ind, tipo_inscricao tip
             WHERE insc.id = ind.id_inscricao
             AND insc.id_tipo_inscricao = tip.id

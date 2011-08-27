@@ -32,7 +32,7 @@ $pgs = new pgs(array(
 ));
 
 $pgs->cliente(array(
-	'nome' => Funcoes::remove_acentos($o_individual->nome),
+	'nome' => Funcoes::remove_acentos(utf8_encode($o_individual->nome)),
 	'cep' => $o_individual->cep,
 	'pais' => 'BRA',
 	'email' => $o_individual->email
@@ -56,7 +56,7 @@ $pgs->adicionar(array(
 	<b>Inscri&ccedil;&atilde;o Individual</b>
 	<br>
 	<br>
-	<b>Ol&aacute; <?php echo $o_individual->nome ?></b>,
+	<b>Ol&aacute; <?php echo utf8_encode($o_individual->nome) ?></b>,
 	<br>
 	<br> Para finalizar o processo de inscri&ccedil;&atilde;o, efetue o
 	pagamento da mesma clicando no bot&atilde;o abaixo.

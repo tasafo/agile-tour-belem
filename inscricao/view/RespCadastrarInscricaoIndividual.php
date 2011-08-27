@@ -7,6 +7,16 @@ header("Content-Type: application/xml; charset=utf-8");
 $xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 $xml .= "<gravacao>\n";
 
+$a_campos = array("email" => $_REQUEST['email']);
+foreach($a_campos as $campo => $valor) {
+	$o_individual = new IndividualDAO();
+
+	if ($o_individual->busca("$campo = '$valor'")) {
+		$xml .= "<erro>O $campo informado ja encontra-se cadastrado em nosso sistema.</erro>";
+		die($xml .= "</gravacao>");
+	}
+}
+
 $o_tipo_inscricao = new TipoInscricaoDAO();
 
 if (!$o_tipo_inscricao->busca($_REQUEST['id_tipo_inscricao'])) {
