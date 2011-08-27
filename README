@@ -1,0 +1,7 @@
+No diretorio docs, encontram-se os arquivos para criacao do banco mysql:
+ 1. create database atbelem;
+ 2. use atbelem
+ 3. source banco_tabelas.sql;
+ 4. source banco_inserts.sql;
+
+No diretorio inscricao/util, encontra-se o arquivo constantes.php com as configuracoes do sistema
