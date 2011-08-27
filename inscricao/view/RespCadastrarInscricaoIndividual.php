@@ -9,7 +9,7 @@ $xml .= "<gravacao>\n";
 
 $o_tipo_inscricao = new TipoInscricaoDAO();
 
-if (!$o_tipo_inscricao->busca($_REQUEST['categoria_inscricao'])) {
+if (!$o_tipo_inscricao->busca($_REQUEST['id_tipo_inscricao'])) {
     $xml .= "<erro>Tipo de Inscricao nao encontrado</erro>";
     die($xml .= "</gravacao>");
 }
@@ -27,33 +27,13 @@ if (!$o_inscricao->salva()) {
 	die($xml .= "</gravacao>");
 }
 
-$o_endereco = new EnderecoDAO();
-$o_endereco->endereco = $_REQUEST['endereco'];
-$o_endereco->numero = $_REQUEST['numero'];
-$o_endereco->complemento = $_REQUEST['complemento'];
-$o_endereco->bairro = $_REQUEST['bairro'];
-$o_endereco->cep = $_REQUEST['cep'];
-$o_endereco->cidade = $_REQUEST['cidade'];
-$o_endereco->uf = $_REQUEST['uf'];
-
-if (!$o_endereco->salva()) {
-	$o_transacao->rollback();
-	$xml .= "<erro>Falha ao tentar gravar dados do endereco</erro>";
-	die($xml .= "</gravacao>");
-}
-
 $o_individual = new IndividualDAO();
 $o_individual->id_inscricao = $o_inscricao->id;
-$o_individual->id_endereco = $o_endereco->id;
 $o_individual->nome = $_REQUEST['nome'];
-$o_individual->cpf = $_REQUEST['cpf'];
 $o_individual->email = $_REQUEST['email'];
-$o_individual->nome_cracha = $_REQUEST['nome_cracha'];
-$o_individual->senha = $_REQUEST['senha'];
-$o_individual->ddd = $_REQUEST['ddd'];
-$o_individual->telefone = $_REQUEST['telefone'];
-$o_individual->empresa = $_REQUEST['empresa'];
+$o_individual->instituicao = $_REQUEST['instituicao'];
 $o_individual->sexo = $_REQUEST['sexo'];
+$o_individual->cep = $_REQUEST['cep'];
 $o_individual->situacao = 'A';
 
 if (!$o_individual->salva()) {
@@ -76,8 +56,6 @@ $mail->IsHTML(true);
 $mail->AddAddress($o_individual->email, $nome_enviar);
 $mail->Subject = "Cadastro realizado com sucesso";
 
-$tratamento = ($sexo == "M") ? "Caro" : "Cara";
-
 $mensagem_estudante = "";
 if (trim($o_tipo_inscricao->descricao) == "Estudante") {
 	$mensagem_estudante = "Para a confirma&ccedil;&atilde;o de sua inscri&ccedil;&atilde;o, precisamos que envie para <a href='mailto:" . SENDMAIL_FROM . "'>" . SENDMAIL_FROM . "</a> uma c&oacute;pia de sua carteira de estudante.<br><br>";
@@ -86,7 +64,7 @@ if (trim($o_tipo_inscricao->descricao) == "Estudante") {
 $mail->Body = "
     <html>
     <body>
-    $tratamento <b>$nome_enviar</b>,<br><br>
+    Ol&aacute; <b>$nome_enviar</b>,<br><br>
     Obrigado pelo interesse em participar do <b>" . NOME_EVENTO . "</b>!<br><br>
     Confirmamos o cadastro de seus dados em nosso sistema.<br><br>
     Estamos aguardando a confirma&ccedil;&atilde;o do PagSeguro, para finalizarmos seu processo de inscri&ccedil;&atilde;o.<br><br>
@@ -100,8 +78,8 @@ $mail->Body = "
 ";
 
 if (!$mail->Send()) {
-  $xml .= "<erro>Falha ao tentar enviar e-mail para o usuario</erro>";
-  die($xml .= "</gravacao>");
+	$xml .= "<erro>Falha ao tentar enviar e-mail para o usuario</erro>";
+	die($xml .= "</gravacao>");
 }
 
 $mensagem = "Seus dados foram registrados em nosso sistema com sucesso. Agora voce devera efetuar o pagamento de sua inscricao.";

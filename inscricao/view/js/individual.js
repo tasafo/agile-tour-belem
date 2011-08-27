@@ -20,63 +20,25 @@ function validar(){
 			nome: {
 				required: true
 			},
-			cpf:{
-				required: true,
-				verificaCPF: true
-			},
 			email:{
 				required: true,
 				email: true
 			},
-            nome_cracha: {
-				required: true
-			},
-            ddd: {
-				required: true,
-				digits: true,
-                minlength:2
-			},
-            telefone: {
-				required: true,
-				digits: true,
-                minlength: 8
-			},
-            empresa: {
-				required: true
-			},
-            endereco: {
-				required: true
-			},
-            numero: {
-				required: true,
-				digits: true
-			},
-            bairro: {
+            instituicao: {
 				required: true
 			},
             cep: {
 				required: true,
 				digits: true,
-                minlength: 8
-			},
-            cidade: {
-				required: true
+				minlength: 8
 			}
 		},
 		// define messages para cada campo
 		messages: {
             nome: 'Informe seu Nome',
-            cpf: 'Informe seu CPF v&aacute;lido',
-            email: 'Informe seu E-mail v&aacute;lido',
-            nome_cracha: 'Informe seu Nome para o Crach&aacute;',
-            ddd: 'Informe o DDD',
-            telefone: 'Informe seu Telefone',
-            empresa: 'Informe sua Institui&ccedil;&atilde;o',
-            endereco: 'Informe seu Endere&ccedil;o',
-            numero: 'Informe o n&uacute;mero de sua residência',
-            bairro: 'Informe seu Bairro',
-            cep: 'Informe seu CEP',
-            cidade: 'Informe sua Cidade'
+            email: 'Informe seu E-mail',
+            instituicao: 'Informe sua Instituição',
+            cep: 'Informe seu CEP'
 		},
 		submitHandler: function(form) {
 			salvar();
@@ -90,7 +52,7 @@ function salvar() {
 	//$("#div_botao_salvar").hide("fast");
 
 	$("#div_salvando").show("fast",function() {
-		$(this).html("<center><font face='Tahoma, Geneva, sans-serif' size='2' color='red'><b>Salvando. Aguarde um momento...</b></font></center>");
+		$(this).html("<b>Salvando. Aguarde um momento...</b>");
 	});
 
 	parametros = $('#form').serialize();
