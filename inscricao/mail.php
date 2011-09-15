@@ -8,7 +8,7 @@ $texto = stripslashes($_POST['mensagem']);
 // faco a chamada da classe
 $Email = new PHPMailer();
 // na classe, ha a opcao de idioma, setei como br
-$Email->SetLanguage("br");
+//$Email->SetLanguage("br");
 // esta chamada diz que o envio sera feito atraves da funcao mail do php. Voce mudar para sendmail, qmail, etc 
 // se quiser utilizar o programa de email do seu unix/linux para enviar o email
 $Email->IsMail(); 
