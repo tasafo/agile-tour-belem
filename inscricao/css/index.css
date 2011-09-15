@@ -1,0 +1,266 @@
+/* CSS Document */
+body{
+	padding:0; 
+	margin:0;
+	color:#333;
+	font-family: Arial, Helvetica, sans-serif; 
+	}
+div, p, h1, h2, h3, ul{
+	padding:0; margin:0;
+	}
+ul{
+	list-style-type:none;
+	}
+	
+/*--------------------------------TOPO-------------------*/
+#main_header{
+	width:100%;	
+	margin:0 auto;  
+	background:url(../img/bg.png) repeat-x #FFF; 
+	color:#FFFFFF; 
+	height:auto;
+	margin-bottom:10px;
+}
+	
+#main_header #header{
+	width:1000px;
+	margin:0 auto; 
+	background-repeat:no-repeat;
+	position:relative;
+	height: 180px;
+}
+
+#main_header #header #menu {
+    height: 125px;
+    margin: 0 auto;
+    width: 1000px;
+}
+
+#logosite{
+    background:url(../img/logo.png) no-repeat; 
+	display:block;
+	width: 247px;
+	height: 125px;
+	float:left;
+	margin-left:5px;
+}
+
+#conhecer {
+    float: right;
+    width: 370px;
+    height:  29px;
+	margin-top: 35px;
+	padding-left: 10px;
+	background:url(../img/bgContato.png) no-repeat; 
+	padding-top:24px;
+	
+}
+
+#conhecer span{
+	font-size:15px;
+	color:#fff;
+	position:relative;
+	margin-right:10px;
+	bottom:9px;
+	font-weight:bold;
+}
+
+#conhecer a{
+	text-decoration:underline;
+	color:#e6f4cf;
+}
+
+#conhecer a:hover{
+	text-decoration: none;
+	color:#fff;
+}
+
+#main_header #header #texto {
+    width: 600px;
+    height: 55px;
+	float:left;
+	margin-left: 42px;
+}
+
+#main_header #header #texto h1{
+	color:#677f48;
+	margin-left:20px;
+	margin-top:10px;
+	font-size:16px;
+}
+
+#main_header #header #texto p{
+	font-size:24px;
+	line-height:23px;
+	margin-top:10px;
+}
+
+
+#main_header #header #container {
+    float: right;
+    width: 312px;
+    height: 90px;
+ 	margin-top:75px;
+	font-size: 12px;
+	color:#333333;
+}
+
+#parceiros {
+	margin-left:50px;
+	margin-top:5px;
+}
+	
+/*------------------------------------CONTEUDO-------------------------*/
+#main_body{
+	width:100%; 
+	background-color: #FFFFFF; 
+	height:auto; 
+}
+
+#body{
+	width: 860px; 
+	margin:0 auto; 
+	height:auto;
+	padding-left: 140px;
+}
+
+#body .box {
+    float: left;
+    padding-right:29px;
+    width: 340px;
+	height:auto;
+	margin-top:10px;
+}
+
+#body p{
+	margin-bottom: 20px;
+	font-size:16px; 
+	line-height: 20px;
+	padding-left:25px;
+    margin-top: 10px;
+}
+
+
+.inscricao01 a, .inscricao02 a {
+    float: left;
+    height: 42px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+	left:100px;
+}
+
+.inscricao01 a {
+    background: url(../img/insc-ind.png) no-repeat scroll 0 0 transparent;
+    width: 132px;
+}
+
+.inscricao01 a:hover{
+	background: url(../img/insc-ind02.png) no-repeat scroll 0 0 transparent;
+}
+
+.inscricao02 a {
+    background: url(../img/insc-emp.png) no-repeat scroll 0 0 transparent;
+    width: 132px;
+}
+
+.inscricao02 a:hover{
+	background: url(../img/insc-emp02.png) no-repeat scroll 0 0 transparent;
+}
+
+/*--------------RODAPE-----------------*/
+#main_footer{
+	width:100%;  
+	float:left; 
+	background-color:#becdb1;
+	height:auto;
+	margin-top: 60px;
+}
+
+#footer {
+	width:1000px; 
+	height:330px;
+	margin:0 auto;
+	background-repeat:no-repeat;
+	position:relative;
+	background:url(../img/bgRodape.png); 
+}
+
+#formContato{
+    float: right;
+    width: 465px;
+    height: auto;
+	margin-top:45px;
+	color:#fff;
+    margin-left /*\**/: -90px\9; 
+	width /*\**/: auto\9; 
+}
+
+html>body #formContato {
+	*width: 465px;
+}
+
+
+/* --------------- FORMS */
+
+/* contact form style */
+form {
+  padding: 9px 0;
+  margin: 0;
+}
+
+label {
+	float: left;
+	width: 95px;
+	color: #404f31;
+	margin-top:5px;
+	font-size:15px;
+	text-align:left;
+	font-weight:bold; 
+}
+
+input, textarea{
+	margin-bottom:11px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    border: 4px solid #dde4d6;
+	padding: 5px;
+	color:#333333;
+}
+
+input:focus, textarea:focus{  
+	-moz-border-radius: 5px 5px 5px 5px;
+    border: 4px solid #a3b494;
+}
+
+#name, #email{
+	width:346px;
+	height:18px;
+}
+
+#mensagem { 
+	width:346px;
+	height:104px;
+}
+
+.button input {
+    background: url(../img/botao_enviar.png);
+	background-repeat:no-repeat;
+    border: 0 none;
+    display: block;
+    height: 36px;
+    width: 86px;
+	margin: -3px 0 0 93px;
+	cursor:pointer;
+ }
+ 
+ .button input:hover {
+    background: url(../img/botao_enviar2.png);
+	background-repeat:no-repeat;
+    border: 0 none;
+    display: block;
+    height: 36px;
+    width: 86px;
+	margin: -3px 0 0 93px;
+	cursor:pointer;
+ }
+ 
