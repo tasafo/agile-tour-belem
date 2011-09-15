@@ -1,11 +1,11 @@
 .cmxform fieldset p.error label { color: red; }
 
 div.container {
-    background-color: #eee;
-    border: 1px solid red;
-    margin: 5px;
-    padding: 5px;
-	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+ 	background: url("../../img/error.png") no-repeat scroll 10px 50% #fcf1f2;
+    border: 1px solid #E8AAAD;
+    color: #B50007;
+	font-size:11px;
+	margin-bottom:10px;
 }
 
 div.container ol li {
