@@ -75,6 +75,10 @@ $pgs->adicionar($a_carrinho);
 <html lang="pt-br">
 <head>
 <meta charset="utf-8">
+<link href="css/estilo.css" rel="stylesheet" />
+    <style type="text/css">
+        body { color:#89383f; }
+    </style>
 </head>
 <body>
 <b>Inscrição por Empresa</b>

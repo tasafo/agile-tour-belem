@@ -1,84 +1,67 @@
-<?php
-require_once 'general/autoload.php';
-$niveis = "../";
-require_once $niveis . 'topo.php';
-
-$o_tipo_inscricao = new TipoInscricaoDAO();
-$a_tipo_inscricoes = $o_tipo_inscricao->busca("status = 'A'");
-
-$tabela = "";
-foreach ($a_tipo_inscricoes as $tipo_inscricao) {
-    $tabela .= '
-	    <tr>
-	        <td scope="row" class="css_td">' . $tipo_inscricao->descricao . '</td>
-	        <td colspan="2" class="css_td">R$ ' . Funcoes::formata_moeda_para_exibir($tipo_inscricao->valor) . '</td>
-	    </tr>';
-}
-?>
-<html>
-    <head>
-        <title>Formul&aacute;rio de Inscri&ccedil;&atilde;o</title>
-    </head>
-    <body>
-        <font color="#7eabd6" face="Trebuchet MS, Arial, Helvetica, sans-serif" size="3"><b>Inscri&ccedil;&otilde;es</b></font>
-        <br>
-        <p align="justify">
-            <font face="Tahoma, Geneva, sans-serif" size="2">Para realizar sua inscri&ccedil;&atilde;o selecione uma das categorias abaixo.</font>
-        </p>
-        <table width="100%">
-	       <tr>
-		       <td>
-		           <a href="view/CadastrarInscricaoIndividual.php">
-		               <font face="Tahoma, Geneva, sans-serif" size="3">
-		                   <b>Inscri&ccedil;&atilde;o Individual</b>
-		               </font>
-		           </a>
-		       </td>
-	       </tr>
-	       <tr>
-		      <td>
-		          <font face="Tahoma, Geneva, sans-serif" size="2">
-		              Selecione esta op&ccedil;&atilde;o caso voc&ecirc; esteja fazendo sua inscri&ccedil;&atilde;o de forma avulsa, ou seja,
-		              o pagamento ser&aacute; efetuado por voc&ecirc; e n&atilde;o pela empresa que voc&ecirc; trabalha.
-		          </font>
-		      </td>
-		   </tr>
-	       <tr>
-		      <td height="20"></td>
-		   </tr>
-	       <tr>
-		      <td>
-		          <a href="view/CadastrarInscricaoEmpresa.php">
-		              <font	face="Tahoma, Geneva, sans-serif" size="3">
-		                  <b>Inscri&ccedil;&atilde;o por Empresa</b>
-		              </font>
-		          </a>
-		      </td>
-		   </tr>
-	       <tr>
-			  <td>
-			      <font face="Tahoma, Geneva, sans-serif" size="2">
-			          Selecione esta op&ccedil;&atilde;o para efetuar m&uacute;ltiplas inscri&ccedil;&otilde;es por empresa/institui&ccedil;&atilde;o.
-			          O cadastramento de informa&ccedil;&otilde;es da empresa/institui&ccedil;&atilde;o &eacute; obrigat&oacute;rio.
-			      </font>
-			  </td>
-		   </tr>
-        </table>
-        
-        <br>
-        <font color="#7eabd6" face="Trebuchet MS, Arial, Helvetica, sans-serif" size="3">
-            <b>Investimento</b>
-        </font>
-        <br>
-        <br>
-        
-        <table border="0" class="css_table">
-	       <tr>
-		      <th scope="row" class="css_th">Categoria</th>
-		      <th class="css_th">Investimento</th>
-	       </tr>
-           <?php echo $tabela ?>
-        </table>
-        <?php require_once $niveis . 'rodape.php'; ?>
-    </body>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <?php include(dirname(__FILE__) . "/inc/header.php") ?>
+    <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+    <script type="text/javascript" src="view/js/jquery/jquery.js"></script>
+    <script type="text/javascript" src="./fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+    <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#indiv").fancybox({
+                'width'				: '50%',
+                'height'			: '60%',
+                'autoScale'			: false,
+                'transitionIn'		: 'none',
+                'transitionOut'		: 'none',
+                'type'				: 'iframe'
+            });
+            
+            $("#emp").fancybox({
+                'width'				: '80%',
+                'height'			: '80%',
+                'autoScale'			: false,
+                'transitionIn'		: 'none',
+                'transitionOut'		: 'none',
+                'type'				: 'iframe'
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="main_header">
+        <div id="header">
+            <div id="menu">
+                <?php include(dirname(__FILE__) . "/inc/topo.php") ?>
+            </div>
+            <div id="texto">
+                <h1>Para realizar sua inscrição no evento, selecione uma das categorias abaixo.</h1>
+            </div> 
+        </div>
+    </div>
+    <div id="main_body">
+        <div id="body">
+            <div class="box" style="color:#596b3a">
+                <img src="img/individual.gif" alt="" width="355" height="58" />
+                <p>Selecione esta opção caso você esteja fazendo sua inscrição de forma avulsa, ou seja, o pagamento será efetuado por você e não pela empresa que você trabalha.</p>
+                <div class="inscricao01">
+                    <a id="indiv" href="view/CadastrarInscricaoIndividual.php"></a>
+                </div>
+            </div>
+            <div class="box" style="color:#89383f">
+                <img src="img/empresa.gif" alt="" width="355" height="58" />
+                <p>Selecione esta opção para efetuar múltiplas inscrições por empresa/instituição. <br />O cadastramento de informações da empresa/instituição é obrigatório.</p>
+                <div class="inscricao02">
+                    <a  id="emp" href="view/CadastrarInscricaoEmpresa.php"></a>
+                </div>
+            </div>
+        </div>
+        <div id="main_footer">
+            <div id="footer">
+                <?php include(dirname(__FILE__) . "/inc/rodape.php") ?>
+            </div>
+        </div>
+    </div>
+</body>
 </html>

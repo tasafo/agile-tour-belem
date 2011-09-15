@@ -11,8 +11,8 @@ $o_tipo_inscricao = new TipoInscricaoDAO();
 $a_tipo_inscricao = $o_tipo_inscricao->busca("status = 'A'");
 
 if ($a_tipo_inscricao) {
-	$id_tipo_inscricao = $a_tipo_inscricao[0]->id;
-	$valor_inscricao = $a_tipo_inscricao[0]->valor;
+    $id_tipo_inscricao = $a_tipo_inscricao[0]->id;
+    $valor_inscricao = $a_tipo_inscricao[0]->valor;
 }
 ?>
 <!DOCTYPE html>
@@ -26,19 +26,55 @@ if ($a_tipo_inscricao) {
 		<script type="text/javascript" src="js/empresa.js"></script>
 		<link type="text/css" href="css/validacao.css" rel="stylesheet" />
 		<link type="text/css" href="css/estilo.css" rel="stylesheet" />
-	</head>
+	
+        <style type="text/css">
+			body {  color:#89383f; }
+			.titulo { font-size:18px; color:#bc6367 !important;}
+			.caixa {
+			    -moz-border-radius: 3px 3px 3px 3px;
+			    border: 1px solid #e8d2d4;
+				padding: 3px;
+			}
+			
+			.caixa:focus{  
+				-moz-border-radius: 3px 3px 3px 3px;
+				border: 1px solid #d0afb1;
+			}
+			
+			.submit {
+				background: none repeat scroll 0 0 #ad5656;
+				cursor:pointer;
+				color: #FFFFFF;
+				font: bold 12px  Arial,Sans-serif;
+				height: 30px;
+				margin: 0;
+				padding: 2px;
+				text-transform: uppercase;
+				width: 155px;
+				border: 1px solid #6e3535;
+				-moz-border-radius: 3px 3px 3px 3px;
+				filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b86969', endColorstr='#843f3f'); /* IE */
+				background: -webkit-gradient(linear, left top, left bottom, from(#b86969), to(#843f3f)); /* webkit browsers */
+				background: -moz-linear-gradient(top,  #b86969,  #843f3f); /* Firefox 3.6+ */
+			}
+			
+			.submit:hover {
+				background: none repeat scroll 0 0 #8d4444;
+			}
+		</style>
+    </head>
 	<body>
-		<b>Inscrição por Empresa</b>
+		<b class="titulo">Inscrição por Empresa</b>
 		<br><br>
 		Para inscrição por empresa, por favor, siga as instruções abaixo.
 		<ul>
 			<li>Você deverá preencher os dados da
 			instituição apenas uma vez;</li>
-			<li>Você pode cadastrar quantos funcionarios desejar, mas cada
-			inserçãoo será feita uma por vez, pressionando o
-			botão <b>Inserir Funcionário</b>;</li>
+			<li>Você pode cadastrar quantos funcionários desejar, mas cada
+			inserção será feita uma por vez, pressionando o
+			botão <b>Adicionar Funcionário</b>;</li>
 			<li>Após inserir todos os funcionários basta pressionar o
-			botão<b> Concluir Cadastro</b> para concluir o
+			botão <b>Realizar Inscrição</b> para concluir o
 			cadastro dos dados da inscrição.</li>
 		</ul>
 		
@@ -46,7 +82,6 @@ if ($a_tipo_inscricao) {
 		    <ol></ol>
 		</div>
 		<br>
-		
 		<form class="cmxform" id="form" name="formEmpresa" action="" method="post">
 			<table class="bordasimples" style="width: 450px">
 				<tr>
@@ -58,34 +93,31 @@ if ($a_tipo_inscricao) {
 				<tr>
 					<td align="left">Nome</td>
 					<td align="left">
-					   <input type="text" name="nome" id="nome" maxlength="60" size="35" />
+					   <input type="text" name="nome" id="nome" maxlength="60" class="caixa" size="35" />
 					</td>
 				</tr>
 				<tr>
 					<td align="left">Nome do Responsável</td>
 					<td align="left">
-					   <input type="text" name="responsavel" id="responsavel" maxlength="60" size="35" />
+					   <input type="text" name="responsavel" id="responsavel" class="caixa" maxlength="60" size="35" />
 					</td>
 				</tr>
 				<tr>
 					<td align="left">E-mail</td>
 					<td align="left">
-					   <input type="text" name="email" id="email" maxlength="45" size="35" />
+					   <input type="text" name="email" id="email" class="caixa" maxlength="45" size="35" />
 					</td>
 				</tr>
 				<tr>
 					<td align="left">CEP</td>
 					<td align="left">
-					   <input type="text" name="cep" id="cep" maxlength="8" size="9" onkeypress="mascara(this,apenasNumeros);" />
+					   <input type="text" name="cep" id="cep" class="caixa" maxlength="8" size="9" onKeyPress="mascara(this,apenasNumeros);" />
 					   ( somente números )
 					</td>
 				</tr>
 			</table>
 		</form>
-			
-		<div class="container" id="div_msg_funcionario">
-		    <ol></ol>
-		</div>
+		
 		<form class="cmxform" id="frmFunc" name="formFuncionarios" action="" method="post">
 			<input type="hidden" name="func_id_tipo_inscricao" id="func_id_tipo_inscricao" value="<?php echo $id_tipo_inscricao ?>" />
 			<table class="bordasimples" style="width: 450px">
@@ -98,30 +130,34 @@ if ($a_tipo_inscricao) {
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2">&nbsp;</td>
+					<td colspan="2">  
+                        <div class="container" id="div_msg_funcionario">
+                            <ol></ol>
+                        </div>
+                    </td>
 				</tr>
 				<tr align="center">
 					<td align="left" width="40%">Valor</td>
 					<td align="left" width="60%">
-					    <input type="text" readonly="readonly" name="valor_inscricao" id="valor_inscricao" maxlength="8" size="8" value="R$ <?php echo Funcoes::formata_moeda_para_exibir($valor_inscricao) ?>" />
+					    <input type="text" readonly="readonly" class="caixa" name="valor_inscricao" id="valor_inscricao" maxlength="8" size="8" value="R$  <?php echo Funcoes::formata_moeda_para_exibir($valor_inscricao) ?>" />
 					</td>
 				</tr>
 				<tr>
 					<td align="left">Nome</td>
 					<td align="left">
-					   <input type="text" name="func_nome" id="func_nome" maxlength="60" size="35" />
+					   <input type="text" name="func_nome" class="caixa" id="func_nome" maxlength="60" size="35" />
 					</td>
 				</tr>
 				<tr>
 					<td align="left">E-mail</td>
 					<td align="left">
-					   <input type="text" name="func_email" id="func_email"	maxlength="45" size="35" />
+					   <input type="text" name="func_email" class="caixa" id="func_email"	maxlength="45" size="35" />
 					</td>
 				</tr>
 				<tr>
 					<td align="left">Sexo</td>
 					<td align="left">
-					   <select name="func_sexo" id="func_sexo">
+					   <select name="func_sexo" id="func_sexo" class="caixa">
 					       <option value="M">Masculino</option>
 						   <option value="F">Feminino</option>
 					   </select>
@@ -132,7 +168,7 @@ if ($a_tipo_inscricao) {
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-					   <input type="button"	id="insere_funcionario" value="Inserir Funcion&aacute;rio" />
+					   <input type="button"	id="insere_funcionario" class="submit" value="Adicionar Funcionário" />
 					</td>
 				</tr>
 				<tr>
@@ -152,13 +188,12 @@ if ($a_tipo_inscricao) {
 				<tr>
 					<td colspan="2" align="center">
 					   <div id="div_botao_salvar">
-					       <input type="button" id="gravar" value="Concluir Cadastro" />
+					       <input type="button" id="gravar" class="submit" value="Realizar Inscrição" />
 					   </div>
 					   <div id="div_salvando"></div>
 					</td>
 				</tr>
 			</table>
 		</form>
-		<?php require_once $niveis . 'rodape.php'; ?>
     </body>
 </html>

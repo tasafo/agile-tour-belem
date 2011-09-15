@@ -53,24 +53,28 @@ $pgs->adicionar(array(
 <html lang="pt-br">
 <head>
 <meta charset="utf-8">
+<link href="css/estilo.css" rel="stylesheet" />
+    <style type="text/css">
+        body { color:#596b3a; }
+    </style>
 </head>
 <body>
-	<b>Inscrição Individual</b>
-	<br>
-	<br>
-	<b>Olá <?php echo utf8_encode($o_individual->nome) ?></b>,
-	<br>
-	<br>Para finalizar o processo de inscrição, efetue o
-	pagamento da mesma clicando no botão abaixo.
-	<br>
-	<br>Assim que recebermos a notificação de seu pagamento
-	você será comunicado(a) por email.
-	<br>
-	<br>O pagamento deverá ser realizado via PagSeguro.
-	<br>
-	<br>
-	<center>
-		<br>
+    <b>Inscrição Individual</b>
+    <br>
+    <br>
+    <b>Olá <?php echo utf8_encode($o_individual->nome) ?></b>,
+    <br>
+    <br>Para finalizar o processo de inscrição, efetue o
+    pagamento da mesma clicando no botão abaixo.
+    <br>
+    <br>Assim que recebermos a notificação de seu pagamento
+    você será comunicado(a) por email.
+    <br>
+    <br>O pagamento deverá ser realizado via PagSeguro.
+    <br>
+    <br>
+    <center>
+    <br>
 <?php
 // Mostrando o botao de pagamento
 $pgs->mostra();
