@@ -19,7 +19,7 @@ class AbstractDAO {
 	private function exibe_sql($sql) {
 // 		echo "<pre>$sql</pre>";
 	}
-	
+
 	private function atualiza_atributos() {
 		$this->campos = get_object_vars($this);
 		$this->remove_campos_desnecessarios();
@@ -68,7 +68,7 @@ class AbstractDAO {
 			if ($key <> "id" and $key <> "erro_sql") {
 				if ($value) {
 					$campos .= $key . ", ";
-					$valores .= (strtolower($value) == "null" ? "null, " : "'" . utf8_decode($value) . "', ");
+					$valores .= (strtolower($value) == "null" ? "null, " : "'" . utf8_decode(addslashes($value)) . "', ");
 				}
 			}
 
@@ -99,7 +99,7 @@ class AbstractDAO {
 		foreach ($this->campos as $key => $value)
 		    if ($key <> "id" and $key <> "erro_sql")
 		        if ($value)
-		            $campos_alterar .= $key . " = " . (strtolower($value) == "null" ? "null" : "'" . utf8_decode($value) . "'") . ", ";
+		            $campos_alterar .= $key . " = " . (strtolower($value) == "null" ? "null" : "'" . utf8_decode(addslashes($value)) . "'") . ", ";
 
 		$campos_alterar = substr($campos_alterar, 0, strlen($campos_alterar) - 2);
 
