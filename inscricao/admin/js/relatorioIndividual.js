@@ -107,8 +107,7 @@ function analisarRespostaCancelamentoIndividual(xml) {
     } else {
         mensagem = $('mensagem', xml).text();
 
-        $('#div_botao_' + idInscricao).html("&nbsp;");
-        $('#div_cancelar_' + idIndividual).html("&nbsp;");
+        $("#row_" + idIndividual).remove();
 
         alert(mensagem);
     }

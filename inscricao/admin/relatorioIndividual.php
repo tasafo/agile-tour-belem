@@ -73,7 +73,7 @@ if (!$a_inscritos_individual) {
                     $cancelar = "&nbsp;";
                 }
             ?>
-            <tr>
+            <tr id="row_<?php echo $idIndividual ?>">
                 <td align="center"><?php echo $idInscricao ?></td>
                 <td align="center"><?php echo Funcoes::formata_data_para_exibir($individual->data_registro) ?></td>
                 <td><span id="nome_<?php echo $idInscricao ?>"><?php echo $nome ?></span></td>

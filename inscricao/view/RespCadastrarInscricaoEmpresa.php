@@ -18,7 +18,7 @@ $a_campos = array("email" => $_REQUEST['email']);
 foreach($a_campos as $campo => $valor) {
 	$o_empresa = new EmpresaDAO();
 
-	if ($o_empresa->busca("$campo = '$valor'")) {
+	if ($o_empresa->busca("$campo = '$valor' AND situacao = 'A'")) {
 		$xml .= "<erro>O $campo informado ja encontra-se cadastrado em nosso sistema.</erro>";
         die($xml .= "</gravacao>");
 	}
