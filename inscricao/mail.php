@@ -17,9 +17,7 @@ $Email->IsHTML(true);
 // nome do remetente do email
 $Email->FromName = $nome;
 // Endereco de destino do email, ou seja, pra onde voce quer que a mensagem do formulario va?
-$Email->AddAddress("fabioaguiar@gmail.com");
-$Email->AddBcc("luizgrsanches@gmail.com");
-$Email->AddBcc("felip.aguiar@gmail.com");
+$Email->AddAddress("comunidadetasafo@gmail.com");
 
 // informando no email, o assunto da mensagem
 $Email->Subject = "ATB 2011 - Formulario de Contato on-line de " . $nome;

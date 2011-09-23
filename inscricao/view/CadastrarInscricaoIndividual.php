@@ -72,7 +72,7 @@ if ($a_tipo_inscricao) {
 				<tr align="center">
 					<td align="left" width="40%">Valor</td>
 					<td align="left" width="60%">
-					    <input type="text" readonly="readonly" class="caixa" name="valor_inscricao" id="valor_inscricao" maxlength="8" size="8" value="R$  <?php echo Funcoes::formata_moeda_para_exibir($valor_inscricao) ?>" />
+					    <input type="text" readonly="readonly" class="caixa" name="valor_inscricao" id="valor_inscricao" size="10" value="R$  <?php echo Funcoes::formata_moeda_para_exibir($valor_inscricao) ?>" />
 					</td>
 				</tr>
 				<tr>
