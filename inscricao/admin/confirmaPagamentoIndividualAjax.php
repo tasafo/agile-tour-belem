@@ -13,10 +13,20 @@ $nome = $_REQUEST['nome'];
 $email = $_REQUEST['email'];
 $cortesia = $_REQUEST['cortesia'];
 
+$txPagamento = 0;
+if ($cortesia != "S")
+    $txPagamento = Funcoes::formata_moeda_para_gravar($_REQUEST['txPagamento']);
+
 if (!Funcoes::checa_data($dtPagamento)) {
-    $xml .= "<erro>A data nao e valida</erro>";
+    $xml .= "<erro>Data invalida</erro>";
     $xml .= "<idInscricao>$idInscricao</idInscricao>";
 	die($xml .= "</agilidade>");
+}
+
+if (!is_numeric($txPagamento)) {
+    $xml .= "<erro>Taxa invalida</erro>";
+    $xml .= "<idInscricao>$idInscricao</idInscricao>";
+    die($xml .= "</agilidade>");
 }
 
 $msg_recarregar = "";
@@ -47,6 +57,7 @@ if ($cortesia == "S") {
 $o_inscricao = new InscricaoDAO();
 $o_inscricao->id = $idInscricao;
 $o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
+$o_inscricao->taxa = $txPagamento;
 
 if (!$o_inscricao->salva()) {
     $xml .= "<erro>Falha ao tentar atualizar o pagamento do usuario</erro>";
@@ -83,6 +94,7 @@ if (!$mail->Send()) {
 
 $xml .= "<mensagem>Operacao realizada com sucesso. O E-mail ja foi enviado para o inscrito$msg_recarregar</mensagem>";
 $xml .= "<dataPagamento>$dtPagamento</dataPagamento>";
+$xml .= "<taxaPagamento>$txPagamento</taxaPagamento>";
 $xml .= "<idInscricao>$idInscricao</idInscricao>";
 die($xml .= "</agilidade>");
 ?>

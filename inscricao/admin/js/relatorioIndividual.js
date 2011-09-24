@@ -14,11 +14,13 @@ function confirmaPagamento(idInscricao) {
 	jConfirm("Deseja realizar o pagamento?", null, function(r) {
 		if (r == true) {
 		    dtPagamento = $("#data_" + idInscricao).val();
+            txPagamento = $("#taxa_" + idInscricao).val();
 		    nome = $("#nome_" + idInscricao).text();
 		    email = $("#email_" + idInscricao).text();
 		    cortesia = $("#cortesia_" + idInscricao).val();
 		
 		   	parametros = 'dtPagamento=' + dtPagamento +
+                '&txPagamento=' + txPagamento +
 		        '&nome=' + nome +
 		        '&email=' + email +
 		        '&cortesia=' + cortesia +
@@ -59,6 +61,7 @@ function analisarRespostaPagamentoIndividual(xml) {
         mensagem = $('mensagem', xml).text();
 
         $('#div_data_pagamento_' + idInscricao).html(dataPagamento);
+        $('#div_taxa_pagamento_' + idInscricao).html("&nbsp;");
         $('#div_botao_' + idInscricao).html("&nbsp;");
         $('#div_cortesia_' + idInscricao).html("&nbsp;");
         $('#div_cancelar_' + idInscricao).html("&nbsp;");

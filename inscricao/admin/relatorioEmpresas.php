@@ -17,6 +17,11 @@ if (!$a_inscritos_empresas) {
 	<head>
 		<meta charset="utf-8">
         <title>Inscritos por Empresa</title>
+        <style type="text/css" title="mystyles" media="all">
+            table.bordasimples {border-collapse: collapse;}
+
+            table.bordasimples tr td {border:1px solid #000000;}
+        </style>
         <script type="text/javascript" src="../view/js/jquery/jquery.js" ></script>
         <script type="text/javascript" src="../view/js/jquery/jquery.alerts/jquery.alerts.js" ></script>
         <script type="text/javascript" src="../view/js/validacao.js" ></script>
@@ -26,7 +31,7 @@ if (!$a_inscritos_empresas) {
     <body>
         <h3><center><a href="menu.php">Voltar ao Menu</a></center></h3>
         <h2><center>Inscritos por Empresa</center></h2>
-        <table width="100%" border="1">
+        <table width="100%" border="1" class="bordasimples">
             <tr style="font-weight: bold">
                 <td align="center">Inscrição</td>
                 <td align="center">Data Inscrição</td>

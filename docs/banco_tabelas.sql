@@ -20,6 +20,7 @@ CREATE  TABLE IF NOT EXISTS inscricao (
   tipo_pagamento VARCHAR(50) NULL ,
   status_transacao VARCHAR(50) NULL ,
   transacao_id VARCHAR(100) NULL ,
+  taxa DOUBLE NULL DEFAULT 0 ,
   id_tipo_inscricao INT NOT NULL ,
   id_empresa INT NULL DEFAULT 0,
   PRIMARY KEY (id) ,

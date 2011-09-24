@@ -10,6 +10,7 @@ class InscricaoDAO extends AbstractDAO {
 	public $tipo_pagamento;
 	public $status_transacao;
 	public $transacao_id;
+	public $taxa;
 
 	function __construct() {
 		parent::__construct($this);
@@ -27,7 +28,7 @@ class InscricaoDAO extends AbstractDAO {
 	}
 
 	function selecionar_inscritos_individual() {
-		$sql = "SELECT ins.id AS id_inscricao, ins.data_registro, ins.data_pagamento, ind.nome, ind.email,
+		$sql = "SELECT ins.id AS id_inscricao, ins.data_registro, ins.data_pagamento, ins.taxa, ind.nome, ind.email,
             ind.instituicao, tip.descricao AS descricao_tipo_inscricao, tip.valor, ind.id AS id_individual
             FROM inscricao ins
             JOIN tipo_inscricao tip ON (ins.id_tipo_inscricao = tip.id)

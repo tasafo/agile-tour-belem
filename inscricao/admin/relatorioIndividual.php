@@ -17,6 +17,11 @@ if (!$a_inscritos_individual) {
 	<head>
 		<meta charset="utf-8">
         <title>Inscritos Individualmente</title>
+        <style type="text/css" title="mystyles" media="all">
+            table.bordasimples {border-collapse: collapse;}
+
+            table.bordasimples tr td {border:1px solid #000000;}
+        </style>
         <script type="text/javascript" src="../view/js/jquery/jquery.js" ></script>
         <script type="text/javascript" src="../view/js/jquery/jquery.alerts/jquery.alerts.js" ></script>
         <script type="text/javascript" src="../view/js/validacao.js" ></script>
@@ -26,19 +31,18 @@ if (!$a_inscritos_individual) {
     <body>
         <h3><center><a href="menu.php">Voltar ao Menu</a></center></h3>
         <h2><center>Inscritos Individualmente</center></h2>
-        <table width="100%" border="1">
+        <table width="100%" border="1" class="bordasimples">
             <tr style="font-weight: bold">
-                <td align="center">Inscrição</td>
-                <td align="center">Data Inscrição</td>
-                <td>Nome</td>
-                <td>E-mail</td>
-                <td>Empresa</td>
-                <td>Inscrito como</td>
-                <td align="right">Valor</td>
-                <td align="center">Data Pagamento</td>
+                <td align="center">Id Insc.</td>
+                <td align="center">Data Insc.</td>
+                <td>Nome | E-mail | Instituição</td>
+                <td>Tipo Insc.</td>
+                <td align="right">(+)Valor</td>
+                <td align="right">(-)Taxa</td>
+                <td align="right">(=)Total</td>
+                <td align="center" width="15%">Pagamento</td>
                 <td>Cortesia?</td>
-                <td align="center">Pagto.</td>
-                <td align="center">Cancelar</td>
+                <td align="center">Operações</td>
             </tr>
             <?php
             $contador = 0;
@@ -46,63 +50,87 @@ if (!$a_inscritos_individual) {
             $contadorEmAberto = 0;
             $valorInscricaoConfirmados = 0;
             $valorInscricaoEmAberto = 0;
-            $valorInscricaoTotal = 0;
+            $valorInscricao = 0;
+            $valorTaxaInscricao = 0;
+            $valorTotalInscricao = 0;
             
             foreach ($a_inscritos_individual as $individual) {
                 $contador++;
                 $idIndividual = $individual->id_individual;
                 $idInscricao = $individual->id_inscricao;
                 $nome = utf8_encode($individual->nome);
-                $valorInscricaoTotal += $individual->valor;
+                $valorInscricao += $individual->valor;
+                $valorTaxaInscricao += $individual->taxa;
+                $subTotalInscricao = $individual->valor - $individual->taxa;
 
                 if (empty($individual->data_pagamento)) {
+                    $cor = "red";
                     $contadorEmAberto++;
                     $valorInscricaoEmAberto += $individual->valor;
 
-                    $dataPagamento = "<input type='text' size=10 maxlength=10 name='dtPagamento' id='data_$idInscricao' onkeypress='mascara(this,data);' onblur='validaData(this);' />";
+                    $dataPagamento = "Data: <input type='text' size=10 maxlength=10 name='dtPagamento' id='data_$idInscricao' onkeypress='mascara(this,data);' onblur='validaData(this);' />";
+                    $taxaPagamento = "Taxa: <input type='text' size=10 maxlength=10 name='taxaPagamento' id='taxa_$idInscricao' onKeyUp='this.value = soValorC(this.value, 2)' style='text-align: right' />";
                     $cortesia = "<input type='checkbox' name='cortesia' id='cortesia_$idInscricao' value='N' onclick='marcaCortesia($idInscricao)' />";
-                    $confirmar = "<input type='button' name='confirmar' id='confirmar' value='Confirmar' onclick='confirmaPagamento($idInscricao)' />";
+                    $confirmar = "<input type='button' name='confirmar' id='confirmar' value='Pagar' onclick='confirmaPagamento($idInscricao)' />";
                     $cancelar = "<input type='button' name='cancelar' id='cancelar' value='Cancelar' onclick='confirmaCancelamento($idIndividual)' />";
                 } else {
+                    $cor = "blue";
                     $contadorConfirmados++;
                     $valorInscricaoConfirmados += $individual->valor;
+                    $valorTotalInscricao += $subTotalInscricao;
 
                     $dataPagamento = Funcoes::formata_data_para_exibir($individual->data_pagamento);
+                    $taxaPagamento = "";
                     $cortesia = "&nbsp;";
                     $confirmar = "&nbsp;";
                     $cancelar = "&nbsp;";
                 }
             ?>
-            <tr id="row_<?php echo $idIndividual ?>">
+            <tr id="row_<?php echo $idIndividual ?>" style="color: <?php echo $cor ?>;">
                 <td align="center"><?php echo $idInscricao ?></td>
                 <td align="center"><?php echo Funcoes::formata_data_para_exibir($individual->data_registro) ?></td>
-                <td><span id="nome_<?php echo $idInscricao ?>"><?php echo $nome ?></span></td>
-                <td><span id="email_<?php echo $idInscricao ?>"><?php echo $individual->email ?></span></td>
-                <td><?php echo utf8_encode($individual->instituicao) ?></td>
+                <td>
+                    <span id="nome_<?php echo $idInscricao ?>"><?php echo $nome ?></span><br/>
+                    <span id="email_<?php echo $idInscricao ?>"><?php echo $individual->email ?></span><br/>
+                    <?php echo utf8_encode($individual->instituicao) ?>
+                </td>
                 <td><?php echo $individual->descricao_tipo_inscricao ?></td>
                 <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($individual->valor) ?></td>
-                <td align="center"><div id="div_data_pagamento_<?php echo $idInscricao ?>"><?php echo $dataPagamento ?></div></td>
-                <td align="center"><div id="div_cortesia_<?php echo $idInscricao ?>"><?php echo $cortesia ?></div></td>
-                <td align="center"><div id="div_botao_<?php echo $idInscricao ?>"><?php echo $confirmar ?></div><span style="color: red" id="gravando_<?php echo $idInscricao ?>"></span></td>
-                <td align="center"><div id="div_cancelar_<?php echo $idIndividual ?>"><?php echo $cancelar ?></div><span style="color: red" id="cancelando_<?php echo $idIndividual ?>"></span></td>
+                <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($individual->taxa) ?></td>
+                <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($subTotalInscricao) ?></td>
+                <td align="center">
+                    <div id="div_data_pagamento_<?php echo $idInscricao ?>"><?php echo $dataPagamento ?></div>
+                    <div id="div_taxa_pagamento_<?php echo $idInscricao ?>"><?php echo $taxaPagamento ?></div>
+                </td>
+                <td align="center">
+                    <div id="div_cortesia_<?php echo $idInscricao ?>"><?php echo $cortesia ?></div>
+                </td>
+                <td align="center">
+                    <div id="div_botao_<?php echo $idInscricao ?>"><?php echo $confirmar ?></div>
+                    <span style="color: red" id="gravando_<?php echo $idInscricao ?>"></span><br/>
+                    <div id="div_cancelar_<?php echo $idIndividual ?>"><?php echo $cancelar ?></div>
+                    <span style="color: red" id="cancelando_<?php echo $idIndividual ?>"></span>
+                </td>
             </tr>
             <?php
             }
             ?>
             <tr style="font-weight: bold; color: red">
-                <td colspan="6">Valor de [ <?php echo $contadorEmAberto ?> ] inscrito(s) em aberto</td>
+                <td colspan="4">Valor total de [ <?php echo $contadorEmAberto ?> ] inscrito(s) em aberto</td>
                 <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorInscricaoEmAberto) ?></td>
-                <td colspan="4">&nbsp;</td>
+                <td colspan="5">&nbsp;</td>
             </tr>
             <tr style="font-weight: bold; color: blue">
-                <td colspan="6">Valor de [ <?php echo $contadorConfirmados ?> ] inscrito(s) confirmados</td>
+                <td colspan="4">Valor total de [ <?php echo $contadorConfirmados ?> ] inscrito(s) confirmado(s)</td>
                 <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorInscricaoConfirmados) ?></td>
+                <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorTaxaInscricao) ?></td>
+                <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorTotalInscricao) ?></td>
                 <td colspan="4">&nbsp;</td>
             </tr>
             <tr style="font-weight: bold; color: green">
-                <td colspan="6">Valor de [ <?php echo $contador ?> ] inscrito(s) no total</td>
-                <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorInscricaoTotal) ?></td>
-                <td colspan="4">&nbsp;</td>
+                <td colspan="4">Valor total de [ <?php echo $contador ?> ] inscrito(s) no total</td>
+                <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorInscricao) ?></td>
+                <td colspan="5">&nbsp;</td>
             </tr>
         </table>
     </body>
