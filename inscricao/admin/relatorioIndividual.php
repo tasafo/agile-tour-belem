@@ -17,16 +17,12 @@ if (!$a_inscritos_individual) {
 	<head>
 		<meta charset="utf-8">
         <title>Inscritos Individualmente</title>
-        <style type="text/css" title="mystyles" media="all">
-            table.bordasimples {border-collapse: collapse;}
-
-            table.bordasimples tr td {border:1px solid #000000;}
-        </style>
         <script type="text/javascript" src="../view/js/jquery/jquery.js" ></script>
         <script type="text/javascript" src="../view/js/jquery/jquery.alerts/jquery.alerts.js" ></script>
         <script type="text/javascript" src="../view/js/validacao.js" ></script>
         <script type="text/javascript" src="js/relatorioIndividual.js" ></script>
-        <link type="text/css" href="../view/js/jquery/jquery.alerts/jquery.alerts.css" rel="stylesheet" />
+        <link href="../view/js/jquery/jquery.alerts/jquery.alerts.css" rel="stylesheet" />
+        <link href="css/admin.css" rel="stylesheet" />
     </head>
     <body>
         <h3><center><a href="menu.php">Voltar ao Menu</a></center></h3>
@@ -35,7 +31,7 @@ if (!$a_inscritos_individual) {
             <tr style="font-weight: bold">
                 <td align="center">Id Insc.</td>
                 <td align="center">Data Insc.</td>
-                <td>Nome | E-mail | Instituição</td>
+                <td>Id - Nome | E-mail | Instituição</td>
                 <td>Tipo Insc.</td>
                 <td align="right">(+)Valor</td>
                 <td align="right">(-)Taxa</td>
@@ -69,9 +65,13 @@ if (!$a_inscritos_individual) {
                     $valorInscricaoEmAberto += $individual->valor;
 
                     $dataPagamento = "Data: <input type='text' size=10 maxlength=10 name='dtPagamento' id='data_$idInscricao' onkeypress='mascara(this,data);' onblur='validaData(this);' />";
+                    
                     $taxaPagamento = "Taxa: <input type='text' size=10 maxlength=10 name='taxaPagamento' id='taxa_$idInscricao' onKeyUp='this.value = soValorC(this.value, 2)' style='text-align: right' />";
+                    
                     $cortesia = "<input type='checkbox' name='cortesia' id='cortesia_$idInscricao' value='N' onclick='marcaCortesia($idInscricao)' />";
+                    
                     $confirmar = "<input type='button' name='confirmar' id='confirmar' value='Pagar' onclick='confirmaPagamento($idInscricao)' />";
+                    
                     $cancelar = "<input type='button' name='cancelar' id='cancelar' value='Cancelar' onclick='confirmaCancelamento($idIndividual)' />";
                 } else {
                     $cor = "blue";
@@ -90,6 +90,7 @@ if (!$a_inscritos_individual) {
                 <td align="center"><?php echo $idInscricao ?></td>
                 <td align="center"><?php echo Funcoes::formata_data_para_exibir($individual->data_registro) ?></td>
                 <td>
+                    <?php echo $idIndividual ?> - 
                     <span id="nome_<?php echo $idInscricao ?>"><?php echo $nome ?></span><br/>
                     <span id="email_<?php echo $idInscricao ?>"><?php echo $individual->email ?></span><br/>
                     <?php echo utf8_encode($individual->instituicao) ?>
@@ -128,7 +129,7 @@ if (!$a_inscritos_individual) {
                 <td colspan="4">&nbsp;</td>
             </tr>
             <tr style="font-weight: bold; color: green">
-                <td colspan="4">Valor total de [ <?php echo $contador ?> ] inscrito(s) no total</td>
+                <td colspan="4">Valor total de [ <?php echo $contador ?> ] inscrito(s)</td>
                 <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorInscricao) ?></td>
                 <td colspan="5">&nbsp;</td>
             </tr>

@@ -17,32 +17,28 @@ if (!$a_inscritos_empresas) {
 	<head>
 		<meta charset="utf-8">
         <title>Inscritos por Empresa</title>
-        <style type="text/css" title="mystyles" media="all">
-            table.bordasimples {border-collapse: collapse;}
-
-            table.bordasimples tr td {border:1px solid #000000;}
-        </style>
         <script type="text/javascript" src="../view/js/jquery/jquery.js" ></script>
         <script type="text/javascript" src="../view/js/jquery/jquery.alerts/jquery.alerts.js" ></script>
         <script type="text/javascript" src="../view/js/validacao.js" ></script>
         <script type="text/javascript" src="js/relatorioEmpresas.js" ></script>
         <link type="text/css" href="../view/js/jquery/jquery.alerts/jquery.alerts.css" rel="stylesheet" />
+        <link href="css/admin.css" rel="stylesheet" />
     </head>
     <body>
         <h3><center><a href="menu.php">Voltar ao Menu</a></center></h3>
         <h2><center>Inscritos por Empresa</center></h2>
         <table width="100%" border="1" class="bordasimples">
             <tr style="font-weight: bold">
-                <td align="center">Inscrição</td>
-                <td align="center">Data Inscrição</td>
-                <td>Nome</td>
-                <td>E-mail</td>
-                <td>Inscrito como</td>
-                <td align="right">Valor</td>
-                <td align="center">Data Pagamento</td>
-                <td>Cortesia?</td>
+                <td align="center">Id Insc.</td>
+                <td align="center">Data Insc.</td>
+                <td>Id - Nome | E-mail</td>
+                <td>Tipo Insc.</td>
+                <td align="right">(+)Valor</td>
+                <td align="right">(-)Taxa</td>
+                <td align="right">(=)Total</td>
                 <td align="center">Pagamento</td>
-                <td align="center">Funcionários</td>
+                <td>Cortesia?</td>
+                <td align="center">Operações</td>
             </tr>
             <?php
             $contador = 0;
@@ -53,9 +49,14 @@ if (!$a_inscritos_empresas) {
             $idEmpresa = 0;
 
             $valorInscricaoEmpresa = 0;
+            
             $valorInscricaoConfirmados = 0;
+            $valorTaxaInscricaoConfirmados = 0;
+            $valorTotalInscricaoConfirmados = 0;
+            
             $valorInscricaoEmAberto = 0;
-            $valorInscricaoTotal = 0;
+            $valorInscricao = 0;
+            $valorTaxaInscricao = 0;
             
             foreach ($a_inscritos_empresas as $inscricao) {
                 $contador++;
@@ -66,55 +67,79 @@ if (!$a_inscritos_empresas) {
 
             ?>
             <tr style="font-weight: bold; color: maroon">
-                <td colspan="5">[ <?php echo $contadorEmpresa ?> ] inscrito(s) da Empresa</td>
+                <td colspan="4">[ <?php echo $contadorEmpresa ?> ] inscrito(s) da Empresa</td>
                 <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorInscricaoEmpresa) ?></td>
+                <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorTaxaEmpresa) ?></td>
+                <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorSubtotalEmpresa) ?></td>
+                <td colspan="3"></td>
             </tr>
             <?php
                     }
                     
                     $idEmpresa = $inscricao->id_empresa;
                     $valorInscricaoEmpresa = 0;
+                    $valorTaxaEmpresa = 0;
+                    $valorSubtotalEmpresa = 0;
                     $contadorEmpresa = 0;
 
                     if (empty($inscricao->data_pagamento)) {
-                        $dataPagamento = "<input type='text' size=10 maxlength=10 name='dtPagamento' id='data_$idEmpresa' onkeypress='mascara(this,data);' onblur='validaData(this);' />";
-                        $confirmar = "<input type='button' name='confirmar' id='confirmar' value='Confirmar' onclick='confirmaPagamento($idEmpresa)' />";
+                        $dataPagamento = "Data: <input type='text' size=10 maxlength=10 name='dtPagamento' id='data_$idEmpresa' onkeypress='mascara(this,data);' onblur='validaData(this);' />";
+                        
+                        $taxaPagamento = "Taxa: <input type='text' size=10 maxlength=10 name='taxaPagamento' id='taxa_$idEmpresa' onKeyUp='this.value = soValorC(this.value, 2)' style='text-align: right' />";
+                        
+                        $confirmar = "<input type='button' name='confirmar' id='confirmar' value='Pagar' onclick='confirmaPagamento($idEmpresa)' />";
+                        
                         $cortesia = "<input type='checkbox' name='cortesia' id='cortesia_$idEmpresa' value='N' onclick='marcaCortesia($idEmpresa)' />";
                     } else {
                         $dataPagamento = Funcoes::formata_data_para_exibir($inscricao->data_pagamento);
+                        $taxaPagamento = "";
                         $confirmar = "&nbsp;";
                         $cortesia = "&nbsp;";
                     }
             ?>
             <tr style="font-weight: bold; color: navy">
-                <td align="center"><?php echo $idEmpresa ?></td>
-                <td>&nbsp;</td>
-                <td><span id="nome_<?php echo $idEmpresa ?>"><?php echo utf8_encode($inscricao->nome_empresa) ?></span></td>
+                <td colspan="2"></td>
                 <td>
-                    E-mail: <span id="email_<?php echo $idEmpresa ?>"><?php echo $inscricao->email_empresa ?></span><br>
+                    <?php echo $idEmpresa ?> - 
+                    <span id="nome_<?php echo $idEmpresa ?>"><?php echo utf8_encode($inscricao->nome_empresa) ?></span><br>
+                    <span id="email_<?php echo $idEmpresa ?>"><?php echo $inscricao->email_empresa ?></span><br>
                     Resp.: <?php echo utf8_encode($inscricao->responsavel) ?>
                 </td>
-                <td><span style="color: red" id="salvando_<?php echo $idEmpresa ?>"></span></td>
-                <td>&nbsp;</td>
-                <td align="center"><div id="div_data_pagamento_<?php echo $idEmpresa ?>"><?php echo $dataPagamento ?></div></td>
-                <td align="center"><div id="div_cortesia_<?php echo $idEmpresa ?>"><?php echo $cortesia ?></div></td>
-                <td align="center"><div id="div_botao_<?php echo $idEmpresa ?>"><?php echo $confirmar ?></div></td>
-                <td align="center"><input type='button' name='adicionar' id='adicionar' value='Adicionar' onclick="window.location='addEmployee.php?id=<?php echo $idEmpresa ?>'"/></td>
+                <td colspan="4"><span style="color: red" id="salvando_<?php echo $idEmpresa ?>"></span></td>
+                <td align="center">
+                    <div id="div_data_pagamento_<?php echo $idEmpresa ?>"><?php echo $dataPagamento ?></div>
+                    <div id="div_taxa_pagamento_<?php echo $idEmpresa ?>"><?php echo $taxaPagamento ?></div>
+                </td>
+                <td align="center">
+                    <div id="div_cortesia_<?php echo $idEmpresa ?>"><?php echo $cortesia ?></div>
+                </td>
+                <td align="center">
+                    <div id="div_botao_<?php echo $idEmpresa ?>"><?php echo $confirmar ?></div>
+                    <input type='button' name='adicionar' id='adicionar' value='Adicionar Func.' onclick="window.location='addEmployee.php?id=<?php echo $idEmpresa ?>'"/>
+                </td>
             </tr>
             <?php
                 }
+                $subTotalInscricao = $inscricao->valor - $inscricao->taxa;
             ?>
             <tr>
                 <td align="center"><?php echo $idInscricao ?></td>
                 <td align="center"><?php echo Funcoes::formata_data_para_exibir($inscricao->data_registro) ?></td>
-                <td><?php echo utf8_encode($inscricao->nome) ?></td>
-                <td><?php echo $inscricao->email ?></td>
+                <td>
+                    <?php echo $inscricao->id_individual . " - " . utf8_encode($inscricao->nome) ?><br>
+                    <?php echo $inscricao->email ?>
+                </td>
                 <td><?php echo $inscricao->descricao_tipo_inscricao ?></td>
                 <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($inscricao->valor) ?></td>
+                <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($inscricao->taxa) ?></td>
+                <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($subTotalInscricao) ?></td>
+                <td colspan="3"></td>
             </tr>
             <?php
                 $valorInscricaoEmpresa += $inscricao->valor;
-                $valorInscricaoTotal += $inscricao->valor;
+                $valorTaxaEmpresa += $inscricao->taxa;
+                $valorSubtotalEmpresa += $subTotalInscricao;
+                $valorInscricao += $inscricao->valor;
                 $contadorEmpresa++;
 
                 if (empty($inscricao->data_pagamento)) {
@@ -123,24 +148,35 @@ if (!$a_inscritos_empresas) {
                 } else {
                     $contadorConfirmados++;
                     $valorInscricaoConfirmados += $inscricao->valor;
+                    $valorTaxaInscricaoConfirmados += $inscricao->taxa;
+                    $valorTotalInscricaoConfirmados += $subTotalInscricao;
                 }
             }
             ?>
             <tr style="font-weight: bold; color: maroon">
-                <td colspan="5">[ <?php echo $contadorEmpresa ?> ] inscrito(s) da Empresa</td>
+                <td colspan="4">[ <?php echo $contadorEmpresa ?> ] inscrito(s) da Empresa</td>
                 <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorInscricaoEmpresa) ?></td>
+                <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorTaxaEmpresa) ?></td>
+                <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorSubtotalEmpresa) ?></td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td colspan="10">&nbsp;</td>
             </tr>
             <tr style="font-weight: bold; color: red">
-                <td colspan="5">Valor de [ <?php echo $contadorEmAberto ?> ] inscrito(s) em aberto</td>
+                <td colspan="4">Valor total de [ <?php echo $contadorEmAberto ?> ] inscrito(s) em aberto</td>
                 <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorInscricaoEmAberto) ?></td>
             </tr>
             <tr style="font-weight: bold; color: blue">
-                <td colspan="5">Valor de [ <?php echo $contadorConfirmados ?> ] inscrito(s) confirmados</td>
+                <td colspan="4">Valor total de [ <?php echo $contadorConfirmados ?> ] inscrito(s) confirmados</td>
                 <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorInscricaoConfirmados) ?></td>
+                <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorTaxaInscricaoConfirmados) ?></td>
+                <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorTotalInscricaoConfirmados) ?></td>
+                <td colspan="3">&nbsp;</td>
             </tr>
             <tr style="font-weight: bold; color: green">
-                <td colspan="5">Valor de [ <?php echo $contador ?> ] inscrito(s) no total</td>
-                <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorInscricaoTotal) ?></td>
+                <td colspan="4">Valor total de [ <?php echo $contador ?> ] inscrito(s)</td>
+                <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($valorInscricao) ?></td>
             </tr>
         </table>
     </body>

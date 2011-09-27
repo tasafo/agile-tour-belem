@@ -11,37 +11,37 @@ function marcaCortesia(idInscricao) {
 }
 
 function confirmaPagamento(idInscricao) {
-	jConfirm("Deseja realizar o pagamento?", null, function(r) {
-		if (r == true) {
-		    dtPagamento = $("#data_" + idInscricao).val();
+    jConfirm("Deseja realizar o pagamento?", null, function(r) {
+        if (r == true) {
+            dtPagamento = $("#data_" + idInscricao).val();
             txPagamento = $("#taxa_" + idInscricao).val();
-		    nome = $("#nome_" + idInscricao).text();
-		    email = $("#email_" + idInscricao).text();
-		    cortesia = $("#cortesia_" + idInscricao).val();
-		
-		   	parametros = 'dtPagamento=' + dtPagamento +
+            nome = $("#nome_" + idInscricao).text();
+            email = $("#email_" + idInscricao).text();
+            cortesia = $("#cortesia_" + idInscricao).val();
+
+            parametros = 'dtPagamento=' + dtPagamento +
                 '&txPagamento=' + txPagamento +
-		        '&nome=' + nome +
-		        '&email=' + email +
-		        '&cortesia=' + cortesia +
-		        '&idInscricao=' + idInscricao;
-		
-		    $("#div_botao_" + idInscricao).hide();
-		    $("#gravando_" + idInscricao).text("Processando...");
-		
-			$.ajax({
-				type: "POST",
-				url: "confirmaPagamentoIndividualAjax.php",
-		        dataType: "xml",
-				data: parametros,
-		        success: analisarRespostaPagamentoIndividual
-			});
-		
-		    $().ajaxStop(function() {
-		        $("#gravando_" + idInscricao).text("");
-			});
-		}
-	});
+                '&nome=' + nome +
+                '&email=' + email +
+                '&cortesia=' + cortesia +
+                '&idInscricao=' + idInscricao;
+
+            $("#div_botao_" + idInscricao).hide();
+            $("#gravando_" + idInscricao).text("Processando...");
+
+            $.ajax({
+                type: "POST",
+                url: "confirmaPagamentoIndividualAjax.php",
+                dataType: "xml",
+                data: parametros,
+                success: analisarRespostaPagamentoIndividual
+            });
+
+            $().ajaxStop(function() {
+                $("#gravando_" + idInscricao).text("");
+            });
+        }
+    });
 }
 
 function analisarRespostaPagamentoIndividual(xml) {
@@ -73,26 +73,26 @@ function analisarRespostaPagamentoIndividual(xml) {
 }
 
 function confirmaCancelamento(idIndividual) {
-	jConfirm("Deseja realizar o cancelamento da inscricao?", null, function(r) {
-		if (r == true) {
-			parametros = 'idIndividual=' + idIndividual;
-		
-		    $("#div_cancelar_" + idIndividual).hide();
-		    $("#cancelando_" + idIndividual).text("Processando...");
-		
-			$.ajax({
-				type: "POST",
-				url: "confirmaCancelamentoIndividualAjax.php",
-		        dataType: "xml",
-				data: parametros,
-		        success: analisarRespostaCancelamentoIndividual
-			});
-		
-		    $().ajaxStop(function() {
-		        $("#cancelando_" + idIndividual).text("");
-			});
-		}
-	});
+    jConfirm("Deseja realizar o cancelamento da inscricao?", null, function(r) {
+        if (r == true) {
+            parametros = 'idIndividual=' + idIndividual;
+
+            $("#div_cancelar_" + idIndividual).hide();
+            $("#cancelando_" + idIndividual).text("Processando...");
+
+            $.ajax({
+                type: "POST",
+                url: "confirmaCancelamentoIndividualAjax.php",
+                dataType: "xml",
+                data: parametros,
+                success: analisarRespostaCancelamentoIndividual
+            });
+
+            $().ajaxStop(function() {
+                $("#cancelando_" + idIndividual).text("");
+            });
+        }
+    });
 }
 
 function analisarRespostaCancelamentoIndividual(xml) {

@@ -20,7 +20,7 @@ if ($cortesia != "S")
 if (!Funcoes::checa_data($dtPagamento)) {
     $xml .= "<erro>Data invalida</erro>";
     $xml .= "<idInscricao>$idInscricao</idInscricao>";
-	die($xml .= "</agilidade>");
+    die($xml .= "</agilidade>");
 }
 
 if (!is_numeric($txPagamento)) {
@@ -32,9 +32,9 @@ if (!is_numeric($txPagamento)) {
 $msg_recarregar = "";
 
 if ($cortesia == "S") {
-	$o_tipo_inscricao = new TipoInscricaoDAO();
-	$a_tipo_inscricao = $o_tipo_inscricao->busca("descricao = 'Cortesia'");
-	
+    $o_tipo_inscricao = new TipoInscricaoDAO();
+    $a_tipo_inscricao = $o_tipo_inscricao->busca("descricao = 'Cortesia'");
+
     if (!$a_tipo_inscricao) {
         $xml .= "<erro>Tipo de Inscricao Cortesia nao foi encontrada</erro>";
         $xml .= "<idInscricao>$idInscricao</idInscricao>";
@@ -62,7 +62,7 @@ $o_inscricao->taxa = $txPagamento;
 if (!$o_inscricao->salva()) {
     $xml .= "<erro>Falha ao tentar atualizar o pagamento do usuario</erro>";
     $xml .= "<idInscricao>$idInscricao</idInscricao>";
-	die($xml .= "</agilidade>");
+    die($xml .= "</agilidade>");
 }
 
 // Enviar email

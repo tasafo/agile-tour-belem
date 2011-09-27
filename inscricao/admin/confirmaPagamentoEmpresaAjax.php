@@ -13,18 +13,22 @@ $nome = $_REQUEST['nome'];
 $email = $_REQUEST['email'];
 $cortesia = $_REQUEST['cortesia'];
 
+$txPagamento = 0;
+if ($cortesia != "S")
+    $txPagamento = Funcoes::formata_moeda_para_gravar($_REQUEST['txPagamento']);
+
 if (!Funcoes::checa_data($dtPagamento)) {
     $xml .= "<erro>A data nao e valida</erro>";
     $xml .= "<idEmpresa>$idEmpresa</idEmpresa>";
-	die($xml .= "</agilidade>");
+    die($xml .= "</agilidade>");
 }
 
 $msg_recarregar = "";
 
 if ($cortesia == "S") {
-	$o_tipo_inscricao = new TipoInscricaoDAO();
-	$a_tipo_inscricao = $o_tipo_inscricao->busca("descricao = 'Cortesia'");
-	
+    $o_tipo_inscricao = new TipoInscricaoDAO();
+    $a_tipo_inscricao = $o_tipo_inscricao->busca("descricao = 'Cortesia'");
+
     if (!$a_tipo_inscricao) {
         $xml .= "<erro>Tipo de Inscricao Cortesia nao foi encontrada</erro>";
         $xml .= "<idInscricao>$idInscricao</idInscricao>";
@@ -32,20 +36,20 @@ if ($cortesia == "S") {
     }
     
     $id_tipo_inscricao = $a_tipo_inscricao[0]->id;
-   	
+
     $o_inscricao = new InscricaoDAO();
     $a_inscricoes_da_empresa = $o_inscricao->busca("id_empresa = $idEmpresa");
     
     foreach ($a_inscricoes_da_empresa as $inscrito) {
-	    $o_inscricao = new InscricaoDAO();
-	    $o_inscricao->id = $inscrito->id;
-	    $o_inscricao->id_tipo_inscricao = $id_tipo_inscricao;
-	
-	    if (!$o_inscricao->salva()) {
-	    	$xml .= "<erro>Falha ao tentar atualizar o tipo de inscricao dos usuarios</erro>";
-	        $xml .= "<idInscricao>$idEmpresa</idInscricao>";
-	        die($xml .= "</agilidade>");
-	    }
+        $o_inscricao = new InscricaoDAO();
+        $o_inscricao->id = $inscrito->id;
+        $o_inscricao->id_tipo_inscricao = $id_tipo_inscricao;
+
+        if (!$o_inscricao->salva()) {
+            $xml .= "<erro>Falha ao tentar atualizar o tipo de inscricao dos usuarios</erro>";
+            $xml .= "<idInscricao>$idEmpresa</idInscricao>";
+            die($xml .= "</agilidade>");
+        }
     }
 
     $msg_recarregar = ". Recarregue a pagina para atualizar os valores";
@@ -57,7 +61,7 @@ $a_funcionarios_empresa = $o_inscricao->selecionar_funcionarios_inscritos($idEmp
 if (!$a_funcionarios_empresa) {
     $xml .= "<erro>Nao foi encontrado nenhum funcionario da empresa</erro>";
     $xml .= "<idEmpresa>$idEmpresa</idEmpresa>";
-	die($xml .= "</agilidade>");
+    die($xml .= "</agilidade>");
 }
 
 $listaFuncionarios = "";
@@ -65,28 +69,20 @@ foreach ($a_funcionarios_empresa as $funcionario) {
     $listaFuncionarios .= Funcoes::remove_acentos($funcionario->nome) . " - " . $funcionario->email . "<br><br>" ;
 }
 
-// $o_inscricao = new InscricaoDAO();
-// $o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
-
-// if (!$o_inscricao->altera("id_empresa = $idEmpresa")) {
-//     $xml .= "<erro>Falha ao tentar atualizar o pagamento da empresa</erro>";
-//     $xml .= "<idEmpresa>$idEmpresa</idEmpresa>";
-// 	die($xml .= "</agilidade>");
-// }
-
 $o_inscricao = new InscricaoDAO();
 $a_inscricoes_da_empresa = $o_inscricao->busca("id_empresa = $idEmpresa");
 
 foreach ($a_inscricoes_da_empresa as $inscrito) {
-	$o_inscricao = new InscricaoDAO();
-	$o_inscricao->id = $inscrito->id;
-	$o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
+    $o_inscricao = new InscricaoDAO();
+    $o_inscricao->id = $inscrito->id;
+    $o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
+    $o_inscricao->taxa = $txPagamento;
 
-	if (!$o_inscricao->salva()) {
-		$xml .= "<erro>Falha ao tentar atualizar o pagamento da empresa</erro>";
-	    $xml .= "<idEmpresa>$idEmpresa</idEmpresa>";
-		die($xml .= "</agilidade>");
-	}
+    if (!$o_inscricao->salva()) {
+        $xml .= "<erro>Falha ao tentar atualizar o pagamento da empresa</erro>";
+        $xml .= "<idEmpresa>$idEmpresa</idEmpresa>";
+        die($xml .= "</agilidade>");
+    }
 }
 
 // Enviar email para a Empresa
