@@ -4,10 +4,15 @@ session_start();
 unset($_SESSION['Funcionarios']);
 
 $niveis = "../../";
+
 require_once '../general/autoload.php';
+require_once '../util/constantes.php';
 require_once $niveis . 'topo.php';
 
+$o_inscricao = new InscricaoDAO();
 $o_tipo_inscricao = new TipoInscricaoDAO();
+
+$a_total_inscritos = $o_inscricao->valor_total_inscritos();
 $a_tipo_inscricao = $o_tipo_inscricao->busca("status = 'A'");
 
 if ($a_tipo_inscricao) {
@@ -45,7 +50,7 @@ if ($a_tipo_inscricao) {
 				background: none repeat scroll 0 0 #ad5656;
 				cursor:pointer;
 				color: #FFFFFF;
-				font: bold 12px  Arial,Sans-serif;
+				font: bold 12px Arial,Sans-serif;
 				height: 30px;
 				margin: 0;
 				padding: 2px;
@@ -64,6 +69,9 @@ if ($a_tipo_inscricao) {
 		</style>
     </head>
 	<body>
+	    <?php if ($a_total_inscritos[0]->quantidade >= QTD_MAXIMA_INSCRITOS) { ?>
+        <h1><?php die("As vagas foram preenchidas.<br><br>Inscrições encerradas.") ?></h1>
+        <?php } ?>
 		<b class="titulo">Inscrição por Empresa</b>
 		<br><br>
 		Para inscrição por empresa, por favor, siga as instruções abaixo.
