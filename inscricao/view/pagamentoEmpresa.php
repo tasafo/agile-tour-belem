@@ -60,7 +60,7 @@ if (count($a_funcionarios_inscritos) > 25) {
 } else {
 	foreach ($a_funcionarios_inscritos as $inscrito) {
 		$a_carrinho[] = array(
-            "descricao" => "Inscricao " . Funcoes::remove_acentos(NOME_EVENTO) . " - " . trim(Funcoes::remove_acentos($inscrito->nome)),
+            "descricao" => "Inscricao " . Funcoes::remove_acentos(NOME_EVENTO) . " - " . trim(Funcoes::remove_acentos(utf8_encode($inscrito->nome))),
             "valor" => $inscrito->valor,
             "peso" => 0,
             "quantidade" => 1,
