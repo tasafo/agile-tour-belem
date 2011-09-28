@@ -2,6 +2,7 @@
     <meta name="description" content="AgieTourBelem" />
 	<meta name="keywords" content="Palavras-chave: Agile, Scrum, Belém, Pará, Desenvolvimento, Softwares"/>
     <link href="css/index.css" rel="stylesheet" type="text/css" media="screen" />
+    <script type="text/javascript" src="./view/js/jquery/jquery.js"></script>
 
 	<script language="JavaScript">
         function Valida(quadro) {

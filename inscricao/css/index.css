@@ -77,15 +77,15 @@ ul{
 
 #main_header #header #texto {
     width: 600px;
-    height: 55px;
+    height: 120px;
 	float:left;
 	margin-left: 42px;
 }
 
 #main_header #header #texto h1{
 	color:#677f48;
-	margin-left:20px;
-	margin-top:10px;
+	margin-left:0px;
+	margin-top:0px;
 	font-size:16px;
 }
 

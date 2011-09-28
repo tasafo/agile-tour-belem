@@ -6,8 +6,10 @@ require_once '../util/constantes.php';
 require_once '../util/pagseguro/pgs.php';
 require_once $niveis . 'topo.php';
 
+$mensagem_erro = "<center><h2>Informa&ccedil;&otilde;es incorretas</h2></center>";
+
 if (intval($_REQUEST['id']) == 0)
-	die("<center><h2>Informa&ccedil;&otilde;es incorretas</h2></center>");
+    die($mensagem_erro);
 
 $o_empresa = new EmpresaDAO();
 $o_individual = new IndividualDAO();
@@ -15,12 +17,12 @@ $o_inscricao = new InscricaoDAO();
 $o_tipo_inscricao = new TipoInscricaoDAO();
 
 if (!$o_empresa->busca($_REQUEST['id']))
-	die("<center><h2>Informa&ccedil;&otilde;es incorretas</h2></center>");
+    die($mensagem_erro);
 
 $a_funcionarios_inscritos = $o_inscricao->selecionar_funcionarios_inscritos($o_empresa->id);
 
 if (!$a_funcionarios_inscritos)
-	die("<center><h2>Informa&ccedil;&otilde;es incorretas</h2></center>");
+    die($mensagem_erro);
 
 // Criando um novo carrinho no pagseguro
 // OBS.: na referencia da transacao sera colocado I(ndividual) e E(mpresa) antes do cpf

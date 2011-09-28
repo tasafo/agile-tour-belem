@@ -4,9 +4,11 @@
     <meta charset="utf-8">
     <?php include(dirname(__FILE__) . "/inc/header.php") ?>
     <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
-    <script type="text/javascript" src="view/js/jquery/jquery.js"></script>
+    <script type="text/javascript" src="./view/js/jquery/jquery.js"></script>
+    <script type="text/javascript" src="./view/js/jquery/jquery.validate.js"></script>
     <script type="text/javascript" src="./fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
     <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+    <script type="text/javascript" src="./view/js/recupera_pagamento.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $("#indiv").fancybox({
@@ -36,8 +38,13 @@
                 <?php include(dirname(__FILE__) . "/inc/topo.php") ?>
             </div>
             <div id="texto">
+                <h1>Recupere o link do Pagseguro informando seu e-mail logo abaixo</h1>
+                <form id="form_recupera" name="form_recupera" action="view/recuperaPagamento.php" method="post">
+                    <input type="text" name="email" id="email" maxlength="100" size="30" />
+                    <input type="button" id="recuperar" name="recuperar" value="Recuperar" />
+                </form>
                 <h1>Para realizar sua inscrição no evento, selecione uma das categorias abaixo.</h1>
-            </div> 
+            </div>
         </div>
     </div>
     <div id="main_body">
