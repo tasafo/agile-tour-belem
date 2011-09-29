@@ -16,6 +16,16 @@ class InscricaoDAO extends AbstractDAO {
 		parent::__construct($this);
 	}
 
+    function total_de_inscritos_por_instituicao() {
+        $sql = "SELECT instituicao, COUNT(*) AS quantidade
+            FROM individual
+            WHERE situacao = 'A'
+            GROUP BY instituicao
+            ORDER BY COUNT(*) DESC";
+
+        return $this->resultado_consulta($sql);
+    }
+    
     function valor_total_inscritos($situacao = null) {
         if ($situacao == "A")
             $condicao = " AND ins.data_pagamento IS NULL";
@@ -45,15 +55,20 @@ class InscricaoDAO extends AbstractDAO {
 		return $this->resultado_consulta($sql);
 	}
 
-	function selecionar_inscritos_individual() {
+	function selecionar_inscritos_individual($todos = false, $ordem = "ins.id DESC") {
+    if ($todos == false)
+        $condicao = " AND ins.id_empresa = 0";
+    else
+        $condicao = "";
+    
 		$sql = "SELECT ins.id AS id_inscricao, ins.data_registro, ins.data_pagamento, ins.taxa, ind.nome, ind.email,
             ind.instituicao, tip.descricao AS descricao_tipo_inscricao, tip.valor, ind.id AS id_individual
             FROM inscricao ins
             JOIN tipo_inscricao tip ON (ins.id_tipo_inscricao = tip.id)
             JOIN individual ind ON (ins.id = ind.id_inscricao)
-            WHERE ins.id_empresa = 0
-            AND ind.situacao = 'A'
-            ORDER BY ins.id DESC";
+            WHERE ind.situacao = 'A'
+            $condicao
+            ORDER BY $ordem";
 
 		return $this->resultado_consulta($sql);
 	}
