@@ -26,8 +26,8 @@ function validar_funcionario() {
 		},
 		// define messages para cada campo
 		messages: {
-            func_nome: 'Informe o nome do funcion&aacute;rio',
-            func_email: 'Informe um E-mail v&aacute;lido do funcion&aacute;rio'
+            func_nome: 'Informe o nome do funcionario',
+            func_email: 'Informe um E-mail valido do funcionario'
 		},
 		submitHandler: function(form) {
 			salvar();
@@ -70,6 +70,41 @@ function analisarResposta(txt) {
 
         $('#frmFunc')[0].reset();
         $('#func_nome').focus();
+    }
+
+    return true;
+}
+
+function confirmaCancelamento(idIndividual) {
+    jConfirm("Deseja realizar o cancelamento da inscricao?", null, function(r) {
+        if (r == true) {
+            parametros = 'idIndividual=' + idIndividual;
+
+            $.ajax({
+                type: "POST",
+                url: "confirmaCancelamentoIndividualAjax.php",
+                dataType: "xml",
+                data: parametros,
+                success: analisarRespostaCancelamentoFuncionario
+            });
+        }
+    });
+}
+
+function analisarRespostaCancelamentoFuncionario(xml) {
+    erro = $('erro', xml).text();
+    idIndividual = $('idIndividual', xml).text();
+
+    if (erro) {
+        alert(erro);
+
+        return false;
+    } else {
+        mensagem = $('mensagem', xml).text();
+
+        $("#row_" + idIndividual).remove();
+
+        alert(mensagem);
     }
 
     return true;
