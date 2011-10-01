@@ -89,7 +89,7 @@ $mail->Host = SENDMAIL_HOST;
 $mail->IsMail();
 $mail->IsHTML(true);
 $mail->AddAddress($o_empresa->email, $nome_enviar);
-$mail->Subject = "Cadastro realizado com sucesso";
+$mail->Subject = NOME_EVENTO . " - Cadastro realizado com sucesso";
 
 $mail->Body = "
     <html>

@@ -64,7 +64,7 @@ $mail->Host = SENDMAIL_HOST;
 $mail->IsMail();
 $mail->IsHTML(true);
 $mail->AddAddress($o_individual->email, $nome_enviar);
-$mail->Subject = "Cadastro realizado com sucesso";
+$mail->Subject = NOME_EVENTO . " - Cadastro realizado com sucesso";
 
 $mensagem_estudante = "";
 if (trim($o_tipo_inscricao->descricao) == "Estudante") {

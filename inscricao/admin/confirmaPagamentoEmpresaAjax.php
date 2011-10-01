@@ -93,8 +93,7 @@ $mail->Host = SENDMAIL_HOST;
 $mail->IsMail();
 $mail->IsHTML(true);
 $mail->AddAddress($email, $nome);
-
-$mail->Subject = "Confirmação de Pagamento e Inscrição - " . NOME_EVENTO;
+$mail->Subject = NOME_EVENTO . " - Confirmação de Pagamento e Inscrição";
 
 $mail->Body = "
     <html>
@@ -127,7 +126,7 @@ foreach ($a_funcionarios_empresa as $funcionario) {
     $mail->IsMail();
     $mail->IsHTML(true);
     $mail->AddAddress($email_func, $nome_func);
-    $mail->Subject = "Confirmação de Pagamento e Inscrição - " . NOME_EVENTO;
+    $mail->Subject = NOME_EVENTO . " - Confirmação de Pagamento e Inscrição";
 
     $mail->Body = "
         <html>
