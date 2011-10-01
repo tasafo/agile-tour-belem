@@ -8,6 +8,7 @@ $a_menu = array(
     'relatorioInscritos' => 'Listagem dos Inscritos Pagantes',
     'relatoriosTela' => 'Outros Relatórios',
     'manutencaoInscritos' => 'Manutenção dos Inscritos',
+    'importarPagamentos' => 'Importar Pagamentos do Pagseguo',
     'index' => 'Sair'
 );
 

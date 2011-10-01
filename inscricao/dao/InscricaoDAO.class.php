@@ -7,6 +7,7 @@ class InscricaoDAO extends AbstractDAO {
 	public $id_tipo_inscricao;
 	public $data_registro;
 	public $data_pagamento;
+	public $data_compensacao;
 	public $tipo_pagamento;
 	public $status_transacao;
 	public $transacao_id;

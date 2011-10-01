@@ -17,6 +17,7 @@ CREATE  TABLE IF NOT EXISTS inscricao (
   id INT NOT NULL AUTO_INCREMENT ,
   data_registro DATETIME NOT NULL ,
   data_pagamento DATETIME NULL ,
+  data_compensacao DATETIME NULL ,
   tipo_pagamento VARCHAR(50) NULL ,
   status_transacao VARCHAR(50) NULL ,
   transacao_id VARCHAR(100) NULL ,
