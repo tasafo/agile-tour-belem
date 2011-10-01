@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../general/autoload.php';
+require_once dirname(__FILE__) . '/../util/constantes.php';
 
 class AbstractDAO {
 	protected $conexao;
@@ -17,7 +18,7 @@ class AbstractDAO {
 	}
 	
 	private function exibe_sql($sql) {
-// 		echo "<pre>$sql</pre>";
+		if (EXIBIR_SQL) echo "<pre><b>$sql<b></pre>";
 	}
 
 	private function atualiza_atributos() {

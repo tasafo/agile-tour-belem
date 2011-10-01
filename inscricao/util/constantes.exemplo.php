@@ -25,4 +25,7 @@ define('SENHA_ADMIN', 'admin');
 
 // Desativa o link de inscricoes quando o numero de inscritos chegar a esse tamanho
 define('QTD_MAXIMA_INSCRITOS', '200');
+
+// Exibe ou nao instrucoes sql na tela
+define('EXIBIR_SQL', false);
 ?>
