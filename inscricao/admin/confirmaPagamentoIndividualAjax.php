@@ -44,6 +44,7 @@ if ($cortesia == "S") {
     $o_inscricao = new InscricaoDAO();
     $o_inscricao->id = $idInscricao;
     $o_inscricao->id_tipo_inscricao = $a_tipo_inscricao[0]->id;
+    $o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
 
     if (!$o_inscricao->salva()) {
         $xml .= "<erro>Falha ao tentar atualizar o tipo de inscricao do usuario</erro>";
