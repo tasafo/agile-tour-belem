@@ -13,8 +13,15 @@ $a_total_inscritos = $o_inscricao->valor_total_inscritos();
 $a_tipo_inscricao = $o_tipo_inscricao->busca("status = 'A'");
 
 if ($a_tipo_inscricao) {
-    $id_tipo_inscricao = $a_tipo_inscricao[0]->id;
-    $valor_inscricao = $a_tipo_inscricao[0]->valor;
+    if (count($a_tipo_inscricao) == 1) {
+        $id_tipo_inscricao = $a_tipo_inscricao[0]->id;
+        $valor_inscricao = $a_tipo_inscricao[0]->valor;
+    } else {
+        $select_tipo_inscricao = "";
+        foreach ($a_tipo_inscricao as $tipo_inscricao) {
+            $select_tipo_inscricao .= "<option value='" . $tipo_inscricao->id . "'>" . $tipo_inscricao->descricao . " - R$ ". Funcoes::formata_moeda_para_exibir($tipo_inscricao->valor) . "</option>";
+        }
+    }
 }
 ?>
 <html lang="pt-br">
@@ -29,7 +36,7 @@ if ($a_tipo_inscricao) {
 		<link href="css/estilo.css" rel="stylesheet" />
        
         <style type="text/css">
-			body {  color:#596b3a; }
+			body { color:#596b3a; }
 			.titulo { font-size:18px; color:#88a459 !important;}
 			.caixa {
 			    -moz-border-radius: 3px 3px 3px 3px;
@@ -51,7 +58,7 @@ if ($a_tipo_inscricao) {
 				margin: 0;
 				padding: 5px;
 				text-transform: uppercase;
-				width: 135px;
+				width: 145px;
 				border: 1px solid #546d38;
 				-moz-border-radius: 3px 3px 3px 3px;
 				filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#95aa7b', endColorstr='#657f47'); /* IE */
@@ -74,13 +81,22 @@ if ($a_tipo_inscricao) {
 		    <ol></ol>
 		</div>
 		<form class="cmxform" id="form" name="formIndividual" action="" method="post">
-			<input type="hidden" name="id_tipo_inscricao" id="id_tipo_inscricao" value="<?php echo $id_tipo_inscricao ?>" />
 			<table class="bordasimples">
 				<tr align="center">
+                <?php if (count($a_tipo_inscricao) == 1) { ?>
 					<td align="left" width="40%">Valor</td>
 					<td align="left" width="60%">
-					    <input type="text" readonly="readonly" class="caixa" name="valor_inscricao" id="valor_inscricao" size="10" value="R$  <?php echo Funcoes::formata_moeda_para_exibir($valor_inscricao) ?>" />
+                        <input type="hidden" name="id_tipo_inscricao" id="id_tipo_inscricao" value="<?php echo $id_tipo_inscricao ?>" />
+					    <input type="text" readonly="readonly" class="caixa" name="valor_inscricao" id="valor_inscricao" size="10" value="R$ <?php echo Funcoes::formata_moeda_para_exibir($valor_inscricao) ?>" />
 					</td>
+				<?php } else { ?>
+                    <td align="left" width="40%">Categoria</td>
+                    <td align="left" width="60%">
+                        <select name="id_tipo_inscricao" id="id_tipo_inscricao" style="width: 340px">
+                        <?php echo $select_tipo_inscricao ?>
+                        </select>
+                    </td>
+				<?php } ?>
 				</tr>
 				<tr>
 					<td align="left">Nome</td>

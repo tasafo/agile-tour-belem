@@ -16,8 +16,15 @@ $a_total_inscritos = $o_inscricao->valor_total_inscritos();
 $a_tipo_inscricao = $o_tipo_inscricao->busca("status = 'A'");
 
 if ($a_tipo_inscricao) {
-    $id_tipo_inscricao = $a_tipo_inscricao[0]->id;
-    $valor_inscricao = $a_tipo_inscricao[0]->valor;
+    if (count($a_tipo_inscricao) == 1) {
+        $id_tipo_inscricao = $a_tipo_inscricao[0]->id;
+        $valor_inscricao = $a_tipo_inscricao[0]->valor;
+    } else {
+        $select_tipo_inscricao = "";
+        foreach ($a_tipo_inscricao as $tipo_inscricao) {
+            $select_tipo_inscricao .= "<option value='" . $tipo_inscricao->id . "'>" . $tipo_inscricao->descricao . " - R$ ". Funcoes::formata_moeda_para_exibir($tipo_inscricao->valor) . "</option>";
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -33,7 +40,7 @@ if ($a_tipo_inscricao) {
 		<link type="text/css" href="css/estilo.css" rel="stylesheet" />
 	
         <style type="text/css">
-			body {  color:#89383f; }
+			body { color:#89383f; }
 			.titulo { font-size:18px; color:#bc6367 !important;}
 			.caixa {
 			    -moz-border-radius: 3px 3px 3px 3px;
@@ -127,7 +134,6 @@ if ($a_tipo_inscricao) {
 		</form>
 		
 		<form class="cmxform" id="frmFunc" name="formFuncionarios" action="" method="post">
-			<input type="hidden" name="func_id_tipo_inscricao" id="func_id_tipo_inscricao" value="<?php echo $id_tipo_inscricao ?>" />
 			<table class="bordasimples" style="width: 450px">
 				<tr>
 					<td colspan="2">&nbsp;</td>
@@ -145,10 +151,20 @@ if ($a_tipo_inscricao) {
                     </td>
 				</tr>
 				<tr align="center">
+				<?php if (count($a_tipo_inscricao) == 1) { ?>
 					<td align="left" width="40%">Valor</td>
 					<td align="left" width="60%">
-					    <input type="text" readonly="readonly" class="caixa" name="valor_inscricao" id="valor_inscricao" size="10" value="R$  <?php echo Funcoes::formata_moeda_para_exibir($valor_inscricao) ?>" />
+                        <input type="hidden" name="func_id_tipo_inscricao" id="func_id_tipo_inscricao" value="<?php echo $id_tipo_inscricao ?>" />
+					    <input type="text" readonly="readonly" class="caixa" name="valor_inscricao" id="valor_inscricao" size="10" value="R$ <?php echo Funcoes::formata_moeda_para_exibir($valor_inscricao) ?>" />
 					</td>
+                <?php } else { ?>
+                    <td align="left" width="40%">Categoria</td>
+                    <td align="left" width="60%">
+                        <select name="func_id_tipo_inscricao" id="func_id_tipo_inscricao" style="width: 340px">
+                        <?php echo $select_tipo_inscricao ?>
+                        </select>
+                    </td>
+                <?php } ?>
 				</tr>
 				<tr>
 					<td align="left">Nome</td>
