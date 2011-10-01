@@ -30,7 +30,7 @@ $o_transacao->begin();
 $o_empresa = new EmpresaDAO();
 $o_empresa->nome = $_REQUEST['nome'];
 $o_empresa->responsavel = $_REQUEST['responsavel'];
-$o_empresa->email = $_REQUEST['email'];
+$o_empresa->email = strtolower($_REQUEST['email']);
 $o_empresa->cep = $_REQUEST['cep'];
 
 if (!$o_empresa->salva()) {
@@ -43,7 +43,7 @@ if (!empty($_SESSION['Funcionarios'])) {
 	foreach ($_SESSION['Funcionarios'] as $funcionario) {
 		$func_id_tipo_inscricao = $funcionario['func_id_tipo_inscricao'];
 		$func_nome = $funcionario['func_nome'];
-		$func_email = $funcionario['func_email'];
+		$func_email = strtolower($funcionario['func_email']);
 		$func_cep = $funcionario['func_cep'];
 		$func_sexo = $funcionario['func_sexo'];
 

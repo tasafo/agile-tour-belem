@@ -40,7 +40,7 @@ if (!$o_inscricao->salva()) {
 $o_individual = new IndividualDAO();
 $o_individual->id_inscricao = $o_inscricao->id;
 $o_individual->nome = $_REQUEST['nome'];
-$o_individual->email = $_REQUEST['email'];
+$o_individual->email = strtolower($_REQUEST['email']);
 $o_individual->instituicao = $_REQUEST['instituicao'];
 $o_individual->sexo = $_REQUEST['sexo'];
 $o_individual->cep = $_REQUEST['cep'];
