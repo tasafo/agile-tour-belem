@@ -66,7 +66,7 @@ if (!$a_funcionarios_empresa) {
 
 $listaFuncionarios = "";
 foreach ($a_funcionarios_empresa as $funcionario) {
-    $listaFuncionarios .= Funcoes::remove_acentos($funcionario->nome) . " - " . $funcionario->email . "<br><br>" ;
+    $listaFuncionarios .= Funcoes::remove_acentos(utf8_encode($funcionario->nome)) . " - " . $funcionario->email . "<br><br>" ;
 }
 
 $o_inscricao = new InscricaoDAO();
@@ -116,7 +116,7 @@ if (!$mail->Send()) {
 
 // Enviar e-mail para os funcionario da Empresa
 foreach ($a_funcionarios_empresa as $funcionario) {
-    $nome_func = Funcoes::remove_acentos($funcionario->nome);
+    $nome_func = Funcoes::remove_acentos(utf8_encode($funcionario->nome));
     $email_func = $funcionario->email;
 
     $mail = new PHPMailer();
