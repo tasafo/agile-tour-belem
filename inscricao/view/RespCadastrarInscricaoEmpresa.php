@@ -14,7 +14,7 @@ if (empty($_SESSION['Funcionarios'])) {
 	die($xml .= "</gravacao>");
 }
 
-$a_campos = array("email" => $_REQUEST['email']);
+$a_campos = array("email" => strtolower($_REQUEST['email']));
 foreach($a_campos as $campo => $valor) {
 	$o_empresa = new EmpresaDAO();
 

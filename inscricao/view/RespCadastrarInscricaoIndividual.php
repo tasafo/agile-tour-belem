@@ -7,7 +7,7 @@ header("Content-Type: application/xml; charset=utf-8");
 $xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 $xml .= "<gravacao>\n";
 
-$a_campos = array("email" => $_REQUEST['email']);
+$a_campos = array("email" => strtolower($_REQUEST['email']));
 foreach($a_campos as $campo => $valor) {
 	$o_individual = new IndividualDAO();
 

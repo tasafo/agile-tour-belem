@@ -4,7 +4,7 @@ require_once '../general/autoload.php';
 $o_empresa = new EmpresaDAO();
 $o_individual = new IndividualDAO();
 
-$email = trim($_POST['email']);
+$email = trim(strtolower($_POST['email']));
 
 header("Content-Type: application/xml; charset=utf-8");
 

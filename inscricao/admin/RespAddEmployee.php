@@ -4,7 +4,7 @@ require_once '../general/autoload.php';
 $idEmpresa = $_REQUEST['hdnIdEmpresa'];
 $categoria_inscricao = $_REQUEST['func_categoria_inscricao'];
 $nome = $_REQUEST['func_nome'];
-$email = $_REQUEST['func_email'];
+$email = strtolower($_REQUEST['func_email']);
 $sexo = $_REQUEST['func_sexo'];
 
 $nome_sem_acento = Funcoes::remove_acentos($nome);
