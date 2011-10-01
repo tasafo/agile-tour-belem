@@ -13,7 +13,7 @@
         $(document).ready(function() {
             $("#indiv").fancybox({
                 'width'				: '50%',
-                'height'			: '60%',
+                'height'			: '65%',
                 'autoScale'			: false,
                 'transitionIn'		: 'none',
                 'transitionOut'		: 'none',
@@ -60,7 +60,7 @@
                 <img src="img/empresa.gif" alt="" width="355" height="58" />
                 <p>Selecione esta opção para efetuar múltiplas inscrições por empresa/instituição. <br />O cadastramento de informações da empresa/instituição é obrigatório.</p>
                 <div class="inscricao02">
-                    <a  id="emp" href="view/CadastrarInscricaoEmpresa.php"></a>
+                    <a id="emp" href="view/CadastrarInscricaoEmpresa.php"></a>
                 </div>
             </div>
         </div>
