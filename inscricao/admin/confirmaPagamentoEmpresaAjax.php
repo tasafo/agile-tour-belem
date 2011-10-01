@@ -44,6 +44,7 @@ if ($cortesia == "S") {
         $o_inscricao = new InscricaoDAO();
         $o_inscricao->id = $inscrito->id;
         $o_inscricao->id_tipo_inscricao = $id_tipo_inscricao;
+        $o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
 
         if (!$o_inscricao->salva()) {
             $xml .= "<erro>Falha ao tentar atualizar o tipo de inscricao dos usuarios</erro>";
@@ -72,11 +73,15 @@ foreach ($a_funcionarios_empresa as $funcionario) {
 $o_inscricao = new InscricaoDAO();
 $a_inscricoes_da_empresa = $o_inscricao->busca("id_empresa = $idEmpresa");
 
+$taxa_por_pessoa = 0;
+if ($txPagamento > 0)
+    $taxa_por_pessoa = $txPagamento / count($a_inscricoes_da_empresa);
+
 foreach ($a_inscricoes_da_empresa as $inscrito) {
     $o_inscricao = new InscricaoDAO();
     $o_inscricao->id = $inscrito->id;
     $o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
-    $o_inscricao->taxa = $txPagamento;
+    $o_inscricao->taxa = $taxa_por_pessoa;
 
     if (!$o_inscricao->salva()) {
         $xml .= "<erro>Falha ao tentar atualizar o pagamento da empresa</erro>";
