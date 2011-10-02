@@ -31,66 +31,109 @@ if ($_FILES['arquivo']) {
                         if ($pagamento->Tipo_Transacao == "Pagamento" && $pagamento->Status == "Aprovada") {
                             echo "<b> > " . $pagamento->Cliente_Nome . "</b> ";
                             
-                            $id_individual = substr($pagamento->Ref_Transacao, 1);
+                            $modo_pagamento = substr($pagamento->Ref_Transacao, 0, 1);
+                            $id_ref_pagamento = substr($pagamento->Ref_Transacao, 1);
+                            $data_pagamento = Funcoes::formata_data_para_gravar(substr($pagamento->Data_Transacao, 0, 10)) . substr($pagamento->Data_Transacao, 10);
+                            $data_compensacao = Funcoes::formata_data_para_gravar(substr($pagamento->Data_Compensacao, 0, 10)) . substr($pagamento->Data_Compensacao, 10);
+                            $valor_taxa = Funcoes::formata_moeda_para_gravar($pagamento->Valor_Taxa);
                             
-                            $o_individual = new IndividualDAO();
-                            $o_inscricao = new InscricaoDAO();
-                            
-                            if (!$o_individual->busca($id_individual)) {
-                                echo "$msg_erro - Usuário não encontrado<br><br>";
-                            } else {
-                                $nome = $o_individual->nome;
-                                $email = $o_individual->email;
+                            if ($modo_pagamento == "I") {
+                                $id_individual = $id_ref_pagamento;
                                 
-                                if (!$o_inscricao->busca($o_individual->id_inscricao)) {
-                                    echo "$msg_erro - Inscrição não encontrada<br><br>";
+                                $o_individual = new IndividualDAO();
+                                
+                                if (!$o_individual->busca($id_individual)) {
+                                    echo "$msg_erro - Usuário não encontrado<br><br>";
                                 } else {
-                                    if (!empty($o_inscricao->data_pagamento)) {
-                                        echo "$msg_aviso - O pagameno já consta no sistema<br><br>";
+                                    $nome = $o_individual->nome;
+                                    $email = $o_individual->email;
+                                    
+                                    $o_inscricao = new InscricaoDAO();
+                                    
+                                    if (!$o_inscricao->busca($o_individual->id_inscricao)) {
+                                        echo "$msg_erro - Inscrição não encontrada<br><br>";
                                     } else {
-                                        $data_pagamento = Funcoes::formata_data_para_gravar(substr($pagamento->Data_Transacao, 0, 10)) . substr($pagamento->Data_Transacao, 10);
-                                        
-                                        $data_compensacao = Funcoes::formata_data_para_gravar(substr($pagamento->Data_Compensacao, 0, 10)) . substr($pagamento->Data_Compensacao, 10);
-                                        
-                                        $valor_taxa = Funcoes::formata_moeda_para_gravar($pagamento->Valor_Taxa);
-                                        
-                                        $o_inscricao->data_pagamento = $data_pagamento;
-                                        $o_inscricao->data_compensacao = $data_compensacao;
-                                        $o_inscricao->taxa = $valor_taxa;
-                                        $o_inscricao->tipo_pagamento = $pagamento->Tipo_Pagamento;
-                                        $o_inscricao->transacao_id = $pagamento->Transacao_ID;
-
-                                        if (!$o_inscricao->salva()) {
-                                            echo "$msg_erro - Falha ao tentar atualizar o pagamento do usuario<br><br>";
+                                        if (!empty($o_inscricao->data_pagamento)) {
+                                            echo "$msg_aviso - O pagamento já consta no sistema<br><br>";
                                         } else {
-                                            // Enviar email
-                                            $mail = new PHPMailer();
-                                            $mail->From = SENDMAIL_FROM;
-                                            $mail->FromName = SENDMAIL_FROM_NAME;
-                                            $mail->Host = SENDMAIL_HOST;
-                                            $mail->IsMail();
-                                            $mail->IsHTML(true);
-                                            $mail->AddAddress($email, $nome);
-                                            $mail->Subject = "Confirmação de Pagamento e Inscrição - " . NOME_EVENTO;
-
-                                            $mail->Body = "
-                                                <html>
-                                                <body>
-                                                Ol&aacute; <b>$nome</b>,<br><br>
-                                                Escrevemos para informar que recebemos o pagamento de sua inscri&ccedil;&atilde;o.<br><br>
-                                                Acesse nosso <a href='" . HOME_PAGE . "'>web site</a> ou siga o <a href='" . TWITTER_ENDERECO . "'>" . TWITTER_NOME . "</a> no Twitter para acompanhar as novidades do " . NOME_EVENTO . ".<br><br>
-                                                At&eacute; o evento!<br><br>
-                                                <b>Organiza&ccedil;&atilde;o do " . NOME_EVENTO . "</b>!<br><br>
-                                                </body>
-                                                </html>
-                                            ";
-
-                                            if (!$mail->Send()) {
-                                                echo "$msg_erro - Falha ao tentar enviar e-mail para o usuario<br><br>";
-                                            }
+                                            $id_inscricao = $o_inscricao->id;
                                             
-                                            echo "$msg_ok<br><br>";
+                                            $o_inscricao = new InscricaoDAO();
+                                            $o_inscricao->id = $id_inscricao;
+                                            $o_inscricao->data_pagamento = $data_pagamento;
+                                            $o_inscricao->data_compensacao = $data_compensacao;
+                                            $o_inscricao->taxa = $valor_taxa;
+                                            $o_inscricao->tipo_pagamento = $pagamento->Tipo_Pagamento;
+                                            $o_inscricao->transacao_id = $pagamento->Transacao_ID;
+
+                                            if (!$o_inscricao->salva()) {
+                                                echo "$msg_erro - Falha ao tentar atualizar o pagamento do usuario<br><br>";
+                                            } else {
+                                                $retorno = EnviarEmail::enviar("pagamento", "individual", $email, $nome);
+                                                if (!$retorno)
+                                                    echo "$msg_erro - Falha ao tentar enviar e-mail para o usuario<br><br>";
+                                                else
+                                                    echo "$msg_ok<br><br>";
+                                            }
                                         }
+                                    }
+                                }
+                            } elseif ($modo_pagamento == "E") {
+                                $id_empresa = $id_ref_pagamento;
+                                
+                                $o_empresa = new EmpresaDAO();
+                                
+                                if (!$o_empresa->busca($id_empresa)) {
+                                    echo "$msg_erro - Empresa não encontrada<br><br>";
+                                } else {
+                                    $nome = $o_empresa->nome;
+                                    $email = $o_empresa->email;
+                                
+                                    $o_inscricao = new InscricaoDAO();
+                                    $a_funcionarios_empresa = $o_inscricao->selecionar_funcionarios_inscritos($id_empresa);
+
+                                    if (!$a_funcionarios_empresa) {
+                                        echo "$msg_erro - Nao foi encontrado nenhum funcionario da empresa<br><br>";
+                                    } else {
+                                        $taxa_por_pessoa = 0;
+                                        if ($valor_taxa > 0)
+                                            $taxa_por_pessoa = $valor_taxa / count($a_funcionarios_empresa);
+                                        
+                                        $lista_funcionarios = "";
+
+                                        foreach ($a_funcionarios_empresa as $inscrito) {
+                                            $nome_func = Funcoes::remove_acentos(utf8_encode($inscrito->nome));
+                                            $email_func = $inscrito->email;
+                                            
+                                            $lista_funcionarios .= "$nome_func - $email_func<br><br>";
+
+                                            if (!empty($inscrito->data_pagamento)) {
+                                                echo "<br>$msg_aviso - O pagamento da inscrição de $nome_func já consta no sistema";
+                                            } else {
+                                                $o_inscricao = new InscricaoDAO();
+                                                $o_inscricao->id = $inscrito->id;
+                                                $o_inscricao->data_pagamento = $data_pagamento;
+                                                $o_inscricao->data_compensacao = $data_compensacao;
+                                                $o_inscricao->taxa = $taxa_por_pessoa;
+                                                $o_inscricao->tipo_pagamento = $pagamento->Tipo_Pagamento;
+                                                $o_inscricao->transacao_id = $pagamento->Transacao_ID;
+
+                                                if (!$o_inscricao->salva()) {
+                                                    echo "<br>$msg_erro - Falha ao tentar atualizar o pagamento de $nome_func";
+                                                } else {
+                                                    $retorno = EnviarEmail::enviar("pagamento", "individual", $email_func, $nome_func);
+                                            
+                                                    if (!$retorno)
+                                                        echo "<br>$msg_erro - Falha ao tentar enviar e-mail para $nome_func";
+                                                    else
+                                                        echo "<br>$nome_func - $msg_ok";
+                                                }
+                                            }
+                                        }
+                                        
+                                        $retorno = EnviarEmail::enviar("pagamento", "empresa", $email, $nome, 0, $lista_funcionarios);
+                                        if (!$retorno)
+                                            echo "<br>$msg_erro - Falha ao tentar enviar e-mail para a empresa<br><br>";
                                     }
                                 }
                             }
