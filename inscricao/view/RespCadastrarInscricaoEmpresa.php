@@ -2,7 +2,6 @@
 session_start();
 
 require_once '../general/autoload.php';
-require_once '../util/constantes.php';
 
 header("Content-Type: application/xml; charset=utf-8");
 
@@ -74,6 +73,8 @@ if (!empty($_SESSION['Funcionarios'])) {
 			$xml .= "<erro>Falha ao tentar gravar dados do usuario $func_nome_sem_acento</erro>";
 			die($xml .= "</gravacao>");
 		}
+		
+		EnviarEmail::enviar("cadastro", "individual", $func_email, $func_nome_sem_acento);
 	}
 }
 
@@ -81,33 +82,8 @@ $o_transacao->commit();
 
 $nome_enviar = Funcoes::remove_acentos($o_empresa->nome);
 
-// Enviar email
-$mail = new PHPMailer();
-$mail->From = SENDMAIL_FROM;
-$mail->FromName = SENDMAIL_FROM_NAME;
-$mail->Host = SENDMAIL_HOST;
-$mail->IsMail();
-$mail->IsHTML(true);
-$mail->AddAddress($o_empresa->email, $nome_enviar);
-$mail->Subject = NOME_EVENTO . " - Cadastro realizado com sucesso";
-
-$mail->Body = "
-    <html>
-    <body>
-    <b>$nome_enviar</b>,<br><br>
-    Obrigado pelo interesse em participar do <b>" . NOME_EVENTO . "</b>!<br><br>
-    Confirmamos o cadastro de seus dados e funcion&aacute;rios em nosso sistema.<br><br>
-    Estamos aguardando a confirma&ccedil;&atilde;o do PagSeguro, para finalizarmos seu processo de inscri&ccedil;&atilde;o.<br><br>
-    Assim que conclu&iacute;do, voc&ecirc; receber&aacute; uma mensagem.<br><br>
-    Caso tenha ocorrido algum problema, utilize o link abaixo para efetuar o pagamento e confirmar as inscri&ccedil;&otilde;es.<br><br>
-    <a href='" . HOME_PAGE . "inscricao/view/pagamentoEmpresa.php?id=" . $o_empresa->id . "'>" . HOME_PAGE . "inscricao/view/pagamentoEmpresa.php?id=" . $o_empresa->id . "</a><br><br>
-    <br>At&eacute; o evento!<br><br>
-    <b>Organiza&ccedil;&atilde;o do " . NOME_EVENTO . "</b>!<br><br>
-    </body>
-    </html>
-";
-
-if (!$mail->Send()) {
+$retorno = EnviarEmail::enviar("cadastro", "empresa", $o_empresa->email, $nome_enviar, $o_empresa->id);
+if (!$retorno) {
 	$xml .= "<erro>Falha ao tentar enviar e-mail para a empresa</erro>";
 	die($xml .= "</gravacao>");
 }

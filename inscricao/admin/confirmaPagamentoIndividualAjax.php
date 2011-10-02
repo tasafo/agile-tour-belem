@@ -1,6 +1,5 @@
 <?php
 require_once '../general/autoload.php';
-require_once '../util/constantes.php';
 
 header("Content-Type: application/xml; charset=utf-8");
 
@@ -44,7 +43,6 @@ if ($cortesia == "S") {
     $o_inscricao = new InscricaoDAO();
     $o_inscricao->id = $idInscricao;
     $o_inscricao->id_tipo_inscricao = $a_tipo_inscricao[0]->id;
-    $o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
 
     if (!$o_inscricao->salva()) {
         $xml .= "<erro>Falha ao tentar atualizar o tipo de inscricao do usuario</erro>";
@@ -66,30 +64,10 @@ if (!$o_inscricao->salva()) {
     die($xml .= "</agilidade>");
 }
 
-// Enviar email
-$mail = new PHPMailer();
-$mail->From = SENDMAIL_FROM;
-$mail->FromName = SENDMAIL_FROM_NAME;
-$mail->Host = SENDMAIL_HOST;
-$mail->IsMail();
-$mail->IsHTML(true);
-$mail->AddAddress($email, $nome);
-$mail->Subject = NOME_EVENTO . " - Confirmação de Pagamento e Inscrição";
-
-$mail->Body = "
-    <html>
-    <body>
-    Ol&aacute; <b>$nome</b>,<br><br>
-    Escrevemos para informar que recebemos o pagamento de sua inscri&ccedil;&atilde;o.<br><br>
-    Acesse nosso <a href='" . HOME_PAGE . "'>web site</a> ou siga o <a href='" . TWITTER_ENDERECO . "'>" . TWITTER_NOME . "</a> no Twitter para acompanhar as novidades do " . NOME_EVENTO . ".<br><br>
-    At&eacute; o evento!<br><br>
-    <b>Organiza&ccedil;&atilde;o do " . NOME_EVENTO . "</b>!<br><br>
-    </body>
-    </html>
-";
-
-if (!$mail->Send()) {
+$retorno = EnviarEmail::enviar("pagamento", "individual", $email, $nome);
+if (!$retorno) {
     $xml .= "<erro>Falha ao tentar enviar e-mail para o usuario</erro>";
+    $xml .= "<idInscricao>$idInscricao</idInscricao>";
     die($xml .= "</agilidade>");
 }
 

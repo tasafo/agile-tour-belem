@@ -1,6 +1,5 @@
 <?php
 require_once '../general/autoload.php';
-require_once '../util/constantes.php';
 
 header("Content-Type: application/xml; charset=utf-8");
 
@@ -44,7 +43,6 @@ if ($cortesia == "S") {
         $o_inscricao = new InscricaoDAO();
         $o_inscricao->id = $inscrito->id;
         $o_inscricao->id_tipo_inscricao = $id_tipo_inscricao;
-        $o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
 
         if (!$o_inscricao->salva()) {
             $xml .= "<erro>Falha ao tentar atualizar o tipo de inscricao dos usuarios</erro>";
@@ -65,91 +63,45 @@ if (!$a_funcionarios_empresa) {
     die($xml .= "</agilidade>");
 }
 
-$listaFuncionarios = "";
-foreach ($a_funcionarios_empresa as $funcionario) {
-    $listaFuncionarios .= Funcoes::remove_acentos(utf8_encode($funcionario->nome)) . " - " . $funcionario->email . "<br><br>" ;
-}
-
 $taxa_por_pessoa = 0;
 if ($txPagamento > 0)
     $taxa_por_pessoa = $txPagamento / count($a_funcionarios_empresa);
 
+$lista_funcionarios = "";
+
 foreach ($a_funcionarios_empresa as $inscrito) {
+    $nome_func = Funcoes::remove_acentos(utf8_encode($inscrito->nome));
+    $email_func = $inscrito->email;
+
+    $lista_funcionarios .= "$nome_func - $email_func<br><br>";
+    
     $o_inscricao = new InscricaoDAO();
     $o_inscricao->id = $inscrito->id;
     $o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
     $o_inscricao->taxa = $taxa_por_pessoa;
 
     if (!$o_inscricao->salva()) {
-        $xml .= "<erro>Falha ao tentar atualizar o pagamento da empresa</erro>";
+        $xml .= "<erro>Falha ao tentar atualizar o pagamento do funcionario</erro>";
         $xml .= "<idEmpresa>$idEmpresa</idEmpresa>";
         die($xml .= "</agilidade>");
+    } else {
+        $retorno = EnviarEmail::enviar("pagamento", "individual", $email_func, $nome_func);
+        if (!$retorno) {
+            $xml .= "<erro>Falha ao tentar enviar e-mail para o usuario</erro>";
+            $xml .= "<idEmpresa>$idEmpresa</idEmpresa>";
+            die($xml .= "</agilidade>");
+        }       
     }
 }
 
-// Enviar email para a Empresa
-$mail = new PHPMailer();
-$mail->From = SENDMAIL_FROM;
-$mail->FromName = SENDMAIL_FROM_NAME;
-$mail->Host = SENDMAIL_HOST;
-$mail->IsMail();
-$mail->IsHTML(true);
-$mail->AddAddress($email, $nome);
-$mail->Subject = NOME_EVENTO . " - Confirmação de Pagamento e Inscrição";
-
-$mail->Body = "
-    <html>
-    <body>
-    <b>$nome</b>,<br><br>
-    Escrevemos para informar que recebemos o pagamento da inscri&ccedil;&atilde;o de seus funcion&aacute;rios.<br><br>
-    $listaFuncionarios
-    Acesse nosso <a href='" . HOME_PAGE . "'>web site</a> ou siga o <a href='" . TWITTER_ENDERECO . "'>" . TWITTER_NOME . "</a> no Twitter para acompanhar as novidades do " . NOME_EVENTO . " .<br><br>
-    At&eacute; o evento!<br><br>
-    <b>Organiza&ccedil;&atilde;o do " . NOME_EVENTO . "</b>!<br><br>
-    </body>
-    </html>
-";
-
-if (!$mail->Send()) {
+$retorno = EnviarEmail::enviar("pagamento", "empresa", $email, $nome, 0, $lista_funcionarios);
+if (!$retorno) {
     $xml .= "<erro>Falha ao tentar enviar e-mail para a empresa</erro>";
     $xml .= "<idEmpresa>$idEmpresa</idEmpresa>";
     die($xml .= "</agilidade>");
 }
 
-// Enviar e-mail para os funcionario da Empresa
-foreach ($a_funcionarios_empresa as $funcionario) {
-    $nome_func = Funcoes::remove_acentos(utf8_encode($funcionario->nome));
-    $email_func = $funcionario->email;
-
-    $mail = new PHPMailer();
-    $mail->From = SENDMAIL_FROM;
-    $mail->FromName = SENDMAIL_FROM_NAME;
-    $mail->Host = SENDMAIL_HOST;
-    $mail->IsMail();
-    $mail->IsHTML(true);
-    $mail->AddAddress($email_func, $nome_func);
-    $mail->Subject = NOME_EVENTO . " - Confirmação de Pagamento e Inscrição";
-
-    $mail->Body = "
-        <html>
-        <body>
-        Ol&aacute; <b>$nome_func</b>,<br><br>
-        Escrevemos para informar que recebemos o pagamento de sua inscri&ccedil;&atilde;o.<br><br>
-        Acesse nosso <a href='" . HOME_PAGE . "'>web site</a> ou siga o <a href='" . TWITTER_ENDERECO . "'>" . TWITTER_NOME . "</a> no Twitter para acompanhar as novidades do " . NOME_EVENTO . ".<br><br>
-        At&eacute; o evento!<br><br>
-        <b>Organiza&ccedil;&atilde;o do " . NOME_EVENTO . "</b>!<br><br>
-        </body>
-        </html>
-    ";
-
-    if (!$mail->Send()) {
-        $xml .= "<erro>Falha ao tentar enviar e-mail para o usuario</erro>";
-        $xml .= "<idEmpresa>$idEmpresa</idEmpresa>";
-        die($xml .= "</agilidade>");
-    }
-}
-
-$xml .= "<mensagem>Operacao realizada com sucesso. O E-mail ja foi enviado para a empresa$msg_recarregar</mensagem>";
+$xml .= "<mensagem>Operacao realizada com sucesso. O E-mail ja foi enviado para a empresa e funcionarios$msg_recarregar</mensagem>";
 $xml .= "<dataPagamento>$dtPagamento</dataPagamento>";
 $xml .= "<idEmpresa>$idEmpresa</idEmpresa>";
 die($xml .= "</agilidade>");
