@@ -70,14 +70,11 @@ foreach ($a_funcionarios_empresa as $funcionario) {
     $listaFuncionarios .= Funcoes::remove_acentos(utf8_encode($funcionario->nome)) . " - " . $funcionario->email . "<br><br>" ;
 }
 
-$o_inscricao = new InscricaoDAO();
-$a_inscricoes_da_empresa = $o_inscricao->busca("id_empresa = $idEmpresa");
-
 $taxa_por_pessoa = 0;
 if ($txPagamento > 0)
-    $taxa_por_pessoa = $txPagamento / count($a_inscricoes_da_empresa);
+    $taxa_por_pessoa = $txPagamento / count($a_funcionarios_empresa);
 
-foreach ($a_inscricoes_da_empresa as $inscrito) {
+foreach ($a_funcionarios_empresa as $inscrito) {
     $o_inscricao = new InscricaoDAO();
     $o_inscricao->id = $inscrito->id;
     $o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
