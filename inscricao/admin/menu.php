@@ -15,6 +15,8 @@ $a_menu = array(
 $o_inscricao = new InscricaoDAO();
 $a_em_aberto = $o_inscricao->valor_total_inscritos("A");
 $a_confirmados = $o_inscricao->valor_total_inscritos("C");
+$a_confirmados_a_receber = $o_inscricao->valor_total_inscritos("CR");
+$a_confirmados_disponivel = $o_inscricao->valor_total_inscritos("CD");
 $a_incritos_instituicao = $o_inscricao->total_de_inscritos_por_instituicao();
 ?>
 <!DOCTYPE html>
@@ -45,7 +47,13 @@ $a_incritos_instituicao = $o_inscricao->total_de_inscritos_por_instituicao();
         <b>Totais de inscrições</b><br><br>
         <b><?php echo $a_em_aberto[0]->quantidade ?></b> inscrições em <b>aberto</b> no valor de <b>R$ <?php echo Funcoes::formata_moeda_para_exibir($a_em_aberto[0]->valor) ?></b>
         <br><br>
-        <b><?php echo $a_confirmados[0]->quantidade ?></b> inscrições <b>confirmadas</b> no valor de <b>R$ <?php echo Funcoes::formata_moeda_para_exibir($a_confirmados[0]->valor) ?></b>
+        <b>Inscrições Confirmadas</b>
+        <br>---------------------------------------------------------------------<br>
+        <b><?php echo $a_confirmados_a_receber[0]->quantidade ?></b> a receber no valor de <b>R$ <?php echo Funcoes::formata_moeda_para_exibir($a_confirmados_a_receber[0]->valor) ?></b>
+        <br>
+        <b><?php echo $a_confirmados_disponivel[0]->quantidade ?></b> disponível no valor de <b>R$ <?php echo Funcoes::formata_moeda_para_exibir($a_confirmados_disponivel[0]->valor) ?></b>
+        <br>---------------------------------------------------------------------<br>
+        <b><?php echo $a_confirmados[0]->quantidade ?></b> no valor total de <b>R$ <?php echo Funcoes::formata_moeda_para_exibir($a_confirmados[0]->valor) ?>
         <br><br>
         <b><?php echo $a_em_aberto[0]->quantidade + $a_confirmados[0]->quantidade ?></b> inscrições realizadas no total
         

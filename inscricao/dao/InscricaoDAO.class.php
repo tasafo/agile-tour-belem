@@ -28,10 +28,14 @@ class InscricaoDAO extends AbstractDAO {
     }
     
     function valor_total_inscritos($situacao = null) {
-        if ($situacao == "A")
+        if ($situacao == "A") // Em aberto
             $condicao = " AND ins.data_pagamento IS NULL";
-        else if ($situacao == "C")
+        else if ($situacao == "C") // Confirmadas
             $condicao = " AND ins.data_pagamento IS NOT NULL";
+        else if ($situacao == "CR") // Confirmadas a Receber
+            $condicao = " AND ins.data_pagamento IS NOT NULL AND ins.data_compensacao > '" . date("Y-m-d") . "'";
+        else if ($situacao == "CD") // Confirmadas Disponivel
+            $condicao = " AND ins.data_pagamento IS NOT NULL AND ins.data_compensacao <= '" . date("Y-m-d") . "'";
         else
             $condicao = "";
         
@@ -63,8 +67,8 @@ class InscricaoDAO extends AbstractDAO {
         else
             $condicao = "";
     
-		$sql = "SELECT ins.id AS id_inscricao, ins.data_registro, ins.data_pagamento, ins.taxa, ind.nome,       ind.email,
-            ind.instituicao, tip.descricao AS descricao_tipo_inscricao, tip.valor, ind.id AS id_individual
+		$sql = "SELECT ins.id AS id_inscricao, ins.data_registro, ins.data_pagamento, ins.data_compensacao, ins.taxa,
+            ind.nome, ind.email, ind.instituicao, tip.descricao AS descricao_tipo_inscricao, tip.valor, ind.id AS id_individual
             FROM inscricao ins
             JOIN tipo_inscricao tip ON (ins.id_tipo_inscricao = tip.id)
             JOIN individual ind ON (ins.id = ind.id_inscricao)

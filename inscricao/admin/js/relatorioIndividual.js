@@ -14,12 +14,14 @@ function confirmaPagamento(idInscricao) {
     jConfirm("Deseja realizar o pagamento?", null, function(r) {
         if (r == true) {
             dtPagamento = $("#data_" + idInscricao).val();
+            dtCompensacao = $("#compensacao_" + idInscricao).val();
             txPagamento = $("#taxa_" + idInscricao).val();
             nome = $("#nome_" + idInscricao).text();
             email = $("#email_" + idInscricao).text();
             cortesia = $("#cortesia_" + idInscricao).val();
 
             parametros = 'dtPagamento=' + dtPagamento +
+                '&dtCompensacao=' + dtCompensacao +
                 '&txPagamento=' + txPagamento +
                 '&nome=' + nome +
                 '&email=' + email +
@@ -58,9 +60,11 @@ function analisarRespostaPagamentoIndividual(xml) {
         return false;
     } else {
         dataPagamento = $('dataPagamento', xml).text();
+        dataCompensacao = $('dataCompensacao', xml).text();
         mensagem = $('mensagem', xml).text();
 
         $('#div_data_pagamento_' + idInscricao).html(dataPagamento);
+        $('#div_data_compensacao_' + idInscricao).html(dataCompensacao);
         $('#div_taxa_pagamento_' + idInscricao).html("&nbsp;");
         $('#div_botao_' + idInscricao).html("&nbsp;");
         $('#div_cortesia_' + idInscricao).html("&nbsp;");

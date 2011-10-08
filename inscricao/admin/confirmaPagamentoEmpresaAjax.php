@@ -8,6 +8,7 @@ $xml .= "<agilidade>\n";
 
 $idEmpresa = $_REQUEST['idEmpresa'];
 $dtPagamento = $_REQUEST['dtPagamento'];
+$dtCompensacao = $_REQUEST['dtCompensacao'];
 $nome = $_REQUEST['nome'];
 $email = $_REQUEST['email'];
 $cortesia = $_REQUEST['cortesia'];
@@ -17,7 +18,13 @@ if ($cortesia != "S")
     $txPagamento = Funcoes::formata_moeda_para_gravar($_REQUEST['txPagamento']);
 
 if (!Funcoes::checa_data($dtPagamento)) {
-    $xml .= "<erro>A data nao e valida</erro>";
+    $xml .= "<erro>A data de pagamento e invalida</erro>";
+    $xml .= "<idEmpresa>$idEmpresa</idEmpresa>";
+    die($xml .= "</agilidade>");
+}
+
+if (!Funcoes::checa_data($dtCompensacao)) {
+    $xml .= "<erro>A data de compensacao e invalida</erro>";
     $xml .= "<idEmpresa>$idEmpresa</idEmpresa>";
     die($xml .= "</agilidade>");
 }
@@ -78,6 +85,7 @@ foreach ($a_funcionarios_empresa as $inscrito) {
     $o_inscricao = new InscricaoDAO();
     $o_inscricao->id = $inscrito->id;
     $o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
+    $o_inscricao->data_compensacao = Funcoes::formata_data_para_gravar($dtCompensacao);
     $o_inscricao->taxa = $taxa_por_pessoa;
 
     if (!$o_inscricao->salva()) {
@@ -103,6 +111,7 @@ if (!$retorno) {
 
 $xml .= "<mensagem>Operacao realizada com sucesso. O E-mail ja foi enviado para a empresa e funcionarios$msg_recarregar</mensagem>";
 $xml .= "<dataPagamento>$dtPagamento</dataPagamento>";
+$xml .= "<dataCompensacao>$dtCompensacao</dataCompensacao>";
 $xml .= "<idEmpresa>$idEmpresa</idEmpresa>";
 die($xml .= "</agilidade>");
 ?>

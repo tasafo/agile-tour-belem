@@ -36,7 +36,7 @@ if (!$a_inscritos_empresas) {
                 <td align="right">(+)Valor</td>
                 <td align="right">(-)Taxa</td>
                 <td align="right">(=)Total</td>
-                <td align="center">Pagamento</td>
+                <td align="center">Pagto. | Compens.</td>
                 <td>Cortesia?</td>
                 <td align="center">Operações</td>
             </tr>
@@ -83,7 +83,9 @@ if (!$a_inscritos_empresas) {
                     $contadorEmpresa = 0;
 
                     if (empty($inscricao->data_pagamento)) {
-                        $dataPagamento = "Data: <input type='text' size=10 maxlength=10 name='dtPagamento' id='data_$idEmpresa' onkeypress='mascara(this,data);' onblur='validaData(this);' />";
+                        $dataPagamento = "Dt. Pagto.: <input type='text' size=10 maxlength=10 name='dtPagamento' id='data_$idEmpresa' onkeypress='mascara(this,data);' onblur='validaData(this);' />";
+                        
+                        $dataCompensacao = "Dt. Compens.: <input type='text' size=10 maxlength=10 name='dtCompensacao' id='compensacao_$idEmpresa' onkeypress='mascara(this,data);' onblur='validaData(this);' />";
                         
                         $taxaPagamento = "Taxa: <input type='text' size=10 maxlength=10 name='taxaPagamento' id='taxa_$idEmpresa' onKeyUp='this.value = soValorC(this.value, 2)' style='text-align: right' />";
                         
@@ -92,6 +94,7 @@ if (!$a_inscritos_empresas) {
                         $cortesia = "<input type='checkbox' name='cortesia' id='cortesia_$idEmpresa' value='N' onclick='marcaCortesia($idEmpresa)' />";
                     } else {
                         $dataPagamento = Funcoes::formata_data_para_exibir($inscricao->data_pagamento);
+                        $dataCompensacao = empty($inscricao->data_pagamento) ? "" : Funcoes::formata_data_para_exibir($inscricao->data_pagamento);
                         $taxaPagamento = "";
                         $confirmar = "&nbsp;";
                         $cortesia = "&nbsp;";
@@ -106,8 +109,9 @@ if (!$a_inscritos_empresas) {
                     Resp.: <?php echo utf8_encode($inscricao->responsavel) ?>
                 </td>
                 <td colspan="4"><span style="color: red" id="salvando_<?php echo $idEmpresa ?>"></span></td>
-                <td align="center">
+                <td align="right">
                     <div id="div_data_pagamento_<?php echo $idEmpresa ?>"><?php echo $dataPagamento ?></div>
+                    <div id="div_data_compensacao_<?php echo $idEmpresa ?>"><?php echo $dataCompensacao ?></div>
                     <div id="div_taxa_pagamento_<?php echo $idEmpresa ?>"><?php echo $taxaPagamento ?></div>
                 </td>
                 <td align="center">

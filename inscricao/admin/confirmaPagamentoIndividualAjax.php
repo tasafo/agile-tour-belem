@@ -8,6 +8,7 @@ $xml .= "<agilidade>\n";
 
 $idInscricao = $_REQUEST['idInscricao'];
 $dtPagamento = $_REQUEST['dtPagamento'];
+$dtCompensacao = $_REQUEST['dtCompensacao'];
 $nome = $_REQUEST['nome'];
 $email = $_REQUEST['email'];
 $cortesia = $_REQUEST['cortesia'];
@@ -17,7 +18,13 @@ if ($cortesia != "S")
     $txPagamento = Funcoes::formata_moeda_para_gravar($_REQUEST['txPagamento']);
 
 if (!Funcoes::checa_data($dtPagamento)) {
-    $xml .= "<erro>Data invalida</erro>";
+    $xml .= "<erro>Data de pagamento invalida</erro>";
+    $xml .= "<idInscricao>$idInscricao</idInscricao>";
+    die($xml .= "</agilidade>");
+}
+
+if (!Funcoes::checa_data($dtCompensacao)) {
+    $xml .= "<erro>Data de compensacao invalida</erro>";
     $xml .= "<idInscricao>$idInscricao</idInscricao>";
     die($xml .= "</agilidade>");
 }
@@ -56,6 +63,7 @@ if ($cortesia == "S") {
 $o_inscricao = new InscricaoDAO();
 $o_inscricao->id = $idInscricao;
 $o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
+$o_inscricao->data_compensacao = Funcoes::formata_data_para_gravar($dtCompensacao);
 $o_inscricao->taxa = $txPagamento;
 
 if (!$o_inscricao->salva()) {
@@ -73,6 +81,7 @@ if (!$retorno) {
 
 $xml .= "<mensagem>Operacao realizada com sucesso. O E-mail ja foi enviado para o inscrito$msg_recarregar</mensagem>";
 $xml .= "<dataPagamento>$dtPagamento</dataPagamento>";
+$xml .= "<dataCompensacao>$dtCompensacao</dataCompensacao>";
 $xml .= "<taxaPagamento>$txPagamento</taxaPagamento>";
 $xml .= "<idInscricao>$idInscricao</idInscricao>";
 die($xml .= "</agilidade>");

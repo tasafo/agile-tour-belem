@@ -36,7 +36,7 @@ if (!$a_inscritos_individual) {
                 <td align="right">(+)Valor</td>
                 <td align="right">(-)Taxa</td>
                 <td align="right">(=)Total</td>
-                <td align="center" width="15%">Pagamento</td>
+                <td align="center" width="20%">Pagto. | Compens.</td>
                 <td>Cortesia?</td>
                 <td align="center">Operações</td>
             </tr>
@@ -64,7 +64,9 @@ if (!$a_inscritos_individual) {
                     $contadorEmAberto++;
                     $valorInscricaoEmAberto += $individual->valor;
 
-                    $dataPagamento = "Data: <input type='text' size=10 maxlength=10 name='dtPagamento' id='data_$idInscricao' onkeypress='mascara(this,data);' onblur='validaData(this);' />";
+                    $dataPagamento = "Dt. Pagto.: <input type='text' size=10 maxlength=10 name='dtPagamento' id='data_$idInscricao' onkeypress='mascara(this,data);' onblur='validaData(this);' />";
+                    
+                    $dataCompensacao = "Dt. Compens.: <input type='text' size=10 maxlength=10 name='dtCompensacao' id='compensacao_$idInscricao' onkeypress='mascara(this,data);' onblur='validaData(this);' />";
                     
                     $taxaPagamento = "Taxa: <input type='text' size=10 maxlength=10 name='taxaPagamento' id='taxa_$idInscricao' onKeyUp='this.value = soValorC(this.value, 2)' style='text-align: right' />";
                     
@@ -80,6 +82,7 @@ if (!$a_inscritos_individual) {
                     $valorTotalInscricao += $subTotalInscricao;
 
                     $dataPagamento = Funcoes::formata_data_para_exibir($individual->data_pagamento);
+                    $dataCompensacao = empty($individual->data_compensacao) ? "" : Funcoes::formata_data_para_exibir($individual->data_compensacao);
                     $taxaPagamento = "";
                     $cortesia = "&nbsp;";
                     $confirmar = "&nbsp;";
@@ -99,8 +102,9 @@ if (!$a_inscritos_individual) {
                 <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($individual->valor) ?></td>
                 <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($individual->taxa) ?></td>
                 <td align="right"><?php echo Funcoes::formata_moeda_para_exibir($subTotalInscricao) ?></td>
-                <td align="center">
+                <td align="right">
                     <div id="div_data_pagamento_<?php echo $idInscricao ?>"><?php echo $dataPagamento ?></div>
+                    <div id="div_data_compensacao_<?php echo $idInscricao ?>"><?php echo $dataCompensacao ?></div>
                     <div id="div_taxa_pagamento_<?php echo $idInscricao ?>"><?php echo $taxaPagamento ?></div>
                 </td>
                 <td align="center">
