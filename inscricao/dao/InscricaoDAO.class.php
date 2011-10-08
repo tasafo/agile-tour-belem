@@ -17,6 +17,19 @@ class InscricaoDAO extends AbstractDAO {
 		parent::__construct($this);
 	}
 
+    function total_de_pagamentos_por_compensacao() {
+        $sql = "SELECT ins.data_compensacao, SUM(tip.valor - ins.taxa) AS valor
+            FROM inscricao ins
+            JOIN tipo_inscricao tip ON (ins.id_tipo_inscricao = tip.id)
+            JOIN individual ind ON (ins.id = ind.id_inscricao)
+            WHERE ins.data_pagamento IS NOT NULL
+            AND ind.situacao = 'A'
+            GROUP BY ins.data_compensacao
+            ORDER BY ins.data_compensacao";
+
+        return $this->resultado_consulta($sql);
+    }
+
     function total_de_inscritos_por_instituicao() {
         $sql = "SELECT instituicao, COUNT(*) AS quantidade
             FROM individual

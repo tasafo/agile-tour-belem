@@ -7,6 +7,7 @@ $a_menu = array(
     'relatorioEmpresas' => 'Inscrições por Empresa',
     'relatorioInscritos' => 'Listagem dos Inscritos Pagantes',
     'relatoriosTela' => 'Outros Relatórios',
+    'pagamentosPorCompensacao' => 'Pagamentos por data de compensação',
     'manutencaoInscritos' => 'Manutenção dos Inscritos',
     'importarPagamentos' => 'Importar Pagamentos do Pagseguro',
     'index' => 'Sair'
