@@ -10,6 +10,7 @@ $a_menu = array(
     'pagamentosPorCompensacao' => 'Pagamentos por data de compensação',
     'manutencaoInscritos' => 'Manutenção dos Inscritos',
     'importarPagamentos' => 'Importar Pagamentos do Pagseguro',
+    'envioEmailAviso' => 'Enviar avisos por e-mail',
     'index' => 'Sair'
 );
 
@@ -52,7 +53,7 @@ $a_incritos_instituicao = $o_inscricao->total_de_inscritos_por_instituicao();
         <br>---------------------------------------------------------------------<br>
         <b><?php echo $a_confirmados_a_receber[0]->quantidade ?></b> a receber no valor de <b>R$ <?php echo Funcoes::formata_moeda_para_exibir($a_confirmados_a_receber[0]->valor) ?></b>
         <br>
-        <b><?php echo $a_confirmados_disponivel[0]->quantidade ?></b> disponível no valor de <b>R$ <?php echo Funcoes::formata_moeda_para_exibir($a_confirmados_disponivel[0]->valor) ?></b>
+        <b><?php echo $a_confirmados_disponivel[0]->quantidade ?></b> disponíveis no valor de <b>R$ <?php echo Funcoes::formata_moeda_para_exibir($a_confirmados_disponivel[0]->valor) ?></b>
         <br>---------------------------------------------------------------------<br>
         <b><?php echo $a_confirmados[0]->quantidade ?></b> no valor total de <b>R$ <?php echo Funcoes::formata_moeda_para_exibir($a_confirmados[0]->valor) ?>
         <br><br>

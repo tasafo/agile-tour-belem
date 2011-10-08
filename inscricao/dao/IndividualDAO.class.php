@@ -14,5 +14,16 @@ class IndividualDAO extends AbstractDAO {
 	function __construct() {
 		parent::__construct($this);
 	}
+	
+    function inscritos_por_intervalo($inicio, $fim) {
+        $sql = "SELECT ind.* FROM individual ind
+            JOIN inscricao ins ON (ind.id_inscricao = ins.id)
+            WHERE ind.id BETWEEN $inicio AND $fim
+            AND ins.data_pagamento IS NULL
+            AND ind.situacao = 'A'
+            ORDER BY ind.id";
+
+        return $this->resultado_consulta($sql);
+    }
 }
 ?>
