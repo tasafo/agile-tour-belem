@@ -219,5 +219,6 @@ if ($a_tipo_inscricao) {
 				</tr>
 			</table>
 		</form>
+		<?php require_once $niveis . 'rodape.php'; ?>
     </body>
 </html>
