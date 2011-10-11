@@ -7,8 +7,12 @@ if ($_POST['inicio'] && $_POST['fim']) {
     $inicio = $_POST['inicio'];
     $fim = $_POST['fim'];
     
+    $so_inadimplentes = false;
+    if ($_POST['inadimplentes'] && $_POST['inadimplentes'] == "sim")
+        $so_inadimplentes = true;
+    
     $o_inscritos = new IndividualDAO();
-    $a_inscritos = $o_inscritos->inscritos_por_intervalo($inicio, $fim);
+    $a_inscritos = $o_inscritos->inscritos_por_intervalo($inicio, $fim, $so_inadimplentes);
     
     if ($a_inscritos) {
         echo '<center><h3><a href="menu.php">Voltar ao Menu</a></h3>';
@@ -19,7 +23,7 @@ if ($_POST['inicio'] && $_POST['fim']) {
             $nome = $inscrito->nome;
             $email = $inscrito->email;
             
-            $retorno = EnviarEmail::enviar("aviso", "individual", $email, $nome, $id, $texto);
+            //$retorno = EnviarEmail::enviar("aviso", "individual", $email, $nome, $id, $texto);
             if (!$retorno)
                 echo "$id - O e-mail para <b>$email</b> nao foi enviado<br>";
             else
@@ -35,17 +39,18 @@ if ($_POST['inicio'] && $_POST['fim']) {
 <html lang="pt-br">
   <head>
     <meta charset="utf-8">
-        <title>Envio de email's para inadimplentes</title>
+        <title>Envio de email's</title>
         <link href="css/admin.css" rel="stylesheet" />
     </head>
     <body>
         <center>
             <h3><a href="menu.php">Voltar ao Menu</a></h3>
-            <h2>Envio de email's para inadimplentes</h2>
+            <h2>Envio de email's</h2>
         </center>
         <form action="" method="post">
             Texto:<br>
             <textarea rows="15" cols="80" name="texto"></textarea><br><br>
+            <input type="checkbox" name="inadimplentes" id="inadimplentes" value="sim" />Enviar só para os inadimplentes?<br><br>
             Inicio: <input type="text" size="5" name="inicio" id="inicio" value=""><br><br>
             Fim: <input type="text" size="5" name="fim" id="fim" value=""><br><br>
             <input type="submit" name="submit" value="enviar">
