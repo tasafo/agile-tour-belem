@@ -35,7 +35,7 @@ class InscricaoDAO extends AbstractDAO {
             FROM individual
             WHERE situacao = 'A'
             GROUP BY instituicao
-            ORDER BY COUNT(*) DESC";
+            ORDER BY COUNT(*) DESC, instituicao";
 
         return $this->resultado_consulta($sql);
     }

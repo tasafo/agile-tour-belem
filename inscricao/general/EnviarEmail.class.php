@@ -51,7 +51,7 @@ class EnviarEmail {
         
         } elseif ($motivo == "aviso") {
             if (!empty($complemento)) {
-                $texto = $complemento;
+                $texto = $complemento . "<br><br>";
             } else {    
                 $texto .= "
                     Verificamos em nosso sistema que seu pagamento ainda n&atilde;o foi efetuado.<br><br>

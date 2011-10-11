@@ -23,7 +23,7 @@ if ($_POST['inicio'] && $_POST['fim']) {
             $nome = $inscrito->nome;
             $email = $inscrito->email;
             
-            //$retorno = EnviarEmail::enviar("aviso", "individual", $email, $nome, $id, $texto);
+            $retorno = EnviarEmail::enviar("aviso", "individual", $email, $nome, $id, $texto);
             if (!$retorno)
                 echo "$id - O e-mail para <b>$email</b> nao foi enviado<br>";
             else
