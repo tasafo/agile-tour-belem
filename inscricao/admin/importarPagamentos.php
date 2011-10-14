@@ -95,15 +95,21 @@ if ($_FILES['arquivo']) {
                                     if (!$a_funcionarios_empresa) {
                                         echo "$msg_erro - Nao foi encontrado nenhum funcionario da empresa<br><br>";
                                     } else {
-                                        $taxa_por_pessoa = 0;
-                                        if ($valor_taxa > 0)
-                                            $taxa_por_pessoa = $valor_taxa / count($a_funcionarios_empresa);
-                                        
+                                        $total_funcionarios = count($a_funcionarios_empresa);
+
+                                        $taxa_por_pessoa = ($valor_taxa > 0) ? round($valor_taxa / $total_funcionarios, 2) : 0;
+
+                                        $sobra = round(($total_funcionarios * $taxa_por_pessoa) - $valor_taxa, 2);
+
                                         $lista_funcionarios = "";
+                                        $contador = 0;
 
                                         foreach ($a_funcionarios_empresa as $inscrito) {
+                                            $contador++;
                                             $nome_func = Funcoes::remove_acentos(utf8_encode($inscrito->nome));
                                             $email_func = $inscrito->email;
+                                            
+                                            $valor_taxa = ($contador == $total_funcionarios) ? $taxa_por_pessoa - $sobra : $taxa_por_pessoa;
                                             
                                             $lista_funcionarios .= "$nome_func - $email_func<br><br>";
 
@@ -114,7 +120,7 @@ if ($_FILES['arquivo']) {
                                                 $o_inscricao->id = $inscrito->id;
                                                 $o_inscricao->data_pagamento = $data_pagamento;
                                                 $o_inscricao->data_compensacao = $data_compensacao;
-                                                $o_inscricao->taxa = $taxa_por_pessoa;
+                                                $o_inscricao->taxa = $valor_taxa;
                                                 $o_inscricao->tipo_pagamento = $pagamento->Tipo_Pagamento;
                                                 $o_inscricao->transacao_id = $pagamento->Transacao_ID;
 

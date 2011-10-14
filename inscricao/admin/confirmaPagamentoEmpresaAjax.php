@@ -70,15 +70,21 @@ if (!$a_funcionarios_empresa) {
     die($xml .= "</agilidade>");
 }
 
-$taxa_por_pessoa = 0;
-if ($txPagamento > 0)
-    $taxa_por_pessoa = $txPagamento / count($a_funcionarios_empresa);
+$total_funcionarios = count($a_funcionarios_empresa);
+
+$taxa_por_pessoa = ($txPagamento > 0) ? round($txPagamento / $total_funcionarios, 2) : 0;
+
+$sobra = round(($total_funcionarios * $taxa_por_pessoa) - $txPagamento, 2);
 
 $lista_funcionarios = "";
+$contador = 0;
 
 foreach ($a_funcionarios_empresa as $inscrito) {
+    $contador++;
     $nome_func = Funcoes::remove_acentos(utf8_encode($inscrito->nome));
     $email_func = $inscrito->email;
+    
+    $valor_taxa = ($contador == $total_funcionarios) ? $taxa_por_pessoa - $sobra : $taxa_por_pessoa;
 
     $lista_funcionarios .= "$nome_func - $email_func<br><br>";
     
@@ -86,7 +92,7 @@ foreach ($a_funcionarios_empresa as $inscrito) {
     $o_inscricao->id = $inscrito->id;
     $o_inscricao->data_pagamento = Funcoes::formata_data_para_gravar($dtPagamento);
     $o_inscricao->data_compensacao = Funcoes::formata_data_para_gravar($dtCompensacao);
-    $o_inscricao->taxa = $taxa_por_pessoa;
+    $o_inscricao->taxa = $valor_taxa;
 
     if (!$o_inscricao->salva()) {
         $xml .= "<erro>Falha ao tentar atualizar o pagamento do funcionario</erro>";
