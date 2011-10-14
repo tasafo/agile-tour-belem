@@ -94,7 +94,7 @@ if (!$a_inscritos_empresas) {
                         $cortesia = "<input type='checkbox' name='cortesia' id='cortesia_$idEmpresa' value='N' onclick='marcaCortesia($idEmpresa)' />";
                     } else {
                         $dataPagamento = Funcoes::formata_data_para_exibir($inscricao->data_pagamento);
-                        $dataCompensacao = empty($inscricao->data_pagamento) ? "" : Funcoes::formata_data_para_exibir($inscricao->data_pagamento);
+                        $dataCompensacao = empty($inscricao->data_compensacao) ? "" : Funcoes::formata_data_para_exibir($inscricao->data_compensacao);
                         $taxaPagamento = "";
                         $confirmar = "&nbsp;";
                         $cortesia = "&nbsp;";

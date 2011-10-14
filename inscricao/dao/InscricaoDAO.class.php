@@ -93,7 +93,7 @@ class InscricaoDAO extends AbstractDAO {
 	}
 
 	function selecionar_inscritos_empresas() {
-		$sql = "SELECT ins.id AS id_inscricao, ins.data_registro, ins.data_pagamento, ind.nome, ind.email,
+		$sql = "SELECT ins.id AS id_inscricao, ins.data_registro, ins.data_pagamento, ins.data_compensacao, ind.nome, ind.email,
             tip.descricao AS descricao_tipo_inscricao, tip.valor, emp.id AS id_empresa, emp.nome AS nome_empresa,
             emp.email AS email_empresa, emp.responsavel, ind.id AS id_individual, ins.taxa
             FROM inscricao ins
