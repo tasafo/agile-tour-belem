@@ -132,7 +132,7 @@ if ($_FILES['arquivo']) {
                                                     if (!$retorno)
                                                         echo "<br>$msg_erro - Falha ao tentar enviar e-mail para $nome_func";
                                                     else
-                                                        echo "<br>$nome_func - $msg_ok";
+                                                        echo "<br>$nome_func - $msg_ok<br><br>";
                                                 }
                                             }
                                         }
