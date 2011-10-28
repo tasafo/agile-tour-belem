@@ -59,6 +59,9 @@ $a_incritos_instituicao = $o_inscricao->total_de_inscritos_por_instituicao();
         <br><br>
         <b><?php echo $a_em_aberto[0]->quantidade + $a_confirmados[0]->quantidade ?></b> inscrições realizadas no total
         
+        <?php
+        if ($a_incritos_instituicao) {
+        ?>
         <br><br><hr>
         <b>Inscritos por Instituição</b><br><br>
         <table border="1" class="bordasimples">
@@ -67,21 +70,24 @@ $a_incritos_instituicao = $o_inscricao->total_de_inscritos_por_instituicao();
                 <th>Inscritos</th>
             </tr>
         <?php
-        $total_inscritos = 0;
-        foreach($a_incritos_instituicao as $inscritos) {
-            $total_inscritos += $inscritos->quantidade;
+            $total_inscritos = 0;
+            foreach($a_incritos_instituicao as $inscritos) {
+                $total_inscritos += $inscritos->quantidade;
         ?>
             <tr>
                 <td><?php echo utf8_encode($inscritos->instituicao) ?></td>
                 <td align="center"><?php echo $inscritos->quantidade ?></td>
             </tr>
         <?php
-        }
+            }
         ?>
         <tr>
             <td><b>Total</b></td>
             <td align="center"><b><?php echo $total_inscritos ?></b></td>
         </tr>
         </table>
+        <?php
+        }
+        ?>
     </body>
 </html>
