@@ -4,7 +4,7 @@ require_once '../general/autoload.php';
 
 $o_inscricao = new InscricaoDAO();
 
-$a_inscritos = $o_inscricao->selecionar_inscritos_individual(true, "ind.instituicao");
+$a_inscritos = $o_inscricao->selecionar_inscritos_individual(true, "ind.instituicao, ind.nome", "T");
 
 if (!$a_inscritos) {
     echo '<center><h3><a href="menu.php">Voltar ao Menu</a></h3><br>';
@@ -29,8 +29,9 @@ if (!$a_inscritos) {
         </center>
         <form id="form" action="post" action="">
             <b>Novo nome para a instituição:</b> <input type="text" id="novo_nome" name="novo_nome" size="30" maxlength="50" />
-            <input type='button' name='mudar' id='mudar' value='Mudar' />
-            <br><br>
+            <input type='button' name='mudar' id='mudar' value='Mudar' /><br><br>
+            <input type='button' name='reativar' id='reativar' value='Reativar cancelados' /><br><br>
+            <center><span id="processando" style="color: red"></span></center>
             <table width="100%" border="1" class="bordasimples">
                 <tr style="font-weight: bold">
                     <td>&nbsp;</td>
@@ -38,6 +39,7 @@ if (!$a_inscritos) {
                     <td>Instituição</td>
                     <td>Nome</td>
                     <td>E-mail</td>
+                    <td align="center">Situação</td>
                 </tr>
                 <?php
                 foreach ($a_inscritos as $inscritos) {
@@ -48,6 +50,7 @@ if (!$a_inscritos) {
                     <td><?php echo utf8_encode($inscritos->instituicao) ?></td>
                     <td><?php echo utf8_encode($inscritos->nome) ?></td>
                     <td><?php echo $inscritos->email ?></td>
+                    <td align="center"><?php echo $inscritos->situacao ?></td>
                 <?php
                 }
                 ?>

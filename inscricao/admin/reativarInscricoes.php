@@ -11,8 +11,6 @@ if (!$_POST['id']) {
     die($xml .= "</gravacao>");
 }
 
-$novo_nome = $_POST['novo_nome'];
-
 $o_transacao = new Banco();
 $o_transacao->begin();
 
@@ -22,11 +20,11 @@ foreach($_POST['id'] as $codigo) {
     if ($o_individual->busca($codigo)) {
         $o_individual = new IndividualDAO();
         $o_individual->id = $codigo;
-        $o_individual->instituicao = $novo_nome;
+        $o_individual->situacao = "A";
     
         if (!$o_individual->salva()) {
             $o_transacao->rollback();
-            $xml .= "<erro>Falha ao tentar atualizar nome da instituicao</erro>";
+            $xml .= "<erro>Falha ao tentar reativar inscrito</erro>";
             die($xml .= "</gravacao>");
         }
     }
@@ -34,6 +32,6 @@ foreach($_POST['id'] as $codigo) {
 
 $o_transacao->commit();
 
-$xml .= "<msg>Troca concluida com sucesso. Recarregue a pagina.</msg>";
+$xml .= "<msg>Reativacao concluida com sucesso. Recarregue a pagina.</msg>";
 die($xml .= "</gravacao>");
 ?>

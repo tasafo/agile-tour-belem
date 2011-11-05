@@ -74,18 +74,18 @@ class InscricaoDAO extends AbstractDAO {
 		return $this->resultado_consulta($sql);
 	}
 
-	function selecionar_inscritos_individual($todos = false, $ordem = "ins.id DESC") {
-        if ($todos == false)
-            $condicao = " AND ins.id_empresa = 0";
-        else
-            $condicao = "";
+	function selecionar_inscritos_individual($todos = false, $ordem = "ins.id DESC", $situacao = "A") {
+        $situacao = $situacao == "A" ? "WHERE ind.situacao = 'A'" : "WHERE 1 = 1";
+        
+        $condicao = ($todos == false) ? " AND ins.id_empresa = 0" : "";
     
 		$sql = "SELECT ins.id AS id_inscricao, ins.data_registro, ins.data_pagamento, ins.data_compensacao, ins.taxa,
-            ind.nome, ind.email, ind.instituicao, tip.descricao AS descricao_tipo_inscricao, tip.valor, ind.id AS id_individual
+            ind.nome, ind.email, ind.instituicao, tip.descricao AS descricao_tipo_inscricao, tip.valor,
+            ind.id AS id_individual, ind.situacao
             FROM inscricao ins
             JOIN tipo_inscricao tip ON (ins.id_tipo_inscricao = tip.id)
             JOIN individual ind ON (ins.id = ind.id_inscricao)
-            WHERE ind.situacao = 'A'
+            $situacao
             $condicao
             ORDER BY $ordem";
 
