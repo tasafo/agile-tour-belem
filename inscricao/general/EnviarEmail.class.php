@@ -25,7 +25,8 @@ class EnviarEmail {
         $texto = "
             <html>
             <body>
-            $saudacao<b>$nome</b>,<br><br>";
+            $saudacao<b>$nome</b>,<br><br>
+            Voc&ecirc; est&aacute; inscrito com o c&oacute;digo de <b>n&uacute;mero $id</b><br><br>";
             
         $tipoCapitulado = ucfirst($tipo);
         
@@ -51,7 +52,7 @@ class EnviarEmail {
         
         } elseif ($motivo == "aviso") {
             if (!empty($complemento)) {
-                $texto .= $complemento . "<br><br>";
+                $texto .= "$complemento<br><br>";
             } else {    
                 $texto .= "
                     Verificamos em nosso sistema que seu pagamento ainda n&atilde;o foi efetuado.<br><br>
