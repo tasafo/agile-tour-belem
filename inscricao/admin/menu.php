@@ -23,7 +23,7 @@ $a_incritos_instituicao = $o_inscricao->total_de_inscritos_por_instituicao();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
+    <head>
         <meta charset="utf-8">
         <title>Área Administrativa</title>
         <link href="css/admin.css" rel="stylesheet" />
@@ -55,7 +55,7 @@ $a_incritos_instituicao = $o_inscricao->total_de_inscritos_por_instituicao();
         <br>
         <b><?php echo $a_confirmados_disponivel[0]->quantidade ?></b> disponíveis no valor de <b>R$ <?php echo Funcoes::formata_moeda_para_exibir($a_confirmados_disponivel[0]->valor) ?></b>
         <br>---------------------------------------------------------------------<br>
-        <b><?php echo $a_confirmados[0]->quantidade ?></b> no valor total de <b>R$ <?php echo Funcoes::formata_moeda_para_exibir($a_confirmados[0]->valor) ?>
+        <b><?php echo $a_confirmados[0]->quantidade ?></b> no valor total de <b>R$ <?php echo Funcoes::formata_moeda_para_exibir($a_confirmados[0]->valor) ?></b>
         <br><br>
         <b><?php echo $a_em_aberto[0]->quantidade + $a_confirmados[0]->quantidade ?></b> inscrições realizadas no total
         
