@@ -7,7 +7,7 @@ $o_empresa = new EmpresaDAO();
 $o_inscricao = new InscricaoDAO();
 $o_tipo_inscricao = new TipoInscricaoDAO();
 
-$a_tipo_inscricao = $o_tipo_inscricao->busca("status = 'A'");
+$a_tipo_inscricao = $o_tipo_inscricao->busca();
 
 $select = "";
 foreach ($a_tipo_inscricao as $tipo_inscricao) {
