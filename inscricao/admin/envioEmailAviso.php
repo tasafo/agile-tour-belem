@@ -14,9 +14,13 @@ if ($_POST['inicio'] && $_POST['fim']) {
     $incluir_cancelados = false;
     if ($_POST['cancelados'] && $_POST['cancelados'] == "sim")
         $incluir_cancelados = true;
+        
+    $so_adimplentes = false;
+    if ($_POST['adimplentes'] && $_POST['adimplentes'] == "sim")
+        $so_adimplentes = true;
     
     $o_inscritos = new IndividualDAO();
-    $a_inscritos = $o_inscritos->inscritos_por_intervalo($inicio, $fim, $so_inadimplentes, $incluir_cancelados);
+    $a_inscritos = $o_inscritos->inscritos_por_intervalo($inicio, $fim, $so_inadimplentes, $incluir_cancelados, $so_adimplentes);
     
     if ($a_inscritos) {
         echo '<center><h3><a href="menu.php">Voltar ao Menu</a></h3>';
@@ -54,6 +58,7 @@ if ($_POST['inicio'] && $_POST['fim']) {
         <form action="" method="post">
             Texto:<br>
             <textarea rows="15" cols="80" name="texto"></textarea><br><br>
+            <input type="checkbox" name="adimplentes" id="adimplentes" value="sim" />Enviar só para os adimplentes<br><br>
             <input type="checkbox" name="inadimplentes" id="inadimplentes" value="sim" />Enviar só para os inadimplentes<br><br>
             <input type="checkbox" name="cancelados" id="cancelados" value="sim" />Enviar também para os cancelados<br><br>
             Inicio: <input type="text" size="5" name="inicio" id="inicio" value=""><br><br>
