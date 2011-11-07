@@ -13,7 +13,7 @@ $a_campos = array("email" => $_REQUEST['func_email']);
 foreach($a_campos as $campo => $valor) {
 	$o_individual = new IndividualDAO();
 
-	if ($o_individual->busca("$campo = '$valor'"))
+	if ($o_individual->busca("$campo = '$valor' AND situacao = 'A'"))
 	    die("Atencao! Este $campo ja foi utilizando em uma inscricao no sistema.");
 }
 
@@ -26,9 +26,26 @@ if (!$o_empresa->busca($idEmpresa)) {
 	die("Atencao! Empresa nao encontrada no sistema.");
 }
 
+// Obtem informacoes de pagamento dos funcionarios da empresa
+$data_pagamento = "";
+$data_compensacao = "";
+$taxa_pagamento = 0;
+
+$o_inscricao = new InscricaoDAO();
+$a_busca_inscricao = $o_inscricao->busca("id_empresa = $idEmpresa");
+
+if ($a_busca_inscricao) {
+    $data_pagamento = $a_busca_inscricao[0]->data_pagamento;
+    $data_compensacao = $a_busca_inscricao[0]->data_compensacao;
+    $taxa_pagamento = $a_busca_inscricao[0]->taxa;
+}
+
 $o_inscricao = new InscricaoDAO();
 $o_inscricao->id_empresa = $idEmpresa;
 $o_inscricao->id_tipo_inscricao = $categoria_inscricao;
+$o_inscricao->data_pagamento = $data_pagamento;
+$o_inscricao->data_compensacao = $data_compensacao;
+$o_inscricao->taxa = $taxa_pagamento;
 $o_inscricao->data_registro = date("Y-m-d H:i:s");
 
 if (!$o_inscricao->salva()) {
