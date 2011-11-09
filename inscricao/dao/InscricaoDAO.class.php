@@ -18,14 +18,14 @@ class InscricaoDAO extends AbstractDAO {
 	}
 
     function total_de_pagamentos_por_compensacao() {
-        $sql = "SELECT ins.data_compensacao, SUM(tip.valor - ins.taxa) AS valor
+        $sql = "SELECT DATE(ins.data_compensacao) AS data_compensacao, SUM(tip.valor - ins.taxa) AS valor
             FROM inscricao ins
             JOIN tipo_inscricao tip ON (ins.id_tipo_inscricao = tip.id)
             JOIN individual ind ON (ins.id = ind.id_inscricao)
             WHERE ins.data_pagamento IS NOT NULL
             AND ind.situacao = 'A'
-            GROUP BY ins.data_compensacao
-            ORDER BY ins.data_compensacao";
+            GROUP BY DATE(ins.data_compensacao)
+            ORDER BY DATE(ins.data_compensacao)";
 
         return $this->resultado_consulta($sql);
     }
@@ -195,13 +195,13 @@ class InscricaoDAO extends AbstractDAO {
 	}
 
 	function selecionar_relacao_geral_inscritos() {
-		$sql = "SELECT ind.nome, tip.descricao AS descricao_tipo_inscricao
+		$sql = "SELECT ind.id, ind.nome, tip.descricao AS descricao_tipo_inscricao
             FROM inscricao ins
             JOIN tipo_inscricao tip ON (ins.id_tipo_inscricao = tip.id)
             JOIN individual ind ON (ins.id = ind.id_inscricao)
             WHERE ind.situacao = 'A'
             AND ins.data_pagamento <> ''
-            ORDER BY trim(ind.nome)";
+            ORDER BY ind.id";
 
 		return $this->resultado_consulta($sql);
 	}
