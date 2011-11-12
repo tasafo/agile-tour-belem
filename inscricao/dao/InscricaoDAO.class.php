@@ -194,14 +194,14 @@ class InscricaoDAO extends AbstractDAO {
 		return $this->resultado_consulta($sql);
 	}
 
-	function selecionar_relacao_geral_inscritos() {
+	function selecionar_relacao_geral_inscritos($ordem = "nome") {
 		$sql = "SELECT ind.id, ind.nome, tip.descricao AS descricao_tipo_inscricao
             FROM inscricao ins
             JOIN tipo_inscricao tip ON (ins.id_tipo_inscricao = tip.id)
             JOIN individual ind ON (ins.id = ind.id_inscricao)
             WHERE ind.situacao = 'A'
             AND ins.data_pagamento <> ''
-            ORDER BY ind.id";
+            ORDER BY ind.$ordem";
 
 		return $this->resultado_consulta($sql);
 	}

@@ -2,9 +2,13 @@
 require 'validaSessao.php';
 require_once '../general/autoload.php';
 
+$ordem = "nome";
+if ($_GET['ordem'])
+    $ordem = $_GET['ordem'];
+
 $o_inscricao = new InscricaoDAO();
 
-$a_relacao_inscritos = $o_inscricao->selecionar_relacao_geral_inscritos();
+$a_relacao_inscritos = $o_inscricao->selecionar_relacao_geral_inscritos($ordem);
 
 if (!$a_relacao_inscritos) {
 	echo '<center><h3><a href="menu.php">Voltar ao Menu</a></h3><br>';
@@ -30,20 +34,19 @@ if (!$a_relacao_inscritos) {
                 <td colspan="4">Relação Geral de Inscritos</td>
             </tr>
             <tr style="font-weight: bold; text-align: center">
-                <td width="5%" align="center">N.</td>
+                <td width="5%" align="center">Inscrição</td>
                 <td width="35%">Nome</td>
-                <td width="35%">Categoria</td>
-                <td width="25%">Assinatura</td>
+                <td width="30%">Categoria</td>
+                <td width="30%">Assinatura</td>
             </tr>
             <?php
-            $contador = 1;
-
             foreach ($a_relacao_inscritos as $inscrito) {
+                $id = $inscrito->id;
                 $nome = $inscrito->nome;
                 $categoria = $inscrito->descricao_tipo_inscricao;
             ?>
             <tr>
-                <td align="center"><?php echo $contador++ ?></td>
+                <td align="center"><?php echo $id ?></td>
                 <td><?php echo utf8_encode($nome) ?></td>
                 <td><?php echo $categoria ?></td>
                 <td>&nbsp;</td>
