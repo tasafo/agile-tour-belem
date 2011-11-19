@@ -6,6 +6,10 @@ $(document).ready(function($) {
     $("#reativar").click( function() {
         reativar_cancelado();
     });
+
+    $("#presenca").click( function() {
+        marcar_presenca();
+    });
     
     $("#novo_nome").focus();
 });
@@ -77,6 +81,44 @@ function reativar_cancelado() {
 }
 
 function analisarRespostaReativar(xml) {
+    erro = $('erro', xml).text();
+    
+    $("#processando").text("");
+    
+    if (erro) {
+        alert(erro);
+        
+        return false;
+    } else {
+        alert($('msg', xml).text());
+    }
+
+    return true;
+}
+
+function marcar_presenca() {
+    jConfirm("Deseja marcar a presença dos inscritos?", null, function(r) {
+        if (r == true) {
+            parametros = $('#form').serialize();
+            
+            $("#processando").text("Processando, aguarde...");
+            
+            $.ajax({
+                type: "POST",
+                url: "marcarPresenca.php",
+                dataType: "xml",
+                data: parametros,
+                success: analisarRespostaMarcarPresenca
+            });
+            
+            $().ajaxStop(function() {
+                $("#processando").text("");
+            });
+        }
+    });
+}
+
+function analisarRespostaMarcarPresenca(xml) {
     erro = $('erro', xml).text();
     
     $("#processando").text("");

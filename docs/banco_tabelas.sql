@@ -58,6 +58,7 @@ CREATE  TABLE IF NOT EXISTS individual (
   cep CHAR(8) NOT NULL ,
   sexo CHAR(1) NOT NULL DEFAULT 'M',
   situacao CHAR(1) NOT NULL DEFAULT 'A',
+  presente CHAR(1) NOT NULL DEFAULT 'N',
   id_inscricao INT NOT NULL ,
   PRIMARY KEY (id) ,
   INDEX fk_individual_inscricao1 (id_inscricao ASC) ,

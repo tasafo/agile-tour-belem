@@ -31,6 +31,7 @@ if (!$a_inscritos) {
             <b>Novo nome para a instituição:</b> <input type="text" id="novo_nome" name="novo_nome" size="30" maxlength="50" />
             <input type='button' name='mudar' id='mudar' value='Mudar' /><br><br>
             <input type='button' name='reativar' id='reativar' value='Reativar cancelados' /><br><br>
+            <input type='button' name='presenca' id='presenca' value='Marcar presença' /><br><br>
             <center><span id="processando" style="color: red"></span></center>
             <table width="100%" border="1" class="bordasimples">
                 <tr style="font-weight: bold">
@@ -40,6 +41,7 @@ if (!$a_inscritos) {
                     <td>Nome</td>
                     <td>E-mail</td>
                     <td align="center">Situação</td>
+                    <td align="center">Presente</td>
                 </tr>
                 <?php
                 foreach ($a_inscritos as $inscritos) {
@@ -51,6 +53,7 @@ if (!$a_inscritos) {
                     <td><?php echo utf8_encode($inscritos->nome) ?></td>
                     <td><?php echo $inscritos->email ?></td>
                     <td align="center"><?php echo $inscritos->situacao ?></td>
+                    <td align="center"><?php echo $inscritos->presente ?></td>
                 <?php
                 }
                 ?>
