@@ -2,9 +2,13 @@
 require 'validaSessao.php';
 require_once '../general/autoload.php';
 
+$ordem = "ind.instituicao, ind.nome";
+if ($_GET['ordem'])
+    $ordem = $_GET['ordem'];
+
 $o_inscricao = new InscricaoDAO();
 
-$a_inscritos = $o_inscricao->selecionar_inscritos_individual(true, "ind.instituicao, ind.nome", "T");
+$a_inscritos = $o_inscricao->selecionar_inscritos_individual(true, $ordem, "T");
 
 if (!$a_inscritos) {
     echo '<center><h3><a href="menu.php">Voltar ao Menu</a></h3><br>';
