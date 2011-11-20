@@ -6,21 +6,29 @@ if ($_POST['inicio'] && $_POST['fim']) {
     $texto = $_POST['texto'];
     $inicio = $_POST['inicio'];
     $fim = $_POST['fim'];
+
+    $so_adimplentes = false;
+    if ($_POST['adimplentes'] && $_POST['adimplentes'] == "sim")
+        $so_adimplentes = true;
     
     $so_inadimplentes = false;
     if ($_POST['inadimplentes'] && $_POST['inadimplentes'] == "sim")
         $so_inadimplentes = true;
         
+    $so_presentes = false;
+    if ($_POST['presentes'] && $_POST['presentes'] == "sim")
+        $so_presentes = true;
+        
+    $so_faltosos = false;
+    if ($_POST['faltosos'] && $_POST['faltosos'] == "sim")
+        $so_faltosos = true;
+        
     $incluir_cancelados = false;
     if ($_POST['cancelados'] && $_POST['cancelados'] == "sim")
-        $incluir_cancelados = true;
-        
-    $so_adimplentes = false;
-    if ($_POST['adimplentes'] && $_POST['adimplentes'] == "sim")
-        $so_adimplentes = true;
+        $incluir_cancelados = true;    
     
     $o_inscritos = new IndividualDAO();
-    $a_inscritos = $o_inscritos->inscritos_por_intervalo($inicio, $fim, $so_inadimplentes, $incluir_cancelados, $so_adimplentes);
+    $a_inscritos = $o_inscritos->inscritos_por_intervalo($inicio, $fim, $so_inadimplentes, $incluir_cancelados, $so_adimplentes, $so_presentes, $so_faltosos);
     
     if ($a_inscritos) {
         echo '<center><h3><a href="menu.php">Voltar ao Menu</a></h3>';
@@ -60,6 +68,8 @@ if ($_POST['inicio'] && $_POST['fim']) {
             <textarea rows="15" cols="80" name="texto"></textarea><br><br>
             <input type="checkbox" name="adimplentes" id="adimplentes" value="sim" />Enviar só para os adimplentes<br><br>
             <input type="checkbox" name="inadimplentes" id="inadimplentes" value="sim" />Enviar só para os inadimplentes<br><br>
+            <input type="checkbox" name="presentes" id="presentes" value="sim" />Enviar só para os presentes no dia do evento<br><br>
+            <input type="checkbox" name="faltosos" id="faltosos" value="sim" />Enviar só para os faltosos<br><br>
             <input type="checkbox" name="cancelados" id="cancelados" value="sim" />Enviar também para os cancelados<br><br>
             Inicio: <input type="text" size="5" name="inicio" id="inicio" value=""><br><br>
             Fim: <input type="text" size="5" name="fim" id="fim" value=""><br><br>
