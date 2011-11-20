@@ -10,6 +10,7 @@ class IndividualDAO extends AbstractDAO {
 	public $sexo = "M";
 	public $cep;
 	public $situacao = "A";
+	public $presente = "N";
 
 	function __construct() {
 		parent::__construct($this);
