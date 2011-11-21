@@ -25,6 +25,7 @@ class InscricaoDAO extends AbstractDAO {
             WHERE ins.data_pagamento IS NOT NULL
             AND ind.situacao = 'A'
             GROUP BY DATE(ins.data_compensacao)
+            HAVING SUM(tip.valor - ins.taxa) > 0
             ORDER BY DATE(ins.data_compensacao)";
 
         return $this->resultado_consulta($sql);
