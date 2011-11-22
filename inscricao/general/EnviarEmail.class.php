@@ -64,7 +64,6 @@ class EnviarEmail {
 
         $texto .= "<br>
             Acesse nosso <a href='" . HOME_PAGE . "'>web site</a> ou siga o <a href='" . TWITTER_ENDERECO . "'>" . TWITTER_NOME . "</a> no Twitter para acompanhar as novidades do " . NOME_EVENTO . ".<br><br>
-            At&eacute; o evento!<br><br>
             <b>Organiza&ccedil;&atilde;o do " . NOME_EVENTO . "</b><br><br>
             </body>
             </html>";
