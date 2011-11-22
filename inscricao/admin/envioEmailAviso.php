@@ -27,7 +27,7 @@ if ($_POST['inicio'] && $_POST['fim']) {
     if ($_POST['cancelados'] && $_POST['cancelados'] == "sim")
         $incluir_cancelados = true;    
     
-    $o_inscritos = new IndividualDAO();
+    $o_inscritos = new InscricaoDAO();
     $a_inscritos = $o_inscritos->inscritos_por_intervalo($inicio, $fim, $so_inadimplentes, $incluir_cancelados, $so_adimplentes, $so_presentes, $so_faltosos);
     
     if ($a_inscritos) {
