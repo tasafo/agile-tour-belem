@@ -18,7 +18,7 @@ class InscricaoDAO extends AbstractDAO {
 	}
 	
     function inscritos_por_intervalo($inicio, $fim, $inadimplentes = false, $incluir_cancelados = false, $adimplentes = false, $presentes = false, $faltosos = false) {
-        $filtro_inadimplentes = ($inadimplentes) ? "AND ins.data_pagamento IS NULL" : "";
+        $filtro_inadimplentes = ($inadimplentes) ? "AND ins.data_pagamento IS NULL AND ins.id_empresa = 0" : "";
         
         $filtro_cancelados = ($incluir_cancelados) ? "" : "AND ind.situacao = 'A'";
         
@@ -30,8 +30,7 @@ class InscricaoDAO extends AbstractDAO {
         
         $sql = "SELECT ind.* FROM individual ind
             JOIN inscricao ins ON (ind.id_inscricao = ins.id)
-            WHERE ins.id_empresa = 0
-            AND ind.id BETWEEN $inicio AND $fim
+            WHERE ind.id BETWEEN $inicio AND $fim
             $filtro_inadimplentes
             $filtro_cancelados
             $filtro_adimplentes
