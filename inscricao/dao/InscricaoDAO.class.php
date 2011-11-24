@@ -220,7 +220,7 @@ class InscricaoDAO extends AbstractDAO {
 	}
 
 	function selecionar_relacao_geral_inscritos($ordem = "nome") {
-		$sql = "SELECT ind.id, ind.nome, tip.descricao AS descricao_tipo_inscricao
+		$sql = "SELECT ind.id, ind.nome, tip.descricao AS descricao_tipo_inscricao, ind.instituicao
             FROM inscricao ins
             JOIN tipo_inscricao tip ON (ins.id_tipo_inscricao = tip.id)
             JOIN individual ind ON (ins.id = ind.id_inscricao)

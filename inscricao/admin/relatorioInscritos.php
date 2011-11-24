@@ -31,23 +31,29 @@ if (!$a_relacao_inscritos) {
         <br>
         <table width="100%" border="1" class="bordasimples">
             <tr style="font-weight: bold; text-align: center">
-                <td colspan="4">Relação Geral de Inscritos</td>
+                <td colspan="6">Relação Geral de Inscritos</td>
             </tr>
             <tr style="font-weight: bold; text-align: center">
+                <td width="5%" align="center">Ordem</td>
                 <td width="5%" align="center">Inscrição</td>
-                <td width="35%">Nome</td>
-                <td width="30%">Categoria</td>
-                <td width="30%">Assinatura</td>
+                <td width="30%">Nome</td>
+                <td width="20%">Instituição</td>
+                <td width="20%">Categoria</td>
+                <td width="20%">Assinatura</td>
             </tr>
             <?php
+            $ordem = 1;
             foreach ($a_relacao_inscritos as $inscrito) {
                 $id = $inscrito->id;
                 $nome = $inscrito->nome;
+                $instituicao = $inscrito->instituicao;
                 $categoria = $inscrito->descricao_tipo_inscricao;
             ?>
             <tr>
+                <td align="center"><?php echo $ordem++ ?></td>
                 <td align="center"><?php echo $id ?></td>
                 <td><?php echo utf8_encode($nome) ?></td>
+                <td><?php echo utf8_encode($instituicao) ?></td>
                 <td><?php echo $categoria ?></td>
                 <td>&nbsp;</td>
             </tr>
