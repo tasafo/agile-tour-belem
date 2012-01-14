@@ -99,7 +99,7 @@ class AbstractDAO {
 
 		foreach ($this->campos as $key => $value)
 		    if ($key <> "id" and $key <> "erro_sql")
-		        if ($value)
+		        if (isset($value))
 		            $campos_alterar .= $key . " = " . (strtolower($value) == "null" ? "null" : "'" . utf8_decode(addslashes($value)) . "'") . ", ";
 
 		$campos_alterar = substr($campos_alterar, 0, strlen($campos_alterar) - 2);
