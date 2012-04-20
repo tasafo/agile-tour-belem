@@ -36,7 +36,7 @@ class EnviarEmail {
                 Confirmamos o cadastro de seus dados em nosso sistema.<br><br>
                 Estamos aguardando a confirma&ccedil;&atilde;o do PagSeguro, para finalizarmos seu processo de inscri&ccedil;&atilde;o.<br><br>
                 Assim que conclu&iacute;do, voc&ecirc; receber&aacute; uma mensagem.<br><br>
-                Caso tenha ocorrido algum problema, utilize o link abaixo para efetuar o pagamento e confirmar a inscri&ccedil;&atilde;.<br><br>
+                Caso tenha ocorrido algum problema, utilize o link abaixo para efetuar o pagamento e confirmar a inscri&ccedil;&atilde;o.<br><br>
                 <a href='" . HOME_PAGE . "inscricao/view/pagamento$tipoCapitulado.php?id=" . $id . "'>" . HOME_PAGE . "inscricao/view/pagamento$tipoCapitulado.php?id=" . $id . "</a><br><br>
                 $complemento";
                 
