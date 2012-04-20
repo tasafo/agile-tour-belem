@@ -133,14 +133,31 @@ class Funcoes {
         return implode(preg_match("~\/~", $__data) == 0 ? "/" : "-", array_reverse(explode(preg_match("~\/~", $__data) == 0 ? "-" : "/", $__data)));
     }
     
-    public static function diferenca_entre_datas($data_inicial, $data_final) {
-        $a_data_inicial = explode('/', $data_inicial);
-        $dt_inicial = $a_data_inicial[2] . $a_data_inicial[1] . $a_data_inicial[0];
+    function diferenca_entre_datas($d1, $d2, $type='D', $sep='/') {
+        $d1 = explode($sep, $d1);
+        $d2 = explode($sep, $d2);
         
-        $a_data_final = explode('/', $data_final);
-        $dt_final = $a_data_final[2] . $a_data_final[1] . $a_data_final[0];
+        switch ($type) {
+            case 'A':
+                $X = 31536000;
+                break;
+            case 'M':
+                $X = 2592000;
+                break;
+            case 'D':
+                $X = 86400;
+                break;
+            case 'H':
+                $X = 3600;
+                break;
+            case 'MI':
+                $X = 60;
+                break;
+            default:
+                $X = 1;
+        }
         
-        return $dt_final - $dt_inicial;
+        return floor( ( ( mktime(0, 0, 0, $d2[1], $d2[0], $d2[2]) - mktime(0, 0, 0, $d1[1], $d1[0], $d1[2] ) ) / $X ) );
     }
 }
 ?>
