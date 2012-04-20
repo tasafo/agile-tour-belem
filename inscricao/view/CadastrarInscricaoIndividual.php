@@ -10,6 +10,8 @@ $o_inscricao = new InscricaoDAO();
 $o_tipo_inscricao = new TipoInscricaoDAO();
 
 $a_total_inscritos = $o_inscricao->valor_total_inscritos();
+$o_total_inscritos = $a_total_inscritos[0];
+
 $a_tipo_inscricao = $o_tipo_inscricao->busca("status = 'A'");
 
 if ($a_tipo_inscricao) {
@@ -23,6 +25,8 @@ if ($a_tipo_inscricao) {
         }
     }
 }
+
+$dias_restantes = Funcoes::diferenca_entre_datas(date('d/m/Y'), DATA_FINAL_INSCRICAO);
 ?>
 <html lang="pt-br">
 	<head>
@@ -72,9 +76,13 @@ if ($a_tipo_inscricao) {
 		</style>
 	</head>
     <body>
-        <?php if ($a_total_inscritos[0]->quantidade >= QTD_MAXIMA_INSCRITOS) { ?>
-        <h1><?php die("As vagas foram preenchidas.<br><br>Inscrições encerradas.") ?></h1>
-        <?php } ?>
+        <?php
+        if ($o_total_inscritos->quantidade >= QTD_MAXIMA_INSCRITOS)
+            die("<h1>As vagas foram preenchidas.<br><br>Inscrições encerradas.</h1>");
+            
+        if ($dias_restantes < 0)
+            die("<h1>O período de inscrições foi encerrado.</h1>");
+        ?>
 		<b class="titulo">Inscrição Individual</b>
 		<br><br>
 		<div class="container">

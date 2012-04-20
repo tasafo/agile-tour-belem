@@ -132,5 +132,15 @@ class Funcoes {
     public static function colocarDataFormatoMySQL($__data) {
         return implode(preg_match("~\/~", $__data) == 0 ? "/" : "-", array_reverse(explode(preg_match("~\/~", $__data) == 0 ? "-" : "/", $__data)));
     }
+    
+    public static function diferenca_entre_datas($data_inicial, $data_final) {
+        $a_data_inicial = explode('/', $data_inicial);
+        $dt_inicial = $a_data_inicial[2] . $a_data_inicial[1] . $a_data_inicial[0];
+        
+        $a_data_final = explode('/', $data_final);
+        $dt_final = $a_data_final[2] . $a_data_final[1] . $a_data_final[0];
+        
+        return $dt_final - $dt_inicial;
+    }
 }
 ?>

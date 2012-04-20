@@ -23,8 +23,9 @@ define('EMAIL_COBRANCA', 'nome@mail.com.br');
 define('USUARIO_ADMIN', 'admin'); 
 define('SENHA_ADMIN', 'admin');
 
-// Desativa o link de inscricoes quando o numero de inscritos chegar a esse tamanho
+// Desativa o link de inscricoes quando o numero de inscritos chegar a esse tamanho ou a data expirar
 define('QTD_MAXIMA_INSCRITOS', '200');
+define('DATA_FINAL_INSCRICAO', '30/11/2011');
 
 // Exibe ou nao instrucoes sql na tela
 define('EXIBIR_SQL', false);
