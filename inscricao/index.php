@@ -3,12 +3,13 @@
 <head>
     <meta charset="utf-8">
     <?php include(dirname(__FILE__) . "/inc/header.php") ?>
-    <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+    
     <script type="text/javascript" src="./view/js/jquery/jquery.js"></script>
     <script type="text/javascript" src="./view/js/jquery/jquery.validate.js"></script>
     <script type="text/javascript" src="./fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
     <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
     <script type="text/javascript" src="./view/js/recupera_pagamento.js"></script>
+    <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
     <script type="text/javascript">
         $(document).ready(function() {
             $("#indiv").fancybox({
