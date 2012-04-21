@@ -37,7 +37,7 @@ if ($_FILES['arquivo']) {
                             $data_compensacao = Funcoes::formata_data_para_gravar(substr($pagamento->Data_Compensacao, 0, 10)) . substr($pagamento->Data_Compensacao, 10);
                             $valor_taxa = Funcoes::formata_moeda_para_gravar($pagamento->Valor_Taxa);
                             
-                            if ($modo_pagamento == "I") {
+                            if ($modo_pagamento == "I") { // Individual
                                 $id_individual = $id_ref_pagamento;
                                 
                                 $o_individual = new IndividualDAO();
@@ -63,7 +63,8 @@ if ($_FILES['arquivo']) {
                                             $o_inscricao->data_pagamento = $data_pagamento;
                                             $o_inscricao->data_compensacao = $data_compensacao;
                                             $o_inscricao->taxa = $valor_taxa;
-                                            $o_inscricao->tipo_pagamento = $pagamento->Tipo_Pagamento;
+                                            $o_inscricao->tipo_pagamento = Funcoes::remove_acentos($pagamento->Tipo_Pagamento);
+                                            $o_inscricao->status_transacao = Funcoes::remove_acentos($pagamento->Status);
                                             $o_inscricao->transacao_id = $pagamento->Transacao_ID;
 
                                             if (!$o_inscricao->salva()) {
@@ -78,7 +79,7 @@ if ($_FILES['arquivo']) {
                                         }
                                     }
                                 }
-                            } elseif ($modo_pagamento == "E") {
+                            } elseif ($modo_pagamento == "E") { // Empresa
                                 $id_empresa = $id_ref_pagamento;
                                 
                                 $o_empresa = new EmpresaDAO();
@@ -106,6 +107,7 @@ if ($_FILES['arquivo']) {
 
                                         foreach ($a_funcionarios_empresa as $inscrito) {
                                             $contador++;
+                                            
                                             $nome_func = Funcoes::remove_acentos(utf8_encode($inscrito->nome));
                                             $email_func = $inscrito->email;
                                             
@@ -121,7 +123,8 @@ if ($_FILES['arquivo']) {
                                                 $o_inscricao->data_pagamento = $data_pagamento;
                                                 $o_inscricao->data_compensacao = $data_compensacao;
                                                 $o_inscricao->taxa = $valor_taxa;
-                                                $o_inscricao->tipo_pagamento = $pagamento->Tipo_Pagamento;
+                                                $o_inscricao->tipo_pagamento = Funcoes::remove_acentos($pagamento->Tipo_Pagamento);
+                                                $o_inscricao->status_transacao = Funcoes::remove_acentos($pagamento->Status);
                                                 $o_inscricao->transacao_id = $pagamento->Transacao_ID;
 
                                                 if (!$o_inscricao->salva()) {
