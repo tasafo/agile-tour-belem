@@ -25,14 +25,14 @@ class EnviarEmail {
         $texto = "
             <html>
             <body>
-            $saudacao<b>$nome</b>,<br><br>
-            Voc&ecirc; est&aacute; inscrito com o c&oacute;digo de <b>n&uacute;mero $id</b><br><br>";
+            $saudacao<b>$nome</b>,<br><br>";
             
         $tipoCapitulado = ucfirst($tipo);
         
         if ($motivo == "cadastro") {
             $texto .= "
                 Obrigado pelo interesse em participar do <b>" . NOME_EVENTO . "</b>!<br><br>
+                Voc&ecirc; est&aacute; inscrito com o c&oacute;digo de <b>n&uacute;mero $id</b><br><br>
                 Confirmamos o cadastro de seus dados em nosso sistema.<br><br>
                 Estamos aguardando a confirma&ccedil;&atilde;o do PagSeguro, para finalizarmos seu processo de inscri&ccedil;&atilde;o.<br><br>
                 Assim que conclu&iacute;do, voc&ecirc; receber&aacute; uma mensagem.<br><br>
