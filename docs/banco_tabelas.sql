@@ -69,3 +69,15 @@ CREATE  TABLE IF NOT EXISTS individual (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci 
 AUTO_INCREMENT = 1;
+
+CREATE TABLE IF NOT EXISTS usuario (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  nome varchar(50) NOT NULL,
+  email varchar(50) NOT NULL,
+  senha varchar(50) NOT NULL,
+  perfis varchar(100) NOT NULL,
+  tema_palestra varchar(100) NOT NULL,
+  PRIMARY KEY (id)
+)
+ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci
+AUTO_INCREMENT = 1;
