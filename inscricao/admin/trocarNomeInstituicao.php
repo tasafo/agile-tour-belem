@@ -21,7 +21,8 @@ foreach($_POST['id'] as $codigo) {
     
     if ($o_individual->busca($codigo)) {
         $o_individual->instituicao = $novo_nome;
-    
+        $o_individual->nome = utf8_encode($o_individual->nome);
+        
         if (!$o_individual->salva()) {
             $o_transacao->rollback();
             $xml .= "<erro>Falha ao tentar atualizar nome da instituicao</erro>";
