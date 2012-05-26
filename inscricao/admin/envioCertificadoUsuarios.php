@@ -32,29 +32,42 @@ if (!isset($_POST['id'])) {
         if (strstr($perfis_usuario, $perfil)) {
           require_once(dirname(__FILE__) . "/../certificado/lib/fpdf/fpdf.php");
           require_once(dirname(__FILE__) . "/../certificado/lib/fpdi/fpdi.php");
+          require_once(dirname(__FILE__) . "/../certificado/lib/write_html.php");
 
           $nome_arquivo = "Certificado " . NOME_EVENTO . " $perfil " . Funcoes::remove_acentos(utf8_encode($nome)) . ".pdf";
           $nome_arquivo = strtolower(str_replace(" ", "_", $nome_arquivo));
           $arquivo_destino = dirname(__FILE__) . "/tmp/$nome_arquivo";
 
-          $pdf = new FPDI();
+          //$pdf = new FPDI();
+          $pdf = new PDF_HTML();
+          
           $pdf->AddPage('L');
           $pdf->setSourceFile($modelo);
           $tplIdx = $pdf->importPage(1);
           $pdf->useTemplate($tplIdx);
           
-          $pdf->SetFont('Arial', '', 22);
-          $pdf->SetTextColor(255, 255, 255);
-          
           $palestra = ($perfil == "palestrante") ? ', com o tema "' . utf8_encode($tema_palestra) . '"' : "";
           
           $nome_convertido = utf8_encode($nome);
           
-          $texto = utf8_decode("Certificamos que $nome_convertido participou do evento " . NOME_EVENTO . ", realizado dia 11 de Novembro de 2011, no campus do CESUPA Almirante Barroso, Belém (Pa), com carga horária de 8 horas, na qualidade de $perfil$palestra.");
+          $titulo = "CERTIFICADO";
           
+          $corpo = utf8_decode("Certificamos que <b>$nome_convertido</b> participou do evento " . NOME_EVENTO . ", realizado dia 11 de Novembro de 2011, no campus do CESUPA Almirante Barroso, Belém (Pa), com carga horária de 8 horas, na qualidade de <b>$perfil</b>$palestra.");
+          
+          // Titulo
+          $pdf->SetFont('Arial', 'B', 32);
+          $pdf->SetTextColor(255, 255, 255);
+          $pdf->SetXY(110, 90);
+          $pdf->Write(0, $titulo);
+          
+          // Corpo do texto
+          $pdf->SetFont('Arial', '', 22);
+          $pdf->SetTextColor(255, 255, 255);
           $pdf->SetY("100");
           $pdf->SetX("20");
-          $pdf->MultiCell(0, 9, $texto, 0, 1, 'J');
+          
+          //$pdf->MultiCell(0, 9, $corpo, 0, 1, 'J');
+          $pdf->WriteHTML($corpo, 9);
 
           $pdf->Output($arquivo_destino, 'F');
           

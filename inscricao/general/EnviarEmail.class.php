@@ -10,6 +10,8 @@ class EnviarEmail {
             $titulo = "Confirmação de pagamento e inscrição";
         elseif ($motivo == "aviso")
             $titulo = "Aviso";
+        elseif ($motivo == "envio_certificado")
+            $titulo = "Certificado de Participação";
     
         $mail = new PHPMailer();
         $mail->From = SENDMAIL_FROM;
@@ -65,13 +67,15 @@ class EnviarEmail {
                 $mail->AddAttachment($anexo);
             
             $texto .= "
-                Queremos agradecer sua participa&ccedil;&atilde;o no <b>" . NOME_EVENTO . "</b>.<br><br>
-                Estamos enviando em anexo seu certificado e at&eacute; o pr&oacute;ximo evento.<br><br>";
+                Demorou mas chegou :)<br><br>
+                Queremos agradecer sua participa&ccedil;&atilde;o e colabora&ccedil;&atilde;o no <b>" . NOME_EVENTO . "</b>.<br><br>
+                Tamb&eacute;m estamos enviando, em anexo, seu certificado de participa&ccedil;&atilde;o. Nos vemos nos pr&oacute;ximos eventos!<br><br>";
         }
-
-        $texto .= "<br>
-            Acesse nosso <a href='" . HOME_PAGE . "'>web site</a> ou siga o <a href='" . TWITTER_ENDERECO . "'>" . TWITTER_NOME . "</a> no Twitter para acompanhar as novidades do " . NOME_EVENTO . ".<br><br>
-            <b>Organiza&ccedil;&atilde;o do " . NOME_EVENTO . "</b><br><br>
+        
+        if ($motivo != "envio_certificado")
+            $texto .= "<br>Acesse nosso <a href='" . HOME_PAGE . "'>web site</a> ou siga o <a href='" . TWITTER_ENDERECO . "'>" . TWITTER_NOME . "</a> no Twitter para acompanhar as novidades do " . NOME_EVENTO . ".<br><br>";
+        
+        $texto .= "<b>Organiza&ccedil;&atilde;o do " . NOME_EVENTO . "</b><br><br>
             </body>
             </html>";
         
