@@ -20,7 +20,7 @@ class EnviarEmail {
         $mail->IsMail();
         $mail->IsHTML(true);
         $mail->AddAddress($email, $nome);
-        $mail->Subject = NOME_EVENTO . " - $titulo";
+        $mail->Subject = $titulo;
 
         $saudacao = $tipo == "individual" ? "Ol&aacute; " : "";
         
