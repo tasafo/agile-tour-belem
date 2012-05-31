@@ -7,6 +7,8 @@ $a_perfis = array('palestrante', 'organizador');
 
 $o_usuario = new UsuarioDAO();
 
+$caminho = dirname(__FILE__);
+
 if (!isset($_POST['id'])) {
   $a_usuarios = $o_usuario->busca(null, "perfis, nome");
   
@@ -20,7 +22,7 @@ if (!isset($_POST['id'])) {
   $a_usuarios = $o_usuario->busca("id IN($selecionados)", "perfis, nome");
   
   if ($a_usuarios) {
-    $modelo = dirname(__FILE__) . "/../certificado/template_certificado.pdf";
+    $modelo = "$caminho/../certificado/" . TEMPLATE_CERTIFICADO;
 
     foreach($a_usuarios as $usuario) {
       $nome = $usuario->nome;
@@ -30,15 +32,12 @@ if (!isset($_POST['id'])) {
 
       foreach($a_perfis as $perfil) {
         if (strstr($perfis_usuario, $perfil)) {
-          require_once(dirname(__FILE__) . "/../certificado/lib/fpdf/fpdf.php");
-          require_once(dirname(__FILE__) . "/../certificado/lib/fpdi/fpdi.php");
-          require_once(dirname(__FILE__) . "/../certificado/lib/write_html.php");
+          require_once("$caminho/../certificado/lib/write_html.php");
 
           $nome_arquivo = "Certificado " . NOME_EVENTO . " $perfil " . Funcoes::remove_acentos(utf8_encode($nome)) . ".pdf";
           $nome_arquivo = strtolower(str_replace(" ", "_", $nome_arquivo));
-          $arquivo_destino = dirname(__FILE__) . "/tmp/$nome_arquivo";
+          $arquivo_destino = "$caminho/../temp/$nome_arquivo";
 
-          //$pdf = new FPDI();
           $pdf = new PDF_HTML();
           
           $pdf->AddPage('L');
@@ -51,8 +50,8 @@ if (!isset($_POST['id'])) {
           $nome_convertido = utf8_encode($nome);
           
           $titulo = "CERTIFICADO";
-          
-          $corpo = utf8_decode("Certificamos que <b>$nome_convertido</b> participou do evento " . NOME_EVENTO . ", realizado dia 11 de Novembro de 2011, no campus do CESUPA Almirante Barroso, Belém (Pa), com carga horária de 8 horas, na qualidade de <b>$perfil</b>$palestra.");
+
+          $corpo = utf8_decode("Certificamos que <b>$nome_convertido</b> participou do evento " . NOME_EVENTO . ", realizado " . PERIODO_EVENTO . ", " . LOCAL_EVENTO . ", com carga horária de " . CARGA_HORARIA_EVENTO ." horas, na qualidade de <b>$perfil</b>$palestra.");
           
           // Titulo
           $pdf->SetFont('Arial', 'B', 32);
@@ -65,8 +64,6 @@ if (!isset($_POST['id'])) {
           $pdf->SetTextColor(255, 255, 255);
           $pdf->SetY("100");
           $pdf->SetX("20");
-          
-          //$pdf->MultiCell(0, 9, $corpo, 0, 1, 'J');
           $pdf->WriteHTML($corpo, 9);
 
           $pdf->Output($arquivo_destino, 'F');

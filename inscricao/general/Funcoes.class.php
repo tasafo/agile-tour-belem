@@ -60,40 +60,6 @@ class Funcoes {
 
 		return $valor;
 	}
-	
-	public static function lista_estados() {
-		$aEstados = array(
-		"AC" => "Acre",
-		"AL" => "Alagoas",
-		"AP" => "Amap&aacute;",
-		"AM" => "Amazonas",
-		"BA" => "Bahia",
-		"CE" => "Cear&aacute;",
-		"DF" => "Distrito Federal",
-		"ES" => "Espi&iacute;rito Santo",
-		"GO" => "Goi&aacute;s",
-		"MA" => "Maranh&atilde;o",
-		"MS" => "Mato Grosso do Sul",
-		"MT" => "Mato Grosso",
-		"MG" => "Minas Gerais",
-		"PA" => "Par&aacute;",
-		"PB" => "Para&iacute;ba",
-		"PR" => "Paran&aacute;",
-		"PE" => "Pernambuco",
-		"PI" => "Piau&iacute;",
-		"RJ" => "Rio de Janeiro",
-		"RN" => "Rio Grande do Norte",
-		"RS" => "Rio Grande do Sul",
-		"RO" => "Rond&ocirc;nia",
-		"RR" => "Roraima",
-		"SC" => "Santa Catarina",
-		"SP" => "S&atilde;o Paulo",
-		"SE" => "Sergipe",
-		"TO" => "Tocantins"
-		);
-		
-		return $aEstados;
-	}
 
     public static function remove_acentos($texto) {
         $array1 = array( "á", "à", "â", "ã", "ä", "é", "è", "ê", "ë", "ẽ", "í", "ì", "î", "ï", "ĩ", "ó", "ò", "ô", "õ", "ö", "ú", "ù", "û", "ü", "ũ", "ç"
@@ -158,6 +124,22 @@ class Funcoes {
         }
         
         return floor( ( ( mktime(0, 0, 0, $d2[1], $d2[0], $d2[2]) - mktime(0, 0, 0, $d1[1], $d1[0], $d1[2] ) ) / $X ) );
+    }
+    
+    public static function special_ucwords($string) {
+        $retorno = array();
+        $string = strtolower(trim(preg_replace("/\s+/", " ", $string)));
+        $palavras = explode(" ", $string);
+
+        foreach ($palavras as $palavra) {
+            if (!preg_match("/^([dn]?[aeiou][s]?|em)$/i", $palavra)) {
+                $palavra = ucfirst($palavra);
+            }
+            $retorno[] = strtr($palavra, "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÜÚÞß",
+                                         "àáâãäåæçèéêëìíîïðñòóôõö÷øùüúþÿ");
+        }
+        
+        return implode(" ", $retorno);
     }
 }
 ?>
